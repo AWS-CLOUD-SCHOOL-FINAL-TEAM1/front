@@ -14,7 +14,6 @@ import { Image } from "@nextui-org/image"; // Import Image component
 import { siteConfig } from "@/config/site";
 import {
   PersonIcon,
-  SearchIcon,
 } from "@/components/icons"; // Import icons
 
 export const Navbar = () => {
@@ -53,12 +52,15 @@ export const Navbar = () => {
               </NavbarItem>
             ))}
             <NavbarItem className="hidden sm:flex">
-            <PersonIcon size={30} />
-          </NavbarItem>
+              <NextLink href="/mypage" passHref>
+          
+                  <PersonIcon size={30} />
+
+              </NextLink>
+            </NavbarItem>
           </ul>
         </div>
         <div className="flex  gap-20">
-          
         </div>
       </NavbarContent>
     </NextUINavbar>
