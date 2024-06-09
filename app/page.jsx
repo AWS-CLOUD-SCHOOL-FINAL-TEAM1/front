@@ -18,7 +18,7 @@ export default function Home() {
         
       </div>
       <Image
-                src="/spoid_logo_black.png"
+                src="/spoid_logo.png"
                 alt="SPOID Logo"
                 width={1200}
                 height={600}

@@ -23,7 +23,7 @@ export const Navbar = () => {
     <NextUINavbar
       maxWidth="xl"
       position="sticky"
-      className="bg-gradient-to-b  bg-gradient-to-b from-black via-black to-white"
+      className="bg-gradient-to-b  bg-gradient-to-b from-black  to-white"
     >
       <NavbarContent className="flex justify-between items-center w-full">
         <div className="flex items-center gap-44">
