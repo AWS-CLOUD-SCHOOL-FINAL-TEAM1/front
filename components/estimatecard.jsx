@@ -2,19 +2,18 @@ import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import NextLink from "next/link";
 
-const EstimateCard = ({id, title, description}) => {
+const EstimateCard = ({ id, title, description }) => {
   return (
     <NextLink href={`/recommend/${id}`} passHref>
-      <Card as="a" className="py-4" style={{ width: '360px', height: '560px' }}>
+      <Card as="a" className="py-4" style={{ width: "360px", height: "560px" }}>
         <CardHeader className="pb-0 pt-2 px-4 flex-col items-center">
           <Image
             alt="Card background"
-
             className="object-cover rounded-xl"
             src="https://nextui.org/images/hero-card-complete.jpeg"
             width={160}
             height={160}
-            style={{ width: '160px', height: '160px' }}
+            style={{ width: "160px", height: "160px" }}
           />
         </CardHeader>
         <CardBody className="overflow-visible py-2 items-center">

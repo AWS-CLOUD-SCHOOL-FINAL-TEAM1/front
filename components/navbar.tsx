@@ -12,13 +12,9 @@ import clsx from "clsx";
 import { Image } from "@nextui-org/image"; // Import Image component
 
 import { siteConfig } from "@/config/site";
-import {
-  PersonIcon,
-  SearchIcon,
-} from "@/components/icons"; // Import icons
+import { PersonIcon, SearchIcon } from "@/components/icons"; // Import icons
 
-export const Navbar = () => {
-
+export const NavBar = () => {
   return (
     <NextUINavbar
       maxWidth="xl"
@@ -28,7 +24,10 @@ export const Navbar = () => {
       <NavbarContent className="flex justify-between items-center w-full">
         <div className="flex items-center gap-44">
           <NavbarBrand as="li" className="gap-3 max-w-fit">
-            <NextLink className="flex justify-start items-center gap-1" href="/">
+            <NextLink
+              className="flex justify-start items-center gap-1"
+              href="/"
+            >
               <Image
                 src="/spoid_logo.png"
                 alt="SPOID Logo"
@@ -53,13 +52,11 @@ export const Navbar = () => {
               </NavbarItem>
             ))}
             <NavbarItem className="hidden sm:flex">
-            <PersonIcon size={30} />
-          </NavbarItem>
+              <PersonIcon size={30} />
+            </NavbarItem>
           </ul>
         </div>
-        <div className="flex  gap-20">
-          
-        </div>
+        <div className="flex  gap-20"></div>
       </NavbarContent>
     </NextUINavbar>
   );
