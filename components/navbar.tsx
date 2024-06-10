@@ -52,7 +52,7 @@ export const Navbar = () => {
               </NavbarItem>
             ))}
             <NavbarItem className="hidden sm:flex">
-              <NextLink href="/mypage" passHref>
+              <NextLink href="/mypage" >
           
                   <PersonIcon size={30} />
 

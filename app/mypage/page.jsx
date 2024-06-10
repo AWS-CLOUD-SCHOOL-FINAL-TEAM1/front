@@ -1,7 +1,7 @@
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
-import MypageCard from "@/components/mycard";
+import MypageCard from "@/components/MypageCard";
 
 const cardData = [
   {

@@ -5,7 +5,7 @@ import NextLink from "next/link";
 const EstimateCard = ({ id, title, description }) => {
   return (
     <NextLink href={`/recommend/${id}`} passHref>
-      <Card as="a" className="py-4" style={{ width: "360px", height: "560px" }}>
+      <Card  className="py-4" style={{ width: "360px", height: "560px" }}>
         <CardHeader className="pb-0 pt-2 px-4 flex-col items-center">
           <Image
             alt="Card background"

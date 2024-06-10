@@ -25,7 +25,6 @@ export default function ComponentTable() {
                     { component: "그래픽카드", details: "NVIDIA RTX 3080" },
                     { component: "쿨러", details: "Cooler Master" },
                     { component: "SSD", details: "Samsung 1TB" },
-                    { component: "HDD", details: "Seagate 2TB" },
                     { component: "케이스", details: "NZXT H510" },
                     { component: "파워", details: "Corsair 750W" }
                 ].map((item, index) => (
