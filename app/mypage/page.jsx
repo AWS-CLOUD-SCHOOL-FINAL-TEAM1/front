@@ -1,7 +1,7 @@
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
-import MyCard from "@/components/mycard";
+import MypageCard from "@/components/mycard";
 
 const cardData = [
   {
@@ -31,7 +31,7 @@ export default function Mypage() {
         style={{ height: "calc(100vh - 16rem)" }}
       >
         {cardData.map((card) => (
-          <MyCard
+          <MypageCard
             key={card.id}
             id={card.id}
             title={card.title}
