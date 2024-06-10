@@ -52,7 +52,11 @@ export const Navbar = () => {
               </NavbarItem>
             ))}
             <NavbarItem className="hidden sm:flex">
-              <PersonIcon size={30} />
+              <NextLink href="/mypage" passHref>
+          
+                  <PersonIcon size={30} />
+
+              </NextLink>
             </NavbarItem>
           </ul>
         </div>
