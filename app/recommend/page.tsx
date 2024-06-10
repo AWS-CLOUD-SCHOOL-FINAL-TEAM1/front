@@ -6,7 +6,7 @@ import { button as buttonStyles } from "@nextui-org/theme";
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 
-import EstimateCard from "@/components/estimatecard";
+import EstimateCard from "@/components/EstimateCard";
 import { estimatecardData } from "@/data/estimatecardData";
 
 export default function Recommend() {

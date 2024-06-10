@@ -1,7 +1,7 @@
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
-import MyCard from "@/components/mycard";
+import MyCard from "@/components/MyCard";
 
 const cardData = [
   { id: 1, title: "인텔 코어i5-14세대 14400F", description: "Description for card 1" },

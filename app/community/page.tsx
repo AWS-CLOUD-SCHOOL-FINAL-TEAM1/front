@@ -6,7 +6,7 @@ import { button as buttonStyles } from "@nextui-org/theme";
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
 
-import CommunityCard from "@/components/communitycard";
+import CommunityCard from "@/components/CommunityCard";
 
 const communitycardData = [
   {
