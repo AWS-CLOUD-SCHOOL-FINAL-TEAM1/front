@@ -5,6 +5,9 @@ import ComponentTable from "./ComponentTable";
 
 const ComponentDetailCard = ({ id, title, description }) => {
   return (
+    <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white">
+      <div className="flex w-full max-w-4xl">
+        <div className="flex-1 pr-8">
     <NextLink href={`/component/${id}`} passHref>
        <Card  className="py-4" style={{ width: "360px", height: "560px" }}>
         <CardHeader className="pb-0 pt-2 px-4 flex-col items-center">
@@ -24,6 +27,9 @@ const ComponentDetailCard = ({ id, title, description }) => {
         </CardBody>
       </Card>
     </NextLink>
+    </div>
+    </div>
+    </div>
   );
 };
 

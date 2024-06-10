@@ -1,17 +1,75 @@
-'use client';
-
-import { useParams } from 'next/navigation';
+"use client";
+import { Card, CardHeader, CardBody } from "@nextui-org/card";
+import {Checkbox} from "@nextui-org/checkbox";
+import {HeartIcon} from './HeartIcon.jsx';  
+import { Image } from "@nextui-org/image";
 import ComponentDetailCard from '@/components/ComponentDetailCard';
-const CardDetail = () => {
-  const params = useParams();
-  const { id } = params;
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableColumn,
+  TableRow,
+  TableCell,
+} from "@nextui-org/table";
+import priceData from "../../../data/priceData";
 
+const CardDetail = () => {
   // 여기서 ID를 사용하여 카드의 세부 정보를 가져옵니다. 예를 들어 API 호출 또는 로컬 데이터베이스에서 가져올 수 있습니다.
 
   return (
-    <div className="flex flex-col items-center justify-center p-8">
+    <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white">
+      <Checkbox className="absolute top-0 left-0 m-4 transform scale-125 font-semibold" icon={<HeartIcon/>}>관심상품</Checkbox>
       <div className="flex w-full max-w-4xl">
-        <ComponentDetailCard />
+        <div className="flex-1 pr-8">
+          <div className="relative shadow-black/5 shadow-none rounded-xl" style={{ width: '500px', height: '500px' }}>
+            <Image
+              src="https://nextui.org/images/hero-card-complete.jpeg"
+              alt="Detail Image"
+              className="object-cover rounded-xl"
+              style={{ width: '500px', height: '500px', objectFit: 'cover' }}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col flex-1 pl-8 relative">
+          <Card className="bg-white mb-4">
+            <CardHeader>
+              <h2 className="font-bold text-2xl">인텔 코어i5-14세대 14400F</h2>
+            </CardHeader>
+          </Card>
+          <Table
+            isStriped
+            hideHeader
+            aria-label="Component Table"
+            className="w-full text-lg mb-4" // text-lg for larger text size
+            style={{ fontSize: '1.25rem' }} // 1.25rem = 20px
+          >
+            <TableHeader>
+              <TableColumn className="text-lg">COMPONENT</TableColumn> {/* text-lg for larger text size */}
+              <TableColumn className="text-lg">DETAILS</TableColumn> {/* text-lg for larger text size */}
+            </TableHeader>
+            <TableBody>
+              {priceData.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell className="text-blue-400 font-semibold text-lg">
+                    {item.component}
+                  </TableCell>
+                  <TableCell className="text-lg">{item.details}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <Card className="bg-white">
+                <CardHeader>
+                  <h2 className="font-bold text-xl">Detail Information</h2>
+                </CardHeader>
+                <CardBody>
+                  <p className="text-base">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  </p>
+                </CardBody>
+              </Card>
+        </div>
       </div>
     </div>
   );
