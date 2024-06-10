@@ -1,27 +1,52 @@
+"use client";
 import React from "react";
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { Button } from "@nextui-org/button";
-import ComponentTable from "@/components/ComponentTable";
 import NextLink from "next/link";
+import { useRouter } from "next/navigation";
+import { FaEdit, FaShareAlt } from "react-icons/fa";
 
-const MypageCard = ({ id, title, description }) => {
-    return (
+const MypageCard = ({ id, title, description, details }) => {
+  const router = useRouter();
 
-        <Card className="py-4" style={{ width: '360px', height: '460px' }}>
-            <CardHeader className="pb-0 pt-2 px-4 flex items-center justify-between">
-                <h4 className="font-bold text-large">{title}</h4>
-                <Button color="primary" variant="ghost">
-                    공유하기
-                </Button>
-            </CardHeader>
-            <NextLink href={`/mypage/${id}`} >
-                <CardBody className="overflow-visible py-2 items-center">
-                    <ComponentTable style={{ width: '320px', height: '320px' }} />
-                </CardBody>
-            </NextLink>
+  const handleEditClick = () => {
+    router.push(`/estimate/${id}`);
+  };
 
-        </Card>
-    );
+  return (
+    <Card className="py-4" style={{ width: "360px", height: "460px" }}>
+      <CardHeader className="pb-0 pt-2 px-4 flex items-center justify-between">
+        <h4 className="font-bold text-large">{title}</h4>
+        <div className="flex space-x-2">
+          <Button
+            onClick={handleEditClick}
+            color="primary"
+            variant="ghost"
+            size="sm"
+          >
+            <FaEdit />
+          </Button>
+          <Button color="primary" variant="ghost" size="sm">
+            <FaShareAlt />
+          </Button>
+        </div>
+      </CardHeader>
+      <NextLink href={`/mypage/${id}`}>
+        <CardBody className="overflow-visible py-2 items-center">
+          <table className="table-auto w-full text-left">
+            <tbody>
+              {Object.entries(details).map(([key, value]) => (
+                <tr key={key}>
+                  <td className="px-4 py-2 font-semibold">{key}</td>
+                  <td className="px-4 py-2">{value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </CardBody>
+      </NextLink>
+    </Card>
+  );
 };
 
 export default MypageCard;

@@ -9,7 +9,7 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/table";
-import componentData from "../data/componentData";
+import myCardData from "../data/myCardData";
 
 export default function ComponentTable() {
   return (
@@ -19,7 +19,7 @@ export default function ComponentTable() {
         <TableColumn>DETAILS</TableColumn>
       </TableHeader>
       <TableBody>
-        {componentData.map((item, index) => (
+        {myCardData.map((item, index) => (
           <TableRow key={index}>
             <TableCell className="text-blue-400 font-semibold">
               {item.component}
