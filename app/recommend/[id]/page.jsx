@@ -1,14 +1,12 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
 import { estimatecardData } from "@/data/estimatecardData"; // 데이터 파일 경로 설정
 import Image from "next/image"; // Next.js의 Image 컴포넌트 사용
 
-export async function generateStaticParams() {
-  return estimatecardData.map((card) => ({
-    id: card.id.toString(),
-  }));
-}
-
 const EstimateCardDetail = ({ params }) => {
+  const router = useRouter();
   const { id } = params;
   const card = estimatecardData.find((card) => card.id.toString() === id);
 
@@ -17,6 +15,11 @@ const EstimateCardDetail = ({ params }) => {
   }
 
   const { details, description } = card;
+
+  const handleAddToEstimate = () => {
+    // myPage로 라우팅
+    router.push("/mypage");
+  };
 
   return (
     <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white">
@@ -43,7 +46,10 @@ const EstimateCardDetail = ({ params }) => {
               ))}
             </tbody>
           </table>
-          <button className="absolute bottom-0 right-0 mb-2 mr-2 bg-blue-500 text-white px-4 py-2 rounded-md">
+          <button
+            className="absolute bottom-0 right-0 mb-2 mr-2 bg-blue-500 text-white px-4 py-2 rounded-md"
+            onClick={handleAddToEstimate}
+          >
             내 견적에 담기
           </button>
         </div>
