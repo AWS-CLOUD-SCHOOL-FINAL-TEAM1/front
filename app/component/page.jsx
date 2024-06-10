@@ -1,5 +1,9 @@
+'use client';
 import { siteConfig } from "@/config/site";
 import { title, subtitle } from "@/components/primitives";
+import { Card, CardBody } from "@nextui-org/card";
+import { Tabs, Tab } from "@nextui-org/tabs";
+
 import { GithubIcon } from "@/components/icons";
 import MyCard from "@/components/MyCard";
 const cardData = [
@@ -11,13 +15,39 @@ const cardData = [
   { id: 6, title: "NVIDIA RTX 3090", description: "Description for card 6" },
 ];
 
+
 export default function Component() {
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 h-full">
       <div className="inline-block max-w-lg text-center">
         <h1 className={title({ color: "" })}>PC 부품&nbsp;</h1>
       </div>
-      <div className="grid gap-x-8 gap-y-4 grid-cols-3 mt-8 overflow-y-auto hide-scrollbar" style={{ height: 'calc(100vh - 16rem)' }}>
+
+      <Tabs aria-label="Options">
+        <Tab title="All">
+
+        </Tab>
+        <Tab title="CPU">
+
+        </Tab>
+        <Tab title="메인보드">
+
+        </Tab>
+        <Tab title="메모리">
+        </Tab>
+        <Tab title="그래픽카드">
+        </Tab>
+        <Tab title="쿨러">
+        </Tab>
+        <Tab title="SSD">
+        </Tab>
+        <Tab title="케이스">
+        </Tab>
+        <Tab title="파워">
+        </Tab>
+      </Tabs>
+
+      <div className="grid gap-x-8 gap-y-4 grid-cols-3 mt-4 overflow-y-auto hide-scrollbar" style={{ height: 'calc(100vh - 16rem)' }}>
         {cardData.map((card) => (
           <MyCard key={card.id} id={card.id} title={card.title} description={card.description} />
         ))}
