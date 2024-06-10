@@ -19,7 +19,7 @@ const EstimateCardDetail = ({ params }) => {
   const { details, description } = card;
 
   return (
-    <div className="flex flex-col items-center justify-center p-8">
+    <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white">
       <div className="flex w-full max-w-4xl">
         <div className="flex-1 pr-8">
           <Image
@@ -30,18 +30,22 @@ const EstimateCardDetail = ({ params }) => {
             className="object-cover rounded-xl"
           />
         </div>
-        <div className="flex-1 pl-8">
+        <div className="flex flex-col flex-1 pl-8 relative">
           <h1 className="text-3xl font-bold">{card.title}</h1>
-
           <h2 className="text-2xl font-semibold mb-4">{description}</h2>
-          <div className="grid grid-cols-1 gap-2">
-            {Object.entries(details).map(([key, value]) => (
-              <div className="flex justify-between" key={key}>
-                <span className="font-bold">{key}</span>
-                <span>{value}</span>
-              </div>
-            ))}
-          </div>
+          <table className="table-auto w-full mb-16">
+            <tbody>
+              {Object.entries(details).map(([key, value]) => (
+                <tr key={key} className="border-b">
+                  <td className="text-blue-400 font-semibold">{key}</td>
+                  <td className="p-2">{value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button className="absolute bottom-0 right-0 mb-2 mr-2 bg-blue-500 text-white px-4 py-2 rounded-md">
+            내 견적에 담기
+          </button>
         </div>
       </div>
     </div>
