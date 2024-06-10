@@ -51,7 +51,6 @@ const EstimatePage = ({ params }) => {
 
   const handleAddOption = (partType, option) => {
     setEstimate({ ...estimate, [partType]: option });
-    setSelectedPart("CPU"); // Reset to CPU after selection
   };
 
   const handleCompare = (option) => {
@@ -93,7 +92,10 @@ const EstimatePage = ({ params }) => {
             </thead>
             <tbody>
               {Object.keys(estimate).map((partType) => (
-                <tr key={partType}>
+                <tr
+                  key={partType}
+                  className={selectedPart === partType ? "bg-blue-100" : ""}
+                >
                   <td className="border px-4 py-2">{partType}</td>
                   <td className="border px-4 py-2">
                     {estimate[partType]
@@ -102,7 +104,7 @@ const EstimatePage = ({ params }) => {
                   </td>
                   <td className="border px-4 py-2">
                     <button
-                      className="text-blue-500"
+                      className={`px-2 py-1 rounded ${estimate[partType] ? "bg-blue-400 text-white" : "bg-yellow-400 text-white"}`}
                       onClick={() => setSelectedPart(partType)}
                     >
                       {estimate[partType] ? "Change" : "Add"}
@@ -112,18 +114,22 @@ const EstimatePage = ({ params }) => {
               ))}
             </tbody>
           </table>
-          <button
-            className="mt-4 bg-green-500 text-white px-4 py-2 rounded"
-            onClick={handleComplete}
-          >
-            Complete
-          </button>
+          <div className="flex justify-center mt-4">
+            <button
+              className="bg-blue-500 text-white px-4 py-2 rounded"
+              onClick={handleComplete}
+            >
+              Complete
+            </button>
+          </div>
         </div>
 
         <div className="w-1/2 overflow-y-auto hide-scrollbar">
           {selectedPart && (
             <div className="p-4 border rounded bg-white">
-              <h2 className="text-xl font-semibold mb-4">{selectedPart}</h2>
+              <h2 className="text-xl font-semibold mb-4 text-center">
+                {selectedPart}
+              </h2>
               <table className="table-auto w-full mb-4 bg-white">
                 <thead>
                   <tr className="bg-gray-200">
@@ -248,29 +254,11 @@ const EstimatePage = ({ params }) => {
         overlayClassName="modal-overlay"
       >
         <h2 className="text-xl font-semibold mb-4">Complete Estimate</h2>
-        <div className="flex mb-4">
-          {Object.keys(estimate).map((partType) => (
-            <div key={partType} className="w-1/4 text-center">
-              {estimate[partType] && (
-                <>
-                  <img
-                    src={estimate[partType].image}
-                    alt={estimate[partType].name}
-                    className="w-16 h-16 object-cover mx-auto"
-                  />
-                  <h3 className="text-lg font-bold">
-                    {estimate[partType].name}
-                  </h3>
-                </>
-              )}
-            </div>
-          ))}
-        </div>
         <table className="table-auto w-full bg-white">
           <thead>
             <tr className="bg-gray-200">
               <th className="border px-4 py-2">Part</th>
-              <th className="border px-4 py-2">Details</th>
+              <th className="border px-4 py-2">Specs</th>
             </tr>
           </thead>
           <tbody>
@@ -279,7 +267,7 @@ const EstimatePage = ({ params }) => {
                 <td className="border px-4 py-2">{partType}</td>
                 <td className="border px-4 py-2">
                   {estimate[partType]
-                    ? estimate[partType].name
+                    ? Object.values(estimate[partType].specs).join(", ")
                     : "Not Selected"}
                 </td>
               </tr>
