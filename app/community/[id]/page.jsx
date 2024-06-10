@@ -1,6 +1,4 @@
-'use client';
-
-import { useParams } from 'next/navigation';
+import { useParams } from "next/navigation";
 
 const CommunityCardDetail = () => {
   const params = useParams();

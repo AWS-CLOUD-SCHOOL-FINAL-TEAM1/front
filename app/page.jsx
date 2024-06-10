@@ -14,11 +14,10 @@ export default function Home() {
       <div className="inline-block max-w-lg text-center mt-8">
         <h1 className={`${title({ color: "" })} text-gradient whitespace-nowrap`}>
           최저가로, 최적의 성능만.
-        </h1>
-        
+        </h1> 
       </div>
       <Image
-                src="/spoid_logo_black.png"
+                src="/spoid_logo.png"
                 alt="SPOID Logo"
                 width={1200}
                 height={600}

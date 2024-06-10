@@ -11,11 +11,14 @@ import { estimatecardData } from "@/data/estimatecardData";
 
 export default function Recommend() {
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 h-full">
       <div className="inline-block max-w-lg text-center ">
-        <h1 className={title({})}>Recommend&nbsp;</h1>
+        <h1 className={title({})}>견적추천&nbsp;</h1>
       </div>
-      <div className="grid gap-x-8 gap-y-4 grid-cols-3 mt-8">
+      <div
+        className="grid gap-x-8 gap-y-4 grid-cols-3 mt-8 overflow-y-auto hide-scrollbar"
+        style={{ height: "calc(100vh - 16rem)" }}
+      >
         {estimatecardData.map((card) => (
           <EstimateCard
             key={card.id}
