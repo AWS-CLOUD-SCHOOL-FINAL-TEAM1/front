@@ -1,4 +1,4 @@
-export const powerSupplyData = [
+export const powerData = [
   {
     id: 1,
     name: "Corsair RM850x",

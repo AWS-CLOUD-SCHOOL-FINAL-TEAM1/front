@@ -1,4 +1,4 @@
-export const motherboardData = [
+export const mainboardData = [
   {
     id: 1,
     name: "ASUS TUF Gaming B760M-PLUS WIFI",
