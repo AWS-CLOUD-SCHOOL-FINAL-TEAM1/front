@@ -1,13 +1,8 @@
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import NextLink from "next/link";
-<<<<<<< HEAD:components/communitycard.jsx
 import ComponentTable from "@/components/ComponentTable";
 const CommunityCard = ({ id, title, description }) => {
-=======
-import  ComponentTable  from "@/components/ComponentTable";
-const CommunityCard = ({id, title, description}) => {
->>>>>>> 774b2ca6b75a7a703fcf175a7f9ccb38ec780655:components/CommunityCard.jsx
   return (
     <NextLink href={`/community/${id}`} passHref>
       <Card as="a" className="py-4" style={{ width: "360px", height: "560px" }}>
