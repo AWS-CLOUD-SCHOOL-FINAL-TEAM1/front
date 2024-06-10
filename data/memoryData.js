@@ -1,27 +1,57 @@
 export const memoryData = [
   {
     id: 1,
-    name: "Samsung DDR4 3200 8GB",
-    specs: { spec1: "8GB", spec2: "DDR4", spec3: "3200 MHz", spec4: "CL16" },
+    name: "Corsair Vengeance LPX 16GB",
+    specs: {
+      spec1: "DDR4",
+      spec2: "3200MHz",
+      spec3: "CL16",
+      spec4: "2x8GB",
+    },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
   {
     id: 2,
-    name: "G.SKILL Trident Z RGB 16GB",
-    specs: { spec1: "16GB", spec2: "DDR4", spec3: "3600 MHz", spec4: "CL18" },
+    name: "G.SKILL Trident Z RGB 32GB",
+    specs: {
+      spec1: "DDR4",
+      spec2: "3600MHz",
+      spec3: "CL18",
+      spec4: "2x16GB",
+    },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
   {
     id: 3,
-    name: "Corsair Vengeance RGB Pro 32GB",
-    specs: { spec1: "32GB", spec2: "DDR4", spec3: "3200 MHz", spec4: "CL16" },
+    name: "Kingston HyperX Fury 16GB",
+    specs: {
+      spec1: "DDR4",
+      spec2: "3200MHz",
+      spec3: "CL16",
+      spec4: "2x8GB",
+    },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
   {
     id: 4,
-    name: "Kingston HyperX Fury 16GB",
-    specs: { spec1: "16GB", spec2: "DDR4", spec3: "3200 MHz", spec4: "CL16" },
+    name: "Corsair Dominator Platinum RGB 32GB",
+    specs: {
+      spec1: "DDR4",
+      spec2: "3600MHz",
+      spec3: "CL18",
+      spec4: "2x16GB",
+    },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
   {
     id: 5,
-    name: "Corsair Dominator Platinum RGB 32GB",
-    specs: { spec1: "32GB", spec2: "DDR4", spec3: "3600 MHz", spec4: "CL18" },
+    name: "G.SKILL Ripjaws V 64GB",
+    specs: {
+      spec1: "DDR4",
+      spec2: "3600MHz",
+      spec3: "CL18",
+      spec4: "2x32GB",
+    },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
 ];

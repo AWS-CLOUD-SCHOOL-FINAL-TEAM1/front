@@ -1,33 +1,37 @@
-"use client";
+// import React from "react";
+// import {
+//   Table,
+//   TableHeader,
+//   TableColumn,
+//   TableBody,
+//   TableRow,
+//   TableCell,
+// } from "@nextui-org/react";
+// import { myCardData } from "@/data/myCardData";
 
-import React from "react";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableColumn,
-  TableRow,
-  TableCell,
-} from "@nextui-org/table";
-import myCardData from "../data/myCardData";
+// const ComponentTable = ({ id }) => {
+//   const card = myCardData.find((card) => card.id === id);
 
-export default function ComponentTable() {
-  return (
-    <Table hideHeader aria-label="Component Table" className="w-360 h-360">
-      <TableHeader>
-        <TableColumn>COMPONENT</TableColumn>
-        <TableColumn>DETAILS</TableColumn>
-      </TableHeader>
-      <TableBody>
-        {myCardData.map((item, index) => (
-          <TableRow key={index}>
-            <TableCell className="text-blue-400 font-semibold">
-              {item.component}
-            </TableCell>
-            <TableCell>{item.details}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
-}
+//   if (!card) {
+//     return <div>No data found</div>;
+//   }
+
+//   return (
+//     <Table aria-label="Component Table" className="table-auto w-full bg-white">
+//       <TableHeader className="bg-gray-200">
+//         <TableColumn>Component</TableColumn>
+//         <TableColumn>Details</TableColumn>
+//       </TableHeader>
+//       <TableBody>
+//         {Object.entries(card.details).map(([key, value]) => (
+//           <TableRow key={key}>
+//             <TableCell className="border px-4 py-2">{key}</TableCell>
+//             <TableCell className="border px-4 py-2">{value}</TableCell>
+//           </TableRow>
+//         ))}
+//       </TableBody>
+//     </Table>
+//   );
+// };
+
+// export default ComponentTable;

@@ -121,6 +121,7 @@ const Estimate = () => {
                 <thead>
                   <tr className="bg-gray-200">
                     <th className="border px-4 py-2">Select</th>
+                    <th className="border px-4 py-2">Image</th>
                     <th className="border px-4 py-2">Part</th>
                     <th className="border px-4 py-2">Details</th>
                     <th className="border px-4 py-2">Action</th>
@@ -134,6 +135,13 @@ const Estimate = () => {
                           type="checkbox"
                           onChange={() => handleCompare(option)}
                           checked={compareParts.includes(option)}
+                        />
+                      </td>
+                      <td className="border px-4 py-2">
+                        <img
+                          src={option.image}
+                          alt={option.name}
+                          className="w-16 h-16 object-cover"
                         />
                       </td>
                       <td className="border px-4 py-2">{option.name}</td>
@@ -175,6 +183,24 @@ const Estimate = () => {
         {compareParts.length === 2 && (
           <>
             <h2 className="text-xl font-semibold mb-4">Compare Parts</h2>
+            <div className="flex mb-4">
+              <div className="w-1/2 text-center">
+                <img
+                  src={compareParts[0].image}
+                  alt={compareParts[0].name}
+                  className="w-32 h-32 object-cover mx-auto"
+                />
+                <h3 className="text-lg font-bold">{compareParts[0].name}</h3>
+              </div>
+              <div className="w-1/2 text-center">
+                <img
+                  src={compareParts[1].image}
+                  alt={compareParts[1].name}
+                  className="w-32 h-32 object-cover mx-auto"
+                />
+                <h3 className="text-lg font-bold">{compareParts[1].name}</h3>
+              </div>
+            </div>
             <table className="table-auto w-full bg-white">
               <thead>
                 <tr className="bg-gray-200">
@@ -215,6 +241,24 @@ const Estimate = () => {
         overlayClassName="modal-overlay"
       >
         <h2 className="text-xl font-semibold mb-4">Complete Estimate</h2>
+        <div className="flex mb-4">
+          {Object.keys(estimate).map((partType) => (
+            <div key={partType} className="w-1/4 text-center">
+              {estimate[partType] && (
+                <>
+                  <img
+                    src={estimate[partType].image}
+                    alt={estimate[partType].name}
+                    className="w-16 h-16 object-cover mx-auto"
+                  />
+                  <h3 className="text-lg font-bold">
+                    {estimate[partType].name}
+                  </h3>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
         <table className="table-auto w-full bg-white">
           <thead>
             <tr className="bg-gray-200">

@@ -6,8 +6,9 @@ export const powerData = [
       spec1: "850W",
       spec2: "80+ Gold",
       spec3: "Fully Modular",
-      spec4: "10 Year Warranty",
+      spec4: "Zero RPM Fan Mode",
     },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
   {
     id: 2,
@@ -16,8 +17,9 @@ export const powerData = [
       spec1: "1000W",
       spec2: "80+ Gold",
       spec3: "Fully Modular",
-      spec4: "10 Year Warranty",
+      spec4: "Eco Mode",
     },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
   {
     id: 3,
@@ -26,8 +28,9 @@ export const powerData = [
       spec1: "850W",
       spec2: "80+ Titanium",
       spec3: "Fully Modular",
-      spec4: "12 Year Warranty",
+      spec4: "Hybrid Silent Fan Control",
     },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
   {
     id: 4,
@@ -36,8 +39,9 @@ export const powerData = [
       spec1: "850W",
       spec2: "80+ Gold",
       spec3: "Fully Modular",
-      spec4: "10 Year Warranty",
+      spec4: "Silent Mode",
     },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
   {
     id: 5,
@@ -46,7 +50,8 @@ export const powerData = [
       spec1: "850W",
       spec2: "80+ Gold",
       spec3: "Fully Modular",
-      spec4: "10 Year Warranty",
+      spec4: "Zero RPM Fan Mode",
     },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
 ];

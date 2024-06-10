@@ -8,6 +8,7 @@ export const coolerData = [
       spec3: "RGB",
       spec4: "4 Heat Pipes",
     },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
   {
     id: 2,
@@ -18,6 +19,7 @@ export const coolerData = [
       spec3: "Dual Fan",
       spec4: "6 Heat Pipes",
     },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
   {
     id: 3,
@@ -28,6 +30,7 @@ export const coolerData = [
       spec3: "RGB",
       spec4: "Triple Fan",
     },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
   {
     id: 4,
@@ -38,6 +41,7 @@ export const coolerData = [
       spec3: "RGB",
       spec4: "Triple Fan",
     },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
   {
     id: 5,
@@ -48,5 +52,6 @@ export const coolerData = [
       spec3: "Silent",
       spec4: "7 Heat Pipes",
     },
+    image: "https://nextui.org/images/hero-card-complete.jpeg",
   },
 ];
