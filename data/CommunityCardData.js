@@ -1,4 +1,4 @@
-export const myCardData = [
+export const CommunityCardData = [
   {
     id: 1,
     title: "인텔 코어i5-14세대 14400F",
@@ -29,7 +29,6 @@ export const myCardData = [
       파워: "Corsair RM850x 850W 80+ Gold",
     },
   },
-  // 나머지 카드 데이터도 추가
   {
     id: 3,
     title: "NVIDIA RTX 3080",
