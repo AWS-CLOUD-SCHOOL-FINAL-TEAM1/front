@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { Button } from "@nextui-org/button";
@@ -25,7 +25,7 @@ const MypageCard = ({ id, title, description, details }) => {
         </div>
       </CardHeader>
       <CardBody className="overflow-visible py-2 items-center">
-        <ComponentTable id={id} style={{ width: '320px', height: '320px' }} />
+        <ComponentTable id={id} style={{ width: "320px", height: "320px" }} />
       </CardBody>
     </Card>
   );
