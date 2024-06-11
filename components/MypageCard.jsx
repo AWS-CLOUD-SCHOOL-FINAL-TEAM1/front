@@ -1,9 +1,10 @@
-"use client";
+'use client';
 import React from "react";
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { Button } from "@nextui-org/button";
 import Link from "next/link";
 import { FaEdit, FaShareAlt } from "react-icons/fa";
+import ComponentTable from "@/components/ComponentTable";
 
 const MypageCard = ({ id, title, description, details }) => {
   return (
@@ -16,25 +17,16 @@ const MypageCard = ({ id, title, description, details }) => {
               <FaEdit />
             </Button>
           </Link>
-          <Button color="primary" variant="ghost" size="sm">
-            <FaShareAlt />
-          </Button>
+          <Link href={`/mypage/${id}`}>
+            <Button color="primary" variant="ghost" size="sm">
+              <FaShareAlt />
+            </Button>
+          </Link>
         </div>
       </CardHeader>
-      <Link href={`/mypage/${id}`}>
-        <CardBody className="overflow-visible py-2 items-center">
-          <table className="table-auto w-full text-left">
-            <tbody>
-              {Object.entries(details).map(([key, value]) => (
-                <tr key={key}>
-                  <td className="px-4 py-2 font-semibold">{key}</td>
-                  <td className="px-4 py-2">{value}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </CardBody>
-      </Link>
+      <CardBody className="overflow-visible py-2 items-center">
+        <ComponentTable id={id} style={{ width: '320px', height: '320px' }} />
+      </CardBody>
     </Card>
   );
 };
