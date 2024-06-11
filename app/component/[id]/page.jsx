@@ -1,9 +1,9 @@
 "use client";
+import React from 'react';
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { Checkbox } from "@nextui-org/checkbox";
-import { HeartIcon } from './HeartIcon.jsx';
+import { HeartIcon } from '@/components/HeartIcon.jsx';
 import { Image } from "@nextui-org/image";
-import ComponentDetailCard from '@/components/ComponentDetailCard';
 import {
   Table,
   TableHeader,
@@ -14,15 +14,20 @@ import {
 } from "@nextui-org/table";
 import priceData from "../../../data/priceData";
 import LineChart from '@/components/LineChart';
-import chartData from "../../../data/chartData";
+import chartData from '@/data/chartData'; // Ensure this data has the correct format
 
 const CardDetail = () => {
-  // 여기서 ID를 사용하여 카드의 세부 정보를 가져옵니다. 예를 들어 API 호출 또는 로컬 데이터베이스에서 가져올 수 있습니다.
-
+  const data = [
+    { date: '2024-06-01', price: 100 },
+    { date: '2024-06-02', price: 110 },
+    { date: '2024-06-03', price: 105 },
+];
   return (
-    <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white">
-      <Checkbox className="absolute top-0 left-0 m-4 transform scale-125 font-semibold" icon={<HeartIcon />}>관심상품</Checkbox>
-      <div className="flex w-full max-w-4xl mb-4" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+    <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white overflow-y-auto" style={{ height: '100vh' }}>
+      <Checkbox className="absolute top-0 left-0 m-4 transform scale-125 font-semibold" icon={<HeartIcon />}>
+        관심상품
+      </Checkbox>
+      <div className="flex w-full max-w-4xl mb-4">
         <div className="flex-1 pr-8">
           <div className="relative shadow-black/5 shadow-none rounded-xl" style={{ width: '500px', height: '500px' }}>
             <Image
@@ -35,7 +40,7 @@ const CardDetail = () => {
         </div>
         <div className="flex flex-col flex-1 pl-8 relative overflow-y-auto" style={{ maxHeight: '80vh' }}>
           <Card className="bg-white mb-4">
-            <CardHeader>
+            <CardHeader className="pb-2">
               <h2 className="font-bold text-2xl">인텔 코어i5-14세대 14400F</h2>
             </CardHeader>
           </Card>
@@ -43,12 +48,12 @@ const CardDetail = () => {
             isStriped
             hideHeader
             aria-label="Component Table"
-            className="w-full text-lg mb-4" // text-lg for larger text size
-            style={{ fontSize: '1.25rem' }} // 1.25rem = 20px
+            className="w-full text-lg mb-4"
+            style={{ fontSize: '1.25rem' }}
           >
             <TableHeader>
-              <TableColumn className="text-lg">COMPONENT</TableColumn> {/* text-lg for larger text size */}
-              <TableColumn className="text-lg">DETAILS</TableColumn> {/* text-lg for larger text size */}
+              <TableColumn className="text-lg">COMPONENT</TableColumn>
+              <TableColumn className="text-lg">DETAILS</TableColumn>
             </TableHeader>
             <TableBody>
               {priceData.map((item, index) => (
@@ -61,26 +66,21 @@ const CardDetail = () => {
               ))}
             </TableBody>
           </Table>
-          <Card className="bg-white">
-            <CardHeader>
+          <Card className="bg-white mb-4">
+            <CardHeader className="pb-2">
               <h2 className="font-bold text-xl">Detail Information</h2>
             </CardHeader>
-            <CardBody>
+            <CardBody className="pt-2">
               <p className="text-base">
-                부품 상세 스펙
+                "인텔(소켓1700)/10nm(인텔7)/P6+E4코어/12+4스레드/기본 클럭:2.5GHz/최대 클럭:4.7GHz/L2 캐시:9.5MB/L3 캐시:20MB"
               </p>
             </CardBody>
           </Card>
         </div>
       </div>
-      <Card className="flex w-full max-w-4xl bg-white">
-        <CardHeader>
-          <h2 className="font-bold text-xl">가격 그래프</h2>
-        </CardHeader>
-        <CardBody>
-          <LineChart data={chartData} />
-        </CardBody>
-      </Card>
+      <div className="w-full max-w-4xl mt-4">
+        <LineChart data={data} />
+      </div>
     </div>
   );
 };
