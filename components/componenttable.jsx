@@ -1,37 +1,33 @@
+"use client";
+
 import React from "react";
 import {
   Table,
   TableHeader,
-  TableColumn,
   TableBody,
+  TableColumn,
   TableRow,
   TableCell,
-} from "@nextui-org/react";
-import { myCardData } from "@/data/myCardData";
+} from "@nextui-org/table";
+import componentData from "../data/componentData";
 
-const ComponentTable = ({ id }) => {
-  const card = myCardData.find((card) => card.id === id);
-
-  if (!card) {
-    return <div>No data found</div>;
-  }
-
+export default function ComponentTable() {
   return (
-    <Table aria-label="Component Table" className="table-auto w-full bg-white">
-      <TableHeader className="bg-gray-200">
-        <TableColumn>Component</TableColumn>
-        <TableColumn>Details</TableColumn>
+    <Table hideHeader aria-label="Component Table" className="w-360 h-360">
+      <TableHeader>
+        <TableColumn>COMPONENT</TableColumn>
+        <TableColumn>DETAILS</TableColumn>
       </TableHeader>
       <TableBody>
-        {Object.entries(card.details).map(([key, value]) => (
-          <TableRow key={key}>
-            <TableCell className="border px-4 py-2">{key}</TableCell>
-            <TableCell className="border px-4 py-2">{value}</TableCell>
+        {componentData.map((item, index) => (
+          <TableRow key={index}>
+            <TableCell className="text-blue-400 font-semibold">
+              {item.component}
+            </TableCell>
+            <TableCell>{item.details}</TableCell>
           </TableRow>
         ))}
       </TableBody>
     </Table>
   );
-};
-
-export default ComponentTable;
+}
