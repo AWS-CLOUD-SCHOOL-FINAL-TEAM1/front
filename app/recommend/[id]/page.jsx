@@ -17,7 +17,6 @@ const EstimateCardDetail = ({ params }) => {
   const { details, description } = card;
 
   const handleAddToEstimate = () => {
-    // myPage로 라우팅
     router.push("/mypage");
   };
 

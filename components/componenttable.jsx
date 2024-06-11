@@ -10,6 +10,7 @@ import {
 import { myCardData } from "@/data/myCardData";
 
 const ComponentTable = ({ id, style }) => {
+
   const card = myCardData.find((card) => card.id === id);
 
   if (!card) {
@@ -17,7 +18,9 @@ const ComponentTable = ({ id, style }) => {
   }
 
   return (
+
     <Table aria-label="Component Table" className="table-auto w-full bg-white" style={style}>
+
       <TableHeader className="bg-gray-200">
         <TableColumn>Component</TableColumn>
         <TableColumn>Details</TableColumn>
