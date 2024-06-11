@@ -25,7 +25,7 @@ const ComponentTable = ({ id }) => {
         <TableColumn>Details</TableColumn>
       </TableHeader>
       <TableBody>
-        {componentData.map((item, index) => (
+        {myCardData.map((item, index) => (
           <TableRow key={index}>
             <TableCell className="text-blue-400 font-semibold">
               {item.component}
@@ -37,3 +37,5 @@ const ComponentTable = ({ id }) => {
     </Table>
   );
 }
+
+export default ComponentTable;

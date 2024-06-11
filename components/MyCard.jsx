@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import NextLink from "next/link";
-import ComponentTable from "./ComponentTable";
+import ComponentTable from "@/components/CommunityCard";
 const MyCard = ({ id, title, description }) => {
   return (
     <NextLink href={`/component/${id}`} passHref>
