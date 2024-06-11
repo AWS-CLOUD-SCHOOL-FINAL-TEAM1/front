@@ -22,10 +22,9 @@ export default function Component() {
       <div className="inline-block max-w-lg text-center">
         <h1 className={title({ color: "" })}>PC 부품&nbsp;</h1>
       </div>
-
       <Tabs aria-label="Options">
         <Tab title="All">
-
+          
         </Tab>
         <Tab title="CPU">
 
