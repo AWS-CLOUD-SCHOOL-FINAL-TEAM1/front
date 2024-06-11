@@ -3,6 +3,7 @@ export const estimatecardData = [
     id: 1,
     title: "인텔 코어i5-14세대 14400F",
     description: "Description for card 1",
+    type:"게임용",
     details: {
       CPU: "인텔 i5-14세대 14400F (랩터레이크 리프레시) (정품)",
       메인보드: "ASUS TUF Gaming B760M-PLUS WIFI 인텍앤컴퍼니",
@@ -18,6 +19,7 @@ export const estimatecardData = [
     id: 2,
     title: "AMD Ryzen 5 5600X",
     description: "Description for card 2",
+    type:"사무용",
     details: {
       CPU: "AMD Ryzen 5 5600X",
       메인보드: "ASUS ROG STRIX B550-F GAMING",
@@ -34,6 +36,7 @@ export const estimatecardData = [
     id: 3,
     title: "NVIDIA RTX 3080",
     description: "Description for card 3",
+    type:"전문가용",
     details: {
       CPU: "AMD Ryzen 9 5900X",
       메인보드: "MSI MPG B550 Gaming Edge WiFi",
@@ -49,6 +52,7 @@ export const estimatecardData = [
     id: 4,
     title: "인텔 코어i7-14세대 14700K",
     description: "Description for card 4",
+    type:"게임용",
     details: {
       CPU: "인텔 코어 i7-14세대 14700K",
       메인보드: "ASUS Prime Z590-A",
@@ -64,6 +68,7 @@ export const estimatecardData = [
     id: 5,
     title: "AMD Ryzen 7 5800X",
     description: "Description for card 5",
+    type:"게임용",
     details: {
       CPU: "AMD Ryzen 7 5800X",
       메인보드: "Gigabyte AORUS X570 Master",
@@ -79,6 +84,7 @@ export const estimatecardData = [
     id: 6,
     title: "NVIDIA RTX 3090",
     description: "Description for card 6",
+    type:"게임용",
     details: {
       CPU: "Intel Core i9-12900K",
       메인보드: "ASUS ROG Maximus XIII Hero",

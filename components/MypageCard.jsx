@@ -17,16 +17,18 @@ const MypageCard = ({ id, title, description, details }) => {
               <FaEdit />
             </Button>
           </Link>
-          <Link href={`/mypage/${id}`}>
+          {/* <Link href={`/mypage/${id}`}>
             <Button color="primary" variant="ghost" size="sm">
               <FaShareAlt />
             </Button>
-          </Link>
+          </Link> */}
         </div>
       </CardHeader>
-      <CardBody className="overflow-visible py-2 items-center">
-        <ComponentTable id={id} style={{ width: "320px", height: "320px" }} />
-      </CardBody>
+      <Link href={`/mypage/${id}`}>
+        <CardBody className="overflow-visible py-2 items-center mt-4">
+          <ComponentTable id={id} style={{ width: "320px", height: "320px" }} />
+        </CardBody>
+      </Link>
     </Card>
   );
 };

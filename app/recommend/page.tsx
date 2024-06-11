@@ -22,6 +22,7 @@ export default function Recommend() {
         {estimatecardData.map((card) => (
           <EstimateCard
             key={card.id}
+            type={card.type}
             id={card.id}
             title={card.title}
             description={card.description}
