@@ -21,10 +21,10 @@ const CardDetail = () => {
     { date: '2024-06-01', price: 100 },
     { date: '2024-06-02', price: 110 },
     { date: '2024-06-03', price: 105 },
-];
+  ];
   return (
     <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white overflow-y-auto" style={{ height: '100vh' }}>
-      <Checkbox className="absolute top-0 left-0 m-4 transform scale-125 font-semibold" icon={<HeartIcon />}>
+      <Checkbox className="absolute top-4 left-4 transform scale-125 font-semibold" icon={<HeartIcon />}>
         관심상품
       </Checkbox>
       <div className="flex w-full max-w-4xl mb-4">
@@ -66,7 +66,13 @@ const CardDetail = () => {
               ))}
             </TableBody>
           </Table>
-          <Card className="bg-white mb-4">
+          
+          <div className="w-full max-w-4xl mt-4">
+        <LineChart data={data} />
+      </div>
+        </div>
+      </div>
+      <Card className="bg-white mb-4">
             <CardHeader className="pb-2">
               <h2 className="font-bold text-xl">Detail Information</h2>
             </CardHeader>
@@ -76,11 +82,16 @@ const CardDetail = () => {
               </p>
             </CardBody>
           </Card>
-        </div>
-      </div>
-      <div className="w-full max-w-4xl mt-4">
-        <LineChart data={data} />
-      </div>
+            <Card className="bg-white mb-4">
+            <CardHeader className="pb-2">
+              <h2 className="font-bold text-xl">Detail Information</h2>
+            </CardHeader>
+            <CardBody className="pt-2">
+              <p className="text-base">
+                "인텔(소켓1700)/10nm(인텔7)/P6+E4코어/12+4스레드/기본 클럭:2.5GHz/최대 클럭:4.7GHz/L2 캐시:9.5MB/L3 캐시:20MB"
+              </p>
+            </CardBody>
+          </Card>
     </div>
   );
 };

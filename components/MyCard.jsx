@@ -26,6 +26,9 @@ const MyCard = ({ id, title, description }) => {
       <NextLink href={`/component/${id}`} passHref>
         <CardBody className="overflow-visible py-2 items-center">
         <h4 className="font-bold text-large mb-2">{title}</h4>
+        <Card>
+          
+        </Card>
           <h2 className="font-bold text-large mb-2">최저가:&nbsp;₩312,200</h2>
           <Card className="bg-white ">
             <CardHeader className="pb-0">
