@@ -1,4 +1,3 @@
-// components/PartSelection.js
 import React, { useState, useEffect } from "react";
 import { Button, Checkbox } from "@nextui-org/react";
 import Filter from "@/components/estimatePage/Filter";
@@ -10,6 +9,7 @@ const PartSelection = ({
   handleAddOption,
   compareParts,
   setIsCompareModalOpen,
+  setCompareParts, // compareParts를 초기화하기 위한 함수
 }) => {
   const [filters, setFilters] = useState({});
   const [maxPrice, setMaxPrice] = useState(
@@ -21,6 +21,7 @@ const PartSelection = ({
       Math.max(...optionsData[selectedPart].map((option) => option.price))
     );
     setFilters({});
+    setCompareParts([]); // 부품 유형이 변경될 때 compareParts 초기화
   }, [selectedPart]);
 
   const handleFilterChange = (filterType, value) => {

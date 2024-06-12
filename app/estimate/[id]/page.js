@@ -92,12 +92,14 @@ const EstimatePage = ({ params }) => {
           setSelectedPart={setSelectedPart}
           handleComplete={handleComplete}
         />
+
         <PartSelection
           selectedPart={selectedPart}
           optionsData={optionsData}
           handleCompare={handleCompare}
           handleAddOption={handleAddOption}
           compareParts={compareParts}
+          setCompareParts={setCompareParts}
           setIsCompareModalOpen={setIsCompareModalOpen}
         />
       </div>

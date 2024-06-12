@@ -1,4 +1,3 @@
-// app/estimate/page.js
 "use client";
 
 import React, { useState } from "react";
@@ -89,6 +88,7 @@ const Estimate = () => {
           handleCompare={handleCompare}
           handleAddOption={handleAddOption}
           compareParts={compareParts}
+          setCompareParts={setCompareParts}
           setIsCompareModalOpen={setIsCompareModalOpen}
         />
       </div>
