@@ -433,19 +433,15 @@ const Filter = ({
       />
       <div className="space-y-4">{renderSpecificFilters()}</div>
       <div className="mt-4">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium">
-            Price: ${priceRange[0]} - ${priceRange[1]}
-          </span>
-        </div>
         <Slider
-          value={priceRange}
-          onValueChange={handleSliderChange}
-          min={0}
-          max={maxPrice}
+          label="Price Range"
           step={1}
-          range
-          className="w-full"
+          minValue={0}
+          maxValue={maxPrice}
+          value={priceRange}
+          onChange={handleSliderChange}
+          formatOptions={{ style: "currency", currency: "KOR" }}
+          className="max-w-md"
         />
       </div>
     </div>
