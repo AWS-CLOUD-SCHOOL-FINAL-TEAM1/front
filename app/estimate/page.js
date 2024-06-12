@@ -77,7 +77,7 @@ const Estimate = () => {
 
   return (
     <div className="m-8 bg-gray-100  min-h-screen">
-      <ScrollShadow size={100} className="w-full h-[50rem]">
+      <ScrollShadow size={100} className="w-full h-[55rem]">
         <div className="bg-white p-4 rounded shadow-md flex flex-col md:flex-row gap-4 ">
           <EstimateTable
             estimate={estimate}
