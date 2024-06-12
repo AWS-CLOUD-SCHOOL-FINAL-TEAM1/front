@@ -86,41 +86,43 @@ const EstimatePage = ({ params }) => {
   };
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
-      <ScrollShadow size={100} className="w-full h-[55rem]">
-        <div className="bg-white p-4 rounded shadow-md flex flex-col md:flex-row gap-4 ">
-          <EstimateTable
-            estimate={estimate}
-            selectedPart={selectedPart}
-            setSelectedPart={setSelectedPart}
-            handleComplete={handleComplete}
-          />
+    <ScrollShadow hideScrollBar size={100} className="w-full h-[55rem]">
+      <div className="p-8 bg-gray-100 min-h-screen">
+        <ScrollShadow size={100} className="w-full h-[55rem]">
+          <div className="bg-white p-4 rounded shadow-md flex flex-col md:flex-row gap-4 ">
+            <EstimateTable
+              estimate={estimate}
+              selectedPart={selectedPart}
+              setSelectedPart={setSelectedPart}
+              handleComplete={handleComplete}
+            />
 
-          <PartSelection
-            selectedPart={selectedPart}
-            optionsData={optionsData}
-            handleCompare={handleCompare}
-            handleAddOption={handleAddOption}
+            <PartSelection
+              selectedPart={selectedPart}
+              optionsData={optionsData}
+              handleCompare={handleCompare}
+              handleAddOption={handleAddOption}
+              compareParts={compareParts}
+              setCompareParts={setCompareParts}
+              setIsCompareModalOpen={setIsCompareModalOpen}
+            />
+          </div>
+
+          <CompareModal
+            isCompareModalOpen={isCompareModalOpen}
+            handleGoBack={handleGoBack}
             compareParts={compareParts}
-            setCompareParts={setCompareParts}
-            setIsCompareModalOpen={setIsCompareModalOpen}
           />
-        </div>
 
-        <CompareModal
-          isCompareModalOpen={isCompareModalOpen}
-          handleGoBack={handleGoBack}
-          compareParts={compareParts}
-        />
-
-        <CompleteModal
-          isCompleteModalOpen={isCompleteModalOpen}
-          setIsCompleteModalOpen={setIsCompleteModalOpen}
-          estimate={estimate}
-          handleConfirmComplete={handleConfirmComplete}
-        />
-      </ScrollShadow>
-    </div>
+          <CompleteModal
+            isCompleteModalOpen={isCompleteModalOpen}
+            setIsCompleteModalOpen={setIsCompleteModalOpen}
+            estimate={estimate}
+            handleConfirmComplete={handleConfirmComplete}
+          />
+        </ScrollShadow>
+      </div>
+    </ScrollShadow>
   );
 };
 
