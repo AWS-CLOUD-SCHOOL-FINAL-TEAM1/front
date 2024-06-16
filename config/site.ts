@@ -13,8 +13,8 @@ export const siteConfig = {
       href: "/recommend",
     },
     {
-      label: "커뮤니티",
-      href: "/community",
+      label: "마이 페이지",
+      href: "/mypage",
     },
   ],
   navMenuItems: [
