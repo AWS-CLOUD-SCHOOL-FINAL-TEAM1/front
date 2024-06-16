@@ -16,7 +16,7 @@ const MyCard = ({ id, title, description }) => {
           <Image
             alt="Card background"
             className="object-cover rounded-xl"
-            src="https://nextui.org/images/hero-card-complete.jpeg"
+            src="https://spoidimage.s3.ap-northeast-2.amazonaws.com/test.jpeg"
             width={160}
             height={160}
             style={{ width: "160px", height: "160px" }}
