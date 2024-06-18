@@ -9,6 +9,15 @@ import { CircularProgress } from "@nextui-org/react";
 export default function Component() {
   const [cpuComponents, setCpuComponents] = useState([]);
   const [gpuComponents, setGpuComponents] = useState([]);
+  /*
+  const [coolerComponents, setCoolerComponents] = useState([]);
+  const [mainboardComponents, setMainboardComponents] = useState([]);
+  const [memoryComponents, setMemoryComponents] = useState([]);
+  const [storageComponents, setStorageComponents] = useState([]);
+  const [caseComponents, setCaseComponents] = useState([]);
+  const [powerComponents, setPowerComponents] = useState([]);
+  */
+ 
   const [filteredComponents, setFilteredComponents] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,9 +26,10 @@ export default function Component() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { cpuData, gpuData } = await ComponentAPI();
+        const { cpuData, gpuData/*,mainboardData,memoryData,storageData,powerData,coolerData,caseData*/ } = await ComponentAPI();
         setCpuComponents(cpuData);
         setGpuComponents(gpuData);
+
         setFilteredComponents([...cpuData, ...gpuData]); // Initially show all components
       } catch (error) {
         console.error('Error fetching components:', error.message);
@@ -40,9 +50,25 @@ export default function Component() {
     } else if (selectedTab === "GPU") {
       setFilteredComponents(gpuComponents);
     }
+    // }else if (selectedTab === "MAINBOARD") {
+    //   setFilteredComponents(gpuComponents);
+    // }else if (selectedTab === "STORAGE") {
+    //   setFilteredComponents(gpuComponents);
+    // }else if (selectedTab === "MEMORY") {
+    //   setFilteredComponents(gpuComponents);
+    // }else if (selectedTab === "CASE") {
+    //   setFilteredComponents(gpuComponents);
+    // }else if (selectedTab === "POWER") {
+    //   setFilteredComponents(gpuComponents);
+    // }else if (selectedTab === "COOLER") {
+    //   setFilteredComponents(gpuComponents);
+    // }
+    else{
+      setFilteredComponents(gpuComponents);
+    }
   }, [selectedTab, cpuComponents, gpuComponents]);
 
-  const handleTabChange = (index, title) => {
+  const handleTabChange = (title) => {
     setSelectedTab(title);
   };
 
@@ -76,10 +102,10 @@ export default function Component() {
       <div className="inline-block max-w-lg text-center">
         <h1 className={title({ color: "" })}>PC 부품&nbsp;</h1>
       </div>
-      <Tabs aria-label="Options" onChange={handleTabChange}>
-        <Tab title="All"></Tab>
-        <Tab title="CPU"></Tab>
-        <Tab title="GPU"></Tab>
+      <Tabs aria-label="Options" selectedKey={selectedTab} onSelectionChange={handleTabChange}>
+        <Tab title="All" key="All"></Tab>
+        <Tab title="CPU" key="CPU"></Tab>
+        <Tab title="GPU" key="GPU"></Tab>
         {/* 다른 탭을 추가하고 싶다면 여기에 추가 */}
       </Tabs>
       <div
