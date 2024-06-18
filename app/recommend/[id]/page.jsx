@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { notFound } from "next/navigation";
-import { estimatecardData } from "@/data/estimatecardData"; // 데이터 파일 경로 설정
-import Image from "next/image"; // Next.js의 Image 컴포넌트 사용
+import { estimatecardData } from "@/data/estimatecardData";
+import Image from "next/image";
 
 const EstimateCardDetail = ({ params }) => {
   const router = useRouter();
@@ -22,17 +22,17 @@ const EstimateCardDetail = ({ params }) => {
 
   return (
     <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white">
-      <div className="flex w-full max-w-4xl">
-        <div className="flex-1 pr-8">
+      <div className="flex flex-col lg:flex-row w-full max-w-4xl">
+        <div className="flex-1 pr-0 lg:pr-8 mb-4 lg:mb-0">
           <Image
             src="https://nextui.org/images/hero-card-complete.jpeg"
             alt="Detail Image"
             width={500}
             height={500}
-            className="object-cover rounded-xl"
+            className="object-cover rounded-xl w-full"
           />
         </div>
-        <div className="flex flex-col flex-1 pl-8 relative">
+        <div className="flex flex-col flex-1 pl-0 lg:pl-8 relative">
           <h1 className="text-3xl font-bold">{card.title}</h1>
           <h2 className="text-2xl font-semibold mb-4">{description}</h2>
           <table className="table-auto w-full mb-16">

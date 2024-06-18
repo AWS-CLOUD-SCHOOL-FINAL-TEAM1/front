@@ -16,7 +16,7 @@ export default function Recommend() {
         <h1 className={title({})}>견적추천&nbsp;</h1>
       </div>
       <div
-        className="grid gap-x-8 gap-y-4 grid-cols-3 mt-8 overflow-y-auto hide-scrollbar"
+        className="grid gap-x-8 gap-y-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-8 overflow-y-auto hide-scrollbar"
         style={{ height: "calc(100vh - 16rem)" }}
       >
         {estimatecardData.map((card) => (

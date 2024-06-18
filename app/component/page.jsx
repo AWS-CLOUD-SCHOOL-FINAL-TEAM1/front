@@ -4,9 +4,8 @@ import { title, subtitle } from "@/components/primitives";
 import { Card, CardBody } from "@nextui-org/card";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import { ScrollShadow } from "@nextui-org/react";
-
-import { GithubIcon } from "@/components/icons";
 import MyCard from "@/components/MyCard";
+
 const cardData = [
   {
     id: 1,
@@ -43,7 +42,7 @@ export default function Component() {
         <Tab title="파워"></Tab>
       </Tabs>
       <div
-        className="grid gap-x-8 gap-y-4 grid-cols-3 mt-4 overflow-y-auto hide-scrollbar"
+        className="grid gap-x-8 gap-y-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-4 overflow-y-auto hide-scrollbar"
         style={{ height: "calc(100vh - 16rem)" }}
       >
         {cardData.map((card) => (
