@@ -25,7 +25,7 @@ const CardDetail = () => {
   ];
 
   return (
-    <div className="relative flex flex-col items-center p-6 md:p-20 rounded-xl bg-white ">
+    <div className=" relative flex flex-col items-center p-6 md:p-20 rounded-xl bg-white ">
       <Checkbox
         className="absolute top-4 left-10 transform scale-125 font-semibold"
         icon={<HeartIcon />}
