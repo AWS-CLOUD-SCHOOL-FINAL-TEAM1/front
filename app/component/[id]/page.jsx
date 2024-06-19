@@ -33,7 +33,7 @@ const CardDetail = () => {
         관심상품
       </Checkbox>
       <ScrollShadow hideScrollBar size={100} className="w-full h-[45rem]">
-        <div className="mt-14 mb-10 flex flex-col md:flex-row w-full max-w-4xl mb-4">
+        <div className="items-center mt-5 mb-10 flex flex-col md:flex-row w-full max-w-4xl mb-4">
           <div className="flex-1 pr-0 md:pr-8 mb-4 md:mb-0">
             <div
               className="relative shadow-black/5 shadow-none rounded-xl"
@@ -43,7 +43,7 @@ const CardDetail = () => {
                 src="https://nextui.org/images/hero-card-complete.jpeg"
                 alt="Detail Image"
                 className="object-cover rounded-xl"
-                style={{ width: "100%", height: "auto", objectFit: "cover" }}
+                style={{ width: "100%", height: 400, objectFit: "cover" }}
               />
             </div>
           </div>
@@ -75,7 +75,7 @@ const CardDetail = () => {
               <TableBody>
                 {priceData.map((item, index) => (
                   <TableRow key={index}>
-                    <TableCell className="text-blue-400 font-semibold text-base md:text-lg">
+                    <TableCell className="text-blue-700 font-semibold text-base md:text-lg">
                       {item.component}
                     </TableCell>
                     <TableCell className="text-base md:text-lg">
@@ -86,7 +86,7 @@ const CardDetail = () => {
               </TableBody>
             </Table>
 
-            <div className="w-full max-w-4xl mt-4">
+            <div className="w-full max-w-4xl mt-2">
               <LineChart data={data} />
             </div>
           </div>

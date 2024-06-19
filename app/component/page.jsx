@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 "use client";
 import React, { useState, useEffect } from "react";
-=======
-'use client';
-import React, { useState, useEffect } from 'react';
->>>>>>> b3e6bef92c8bec4c049baffd677c55b5eaf02613
 import { ComponentAPI } from "./api";
 import { title } from "@/components/primitives";
 import { Tabs, Tab } from "@nextui-org/tabs";
@@ -21,11 +16,7 @@ export default function Component() {
     memory: [],
     storage: [],
     case: [],
-<<<<<<< HEAD
     power: [],
-=======
-    power: []
->>>>>>> b3e6bef92c8bec4c049baffd677c55b5eaf02613
   });
   const [filteredComponents, setFilteredComponents] = useState([]);
   const [error, setError] = useState(null);
@@ -36,7 +27,6 @@ export default function Component() {
 
   const fetchData = async (index = 0) => {
     try {
-<<<<<<< HEAD
       const {
         cpuData,
         gpuData,
@@ -47,9 +37,6 @@ export default function Component() {
         coolerData,
         caseData,
       } = await ComponentAPI(index);
-=======
-      const { cpuData, gpuData, mainboardData, memoryData, storageData, powerData, coolerData, caseData } = await ComponentAPI(index);
->>>>>>> b3e6bef92c8bec4c049baffd677c55b5eaf02613
       setComponents({
         cpu: cpuData,
         gpu: gpuData,
@@ -60,7 +47,6 @@ export default function Component() {
         case: caseData,
         power: powerData,
       });
-<<<<<<< HEAD
       setFilteredComponents([
         ...cpuData,
         ...gpuData,
@@ -73,11 +59,6 @@ export default function Component() {
       ]); // Initially show all components
     } catch (error) {
       console.error("Error fetching components:", error.message);
-=======
-      setFilteredComponents([...cpuData, ...gpuData, ...mainboardData, ...memoryData, ...storageData, ...powerData, ...coolerData, ...caseData]); // Initially show all components
-    } catch (error) {
-      console.error('Error fetching components:', error.message);
->>>>>>> b3e6bef92c8bec4c049baffd677c55b5eaf02613
       setError(error.message);
     } finally {
       setIsLoading(false);
@@ -90,7 +71,6 @@ export default function Component() {
 
   useEffect(() => {
     const filterComponents = () => {
-<<<<<<< HEAD
       const {
         cpu,
         gpu,
@@ -112,11 +92,6 @@ export default function Component() {
           ...cooler,
           ...pcCase,
         ]);
-=======
-      const { cpu, gpu, cooler, mainboard, memory, storage, case: pcCase, power } = components;
-      if (selectedTab === "All") {
-        setFilteredComponents([...cpu, ...gpu, ...mainboard, ...memory, ...storage, ...power, ...cooler, ...pcCase]);
->>>>>>> b3e6bef92c8bec4c049baffd677c55b5eaf02613
       } else {
         setFilteredComponents(components[selectedTab.toLowerCase()]);
       }
@@ -165,13 +140,9 @@ export default function Component() {
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-4 md:py-6 h-full">
       <div className="inline-block max-w-lg text-center">
-<<<<<<< HEAD
         <h1 className={title({ color: "", className: "my-2" })}>
           PC 부품&nbsp;
         </h1>
-=======
-        <h1 className={title({ color: "", className: "my-2" })}>PC 부품&nbsp;</h1>
->>>>>>> b3e6bef92c8bec4c049baffd677c55b5eaf02613
       </div>
       <Tabs
         aria-label="Options"
