@@ -5,74 +5,111 @@ import { title } from "@/components/primitives";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import MyCard from "@/components/MyCard";
 import { CircularProgress } from "@nextui-org/react";
+import { Pagination } from "@nextui-org/pagination";
 
 export default function Component() {
-  const [cpuComponents, setCpuComponents] = useState([]);
-  const [gpuComponents, setGpuComponents] = useState([]);
-  /*
-  const [coolerComponents, setCoolerComponents] = useState([]);
-  const [mainboardComponents, setMainboardComponents] = useState([]);
-  const [memoryComponents, setMemoryComponents] = useState([]);
-  const [storageComponents, setStorageComponents] = useState([]);
-  const [caseComponents, setCaseComponents] = useState([]);
-  const [powerComponents, setPowerComponents] = useState([]);
-  */
-
+  const [components, setComponents] = useState({
+    cpu: [],
+    gpu: [],
+    cooler: [],
+    mainboard: [],
+    memory: [],
+    storage: [],
+    case: [],
+    power: [],
+  });
   const [filteredComponents, setFilteredComponents] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // 페이지당 아이템 수를 10으로 설정
+
+  const fetchData = async (index = 0) => {
+    try {
+      const {
+        cpuData,
+        gpuData,
+        mainboardData,
+        memoryData,
+        storageData,
+        powerData,
+        coolerData,
+        caseData,
+      } = await ComponentAPI(index);
+      setComponents({
+        cpu: cpuData,
+        gpu: gpuData,
+        cooler: coolerData,
+        mainboard: mainboardData,
+        memory: memoryData,
+        storage: storageData,
+        case: caseData,
+        power: powerData,
+      });
+      setFilteredComponents([
+        ...cpuData,
+        ...gpuData,
+        ...mainboardData,
+        ...memoryData,
+        ...storageData,
+        ...powerData,
+        ...coolerData,
+        ...caseData,
+      ]); // Initially show all components
+    } catch (error) {
+      console.error("Error fetching components:", error.message);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const {
-          cpuData,
-          gpuData /*,mainboardData,memoryData,storageData,powerData,coolerData,caseData*/,
-        } = await ComponentAPI();
-        setCpuComponents(cpuData);
-        setGpuComponents(gpuData);
-
-        setFilteredComponents([...cpuData, ...gpuData]); // Initially show all components
-      } catch (error) {
-        console.error("Error fetching components:", error.message);
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
 
   useEffect(() => {
-    if (selectedTab === "All") {
-      setFilteredComponents([...cpuComponents, ...gpuComponents]);
-    } else if (selectedTab === "CPU") {
-      setFilteredComponents(cpuComponents);
-    } else if (selectedTab === "GPU") {
-      setFilteredComponents(gpuComponents);
-    }
-    // }else if (selectedTab === "MAINBOARD") {
-    //   setFilteredComponents(gpuComponents);
-    // }else if (selectedTab === "STORAGE") {
-    //   setFilteredComponents(gpuComponents);
-    // }else if (selectedTab === "MEMORY") {
-    //   setFilteredComponents(gpuComponents);
-    // }else if (selectedTab === "CASE") {
-    //   setFilteredComponents(gpuComponents);
-    // }else if (selectedTab === "POWER") {
-    //   setFilteredComponents(gpuComponents);
-    // }else if (selectedTab === "COOLER") {
-    //   setFilteredComponents(gpuComponents);
-    // }
-    else {
-      setFilteredComponents(gpuComponents);
-    }
-  }, [selectedTab, cpuComponents, gpuComponents]);
+    const filterComponents = () => {
+      const {
+        cpu,
+        gpu,
+        cooler,
+        mainboard,
+        memory,
+        storage,
+        case: pcCase,
+        power,
+      } = components;
+      if (selectedTab === "All") {
+        setFilteredComponents([
+          ...cpu,
+          ...gpu,
+          ...mainboard,
+          ...memory,
+          ...storage,
+          ...power,
+          ...cooler,
+          ...pcCase,
+        ]);
+      } else {
+        setFilteredComponents(components[selectedTab.toLowerCase()]);
+      }
+    };
 
-  const handleTabChange = (title) => {
-    setSelectedTab(title);
+    filterComponents();
+  }, [selectedTab, components]);
+
+  const handleTabChange = (key) => {
+    setSelectedTab(key);
+    setCurrentPage(1); // Reset to first page when tab changes
+  };
+
+  const handlePageChange = async (page) => {
+    setIsLoading(true);
+    setCurrentPage(page);
+    const index = (page - 1) * itemsPerPage;
+    await fetchData(index);
   };
 
   if (isLoading) {
@@ -101,9 +138,11 @@ export default function Component() {
   }
 
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 h-full">
+    <section className="flex flex-col items-center justify-center gap-4 py-4 md:py-6 h-full">
       <div className="inline-block max-w-lg text-center">
-        <h1 className={title({ color: "" })}>PC 부품&nbsp;</h1>
+        <h1 className={title({ color: "", className: "my-2" })}>
+          PC 부품&nbsp;
+        </h1>
       </div>
       <Tabs
         aria-label="Options"
@@ -113,21 +152,35 @@ export default function Component() {
         <Tab title="All" key="All"></Tab>
         <Tab title="CPU" key="CPU"></Tab>
         <Tab title="GPU" key="GPU"></Tab>
-        {/* 다른 탭을 추가하고 싶다면 여기에 추가 */}
+        <Tab title="MAINBOARD" key="MAINBOARD"></Tab>
+        <Tab title="MEMORY" key="MEMORY"></Tab>
+        <Tab title="STORAGE" key="STORAGE"></Tab>
+        <Tab title="CASE" key="CASE"></Tab>
+        <Tab title="POWER" key="POWER"></Tab>
+        <Tab title="COOLER" key="COOLER"></Tab>
       </Tabs>
       <div
-        className="grid gap-x-8 gap-y-4 grid-cols-3 mt-4 overflow-y-auto hide-scrollbar"
-        style={{ height: "calc(100vh - 16rem)" }}
+        className="grid gap-x-8 gap-y-4 grid-cols-3 mt-2 overflow-y-auto hide-scrollbar"
+        style={{ height: "calc(90vh - 16rem)" }}
       >
         {filteredComponents.map((component) => (
           <MyCard
-            key={component.ComponentID}
-            id={component.ComponentID}
-            title={component.name}
-            description={component.specs}
+            key={component[`${selectedTab.toLowerCase()}_id`]}
+            id={component[`${selectedTab.toLowerCase()}_id`]}
+            title={component.model}
+            description={component.company}
+            imageUrl={component.image_url}
           />
         ))}
       </div>
+      <Pagination
+        isCompact
+        showControls
+        total={Math.ceil(filteredComponents.length / itemsPerPage)}
+        initialPage={1}
+        page={currentPage}
+        onChange={handlePageChange}
+      />
     </section>
   );
 }
