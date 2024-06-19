@@ -3,16 +3,16 @@ import { Image } from "@nextui-org/image";
 import NextLink from "next/link";
 import { HeartIcon } from '@/components/HeartIcon.jsx';
 import { Checkbox } from "@nextui-org/checkbox";
-import ComponentTable from "@/components/CommunityCard";
-const MyCard = ({ id, title, description }) => {
-  return (
 
+const MyCard = ({ id, title, description }) => {
+  const formattedTitle = title.replace(/\s+/g, '-').toLowerCase();
+
+  return (
     <Card className="py-4" style={{ width: "360px", height: "460px" }}>
       <Checkbox className=" transform scale-125 font-semibold ml-2" icon={<HeartIcon />}>
       </Checkbox>
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-center">
-       
-        <NextLink href={`/component/${id}`} passHref>
+        <NextLink href={`/component/${formattedTitle}`} passHref>
           <Image
             alt="Card background"
             className="object-cover rounded-xl"
@@ -23,12 +23,11 @@ const MyCard = ({ id, title, description }) => {
           />
         </NextLink>
       </CardHeader>
-      <NextLink href={`/component/${id}`} passHref>
+      <NextLink href={`/component/${formattedTitle}`} passHref>
         <CardBody className="overflow-visible py-2 items-center">
-        <h4 className="font-bold text-large mb-2">{title}</h4>
-        <Card>
-          
-        </Card>
+          <h4 className="font-bold text-large mb-2">{title}</h4>
+          <Card>
+          </Card>
           <h2 className="font-bold text-large mb-2">최저가:&nbsp;₩312,200</h2>
           <Card className="bg-white ">
             <CardHeader className="pb-0">
