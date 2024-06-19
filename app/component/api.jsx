@@ -1,7 +1,7 @@
 'use server';
 
-export async function ComponentAPI() {
-  console.log('test');
+export async function ComponentAPI(index = 0) {
+  console.log('Fetching data with index:', index);
   try {
     const response = await fetch('http://127.0.0.1:8000/component/', {
       method: 'POST',
@@ -9,14 +9,14 @@ export async function ComponentAPI() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        "cpu_index": "0",
-        "memory_index": "0",
-        "cooler_index": "0",
-        "case_index": "0",
-        "power_index": "0",
-        "mainboard_index": "0",
-        "gpu_index": "0",
-        "storage_index": "0"
+        "cpu_index": index.toString(),
+        "memory_index": index.toString(),
+        "cooler_index": index.toString(),
+        "case_index": index.toString(),
+        "power_index": index.toString(),
+        "mainboard_index": index.toString(),
+        "gpu_index": index.toString(),
+        "storage_index": index.toString()
       }),
     });
 
