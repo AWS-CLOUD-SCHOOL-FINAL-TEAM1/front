@@ -9,14 +9,14 @@ import { Pagination } from "@nextui-org/pagination";
 
 export default function Component() {
   const [components, setComponents] = useState({
-    cpu: [],
-    gpu: [],
-    cooler: [],
-    mainboard: [],
-    memory: [],
-    storage: [],
-    case: [],
-    power: []
+    Cpu: [],
+    Gpu: [],
+    Cooler: [],
+    Mainboard: [],
+    Memory: [],
+    Storage: [],
+    PcCase: [],
+    Power: []
   });
   const [filteredComponents, setFilteredComponents] = useState([]);
   const [error, setError] = useState(null);
@@ -27,18 +27,18 @@ export default function Component() {
 
   const fetchData = async (index = 0) => {
     try {
-      const { cpuData, gpuData, mainboardData, memoryData, storageData, powerData, coolerData, caseData } = await ComponentAPI(index);
+      const { cpuData, gpuData, mainboardData, memoryData, storageData, powerData, coolerData, pcCaseData } = await ComponentAPI(index);
       setComponents({
-        cpu: cpuData,
-        gpu: gpuData,
-        cooler: coolerData,
-        mainboard: mainboardData,
-        memory: memoryData,
-        storage: storageData,
-        case: caseData,
-        power: powerData,
+        Cpu: cpuData,
+        Gpu: gpuData,
+        Cooler: coolerData,
+        Mainboard: mainboardData,
+        Memory: memoryData,
+        Storage: storageData,
+        PcCase: pcCaseData,
+        Power: powerData,
       });
-      setFilteredComponents([...cpuData, ...gpuData, ...mainboardData, ...memoryData, ...storageData, ...powerData, ...coolerData, ...caseData]); // Initially show all components
+      setFilteredComponents([...cpuData, ...gpuData, ...mainboardData, ...memoryData, ...storageData, ...powerData, ...coolerData, ...pcCaseData]); // Initially show all components
     } catch (error) {
       console.error('Error fetching components:', error.message);
       setError(error.message);
@@ -53,9 +53,9 @@ export default function Component() {
 
   useEffect(() => {
     const filterComponents = () => {
-      const { cpu, gpu, cooler, mainboard, memory, storage, case: pcCase, power } = components;
+      const { Cpu, Gpu, Cooler, Mainboard, Memory, Storage, PcCase, Power } = components;
       if (selectedTab === "All") {
-        setFilteredComponents([...cpu, ...gpu, ...mainboard, ...memory, ...storage, ...power, ...cooler, ...pcCase]);
+        setFilteredComponents([...Cpu, ...Gpu, ...Mainboard, ...Memory, ...Storage, ...Power, ...Cooler, ...PcCase]);
       } else {
         setFilteredComponents(components[selectedTab.toLowerCase()]);
       }
@@ -72,8 +72,7 @@ export default function Component() {
   const handlePageChange = async (page) => {
     setIsLoading(true);
     setCurrentPage(page);
-    const index = (page - 1) * itemsPerPage;
-    await fetchData(index);
+    await fetchData(page);
   };
 
   if (isLoading) {
@@ -113,7 +112,7 @@ export default function Component() {
         <Tab title="MAINBOARD" key="MAINBOARD"></Tab>
         <Tab title="MEMORY" key="MEMORY"></Tab>
         <Tab title="STORAGE" key="STORAGE"></Tab>
-        <Tab title="CASE" key="CASE"></Tab>
+        <Tab title="CASE" key="PCCASE"></Tab>
         <Tab title="POWER" key="POWER"></Tab>
         <Tab title="COOLER" key="COOLER"></Tab>
       </Tabs>
@@ -125,7 +124,7 @@ export default function Component() {
           <MyCard
             key={component[`${selectedTab.toLowerCase()}_id`]}
             id={component[`${selectedTab.toLowerCase()}_id`]}
-            title={component.model}
+            title={component.Model}
             description={component.company}
             imageUrl={component.image_url}
           />
