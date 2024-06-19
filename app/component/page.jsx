@@ -54,10 +54,41 @@ export default function Component() {
   useEffect(() => {
     const filterComponents = () => {
       const { Cpu, Gpu, Cooler, Mainboard, Memory, Storage, PcCase, Power } = components;
+      let key = selectedTab.toLowerCase();
+      switch (key) {
+        case "cpu":
+          key = "Cpu";
+          break;
+        case "gpu":
+          key = "Gpu";
+          break;
+        case "mainboard":
+          key = "Mainboard";
+          break;
+        case "memory":
+          key = "Memory";
+          break;
+        case "storage":
+          key = "Storage";
+          break;
+        case "case":
+          key = "PcCase";
+          break;
+        case "power":
+          key = "Power";
+          break;
+        case "cooler":
+          key = "Cooler";
+          break;
+        default:
+          key = "All";
+          break;
+      }
+
       if (selectedTab === "All") {
         setFilteredComponents([...Cpu, ...Gpu, ...Mainboard, ...Memory, ...Storage, ...Power, ...Cooler, ...PcCase]);
       } else {
-        setFilteredComponents(components[selectedTab.toLowerCase()]);
+        setFilteredComponents(components[key] || []);
       }
     };
 
@@ -92,7 +123,7 @@ export default function Component() {
     );
   }
 
-  if (!filteredComponents.length) {
+  if (!filteredComponents || filteredComponents.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full">
         <h1 className={title({ color: "" })}>No components found</h1>
@@ -112,7 +143,7 @@ export default function Component() {
         <Tab title="MAINBOARD" key="MAINBOARD"></Tab>
         <Tab title="MEMORY" key="MEMORY"></Tab>
         <Tab title="STORAGE" key="STORAGE"></Tab>
-        <Tab title="CASE" key="PCCASE"></Tab>
+        <Tab title="CASE" key="CASE"></Tab>
         <Tab title="POWER" key="POWER"></Tab>
         <Tab title="COOLER" key="COOLER"></Tab>
       </Tabs>
@@ -122,11 +153,11 @@ export default function Component() {
       >
         {filteredComponents.map((component) => (
           <MyCard
-            key={component[`${selectedTab.toLowerCase()}_id`]}
-            id={component[`${selectedTab.toLowerCase()}_id`]}
+            key={component.ComponentID}
+            id={component.ComponentID}
             title={component.Model}
-            description={component.company}
-            imageUrl={component.image_url}
+            description={component.Company}
+            imageUrl={component.ImageURL}
           />
         ))}
       </div>
