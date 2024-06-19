@@ -37,8 +37,6 @@ export async function ComponentAPI(index = 0) {
     }
 
     const responseData = await response.json();
-    console.log("Fetched data:", responseData);
-
     const { Cpu, Gpu, Mainboard, Memory, Storage, Power, Cooler, PcCase } =
       responseData;
 
@@ -70,3 +68,29 @@ export async function ComponentAPI(index = 0) {
     throw error;
   }
 }
+
+
+export const fetchComponentDetail = async (component_id, component_type) => {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/component_detail/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        component_id,
+        component_type,
+      }),
+    });
+
+    if (!response.ok){ 
+      throw new Error('Failed to fetch component details');
+    }
+
+    return await response.json();
+  } catch (error) {
+
+  }
+};
+
+

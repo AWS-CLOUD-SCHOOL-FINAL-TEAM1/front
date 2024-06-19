@@ -185,15 +185,24 @@ export default function Component() {
         className="grid gap-x-8 gap-y-4 grid-cols-3 mt-2 overflow-y-auto hide-scrollbar"
         style={{ height: "calc(90vh - 16rem)" }}
       >
-        {filteredComponents.map((component) => (
-          <MyCard
-            key={component.ComponentID}
-            id={component.ComponentID}
-            title={component.Model}
-            description={component.Company}
-            imageUrl={component.ImageURL}
-          />
-        ))}
+        {filteredComponents.map((component) => {
+          const specs = Object.keys(component)
+            .filter(key => ![
+              "Model", "Company", "Type", "ImageURL", "URL", "ComponentID", "Shop", "Date", "Price"
+            ].includes(key))
+            .map(key => `${key}: ${component[key]}`);
+          return (
+            <MyCard
+              key={component.ComponentID}
+              id={component.ComponentID}
+              title={component.Model}
+              specs={specs}
+              componentType={component.Type}
+              price={component.Price}
+              imageUrl={component.ImageURL}
+            />
+          );
+        })}
       </div>
       <Pagination
         isCompact

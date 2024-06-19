@@ -1,7 +1,9 @@
+// app/component/[id]/page.jsx
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, useSearchParams } from 'next/navigation';
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
-import { Checkbox, ScrollShadow } from "@nextui-org/react";
+import { Checkbox, ScrollShadow, CircularProgress } from "@nextui-org/react";
 
 import { HeartIcon } from "@/components/HeartIcon.jsx";
 import { Image } from "@nextui-org/image";
@@ -13,11 +15,62 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/table";
-import priceData from "../../../data/priceData";
 import LineChart from "@/components/LineChart";
-import chartData from "@/data/chartData"; // Ensure this data has the correct format
+import { fetchComponentDetail } from "@/app/component/api";
 
 const CardDetail = () => {
+  const params = useParams();
+  const searchParams = useSearchParams();
+  const { id } = params;
+  const componentType = searchParams.get('componentType');
+
+  const [componentDetail, setComponentDetail] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (id && componentType) {
+      const fetchData = async () => {
+        try {
+          const detail = await fetchComponentDetail(id, componentType);
+          setComponentDetail(detail);
+        } catch (err) {
+          console.error('Error fetching component details:', err);
+          setError(err.message);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchData();
+    }
+  }, [id, componentType]);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <CircularProgress size="lg" aria-label="Loading..." />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <h1>Error</h1>
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  if (!componentDetail) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <h1>No component detail found</h1>
+      </div>
+    );
+  }
+
   const data = [
     { date: "2024-06-01", price: 100 },
     { date: "2024-06-02", price: 110 },
@@ -25,7 +78,7 @@ const CardDetail = () => {
   ];
 
   return (
-    <div className=" relative flex flex-col items-center p-6 md:p-20 rounded-xl bg-white ">
+    <div className="relative flex flex-col items-center p-6 md:p-20 rounded-xl bg-white">
       <Checkbox
         className="absolute top-4 left-10 transform scale-125 font-semibold"
         icon={<HeartIcon />}
@@ -40,7 +93,7 @@ const CardDetail = () => {
               style={{ width: "100%", height: "auto" }}
             >
               <Image
-                src="https://nextui.org/images/hero-card-complete.jpeg"
+                src={"https://spoidimage.s3.ap-northeast-2.amazonaws.com/test.jpeg"}
                 alt="Detail Image"
                 className="object-cover rounded-xl"
                 style={{ width: "100%", height: 400, objectFit: "cover" }}
@@ -54,7 +107,7 @@ const CardDetail = () => {
             <Card className="bg-white mb-4">
               <CardHeader className="pb-2">
                 <h2 className="font-bold text-xl md:text-2xl">
-                  인텔 코어i5-14세대 14400F
+                  {componentDetail[0].Model}
                 </h2>
               </CardHeader>
             </Card>
@@ -73,13 +126,13 @@ const CardDetail = () => {
                 </TableColumn>
               </TableHeader>
               <TableBody>
-                {priceData.map((item, index) => (
-                  <TableRow key={index}>
+                {Object.entries(componentDetail[0]).map(([key, value]) => (
+                  <TableRow key={key}>
                     <TableCell className="text-blue-700 font-semibold text-base md:text-lg">
-                      {item.component}
+                      {key}
                     </TableCell>
                     <TableCell className="text-base md:text-lg">
-                      {item.details}
+                      {value}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -90,34 +143,6 @@ const CardDetail = () => {
               <LineChart data={data} />
             </div>
           </div>
-        </div>
-        <div className="mt-10 mb-10">
-          <Card className="bg-white mb-4 w-full max-w-4xl">
-            <CardHeader className="pb-2">
-              <h2 className="font-bold text-lg md:text-xl">
-                Detail Information
-              </h2>
-            </CardHeader>
-            <CardBody className="pt-2">
-              <p className="text-sm md:text-base">
-                "인텔(소켓1700)/10nm(인텔7)/P6+E4코어/12+4스레드/기본
-                클럭:2.5GHz/최대 클럭:4.7GHz/L2 캐시:9.5MB/L3 캐시:20MB"
-              </p>
-            </CardBody>
-          </Card>
-          <Card className="bg-white mb-4 w-full max-w-4xl">
-            <CardHeader className="pb-2">
-              <h2 className="font-bold text-lg md:text-xl">
-                Detail Information
-              </h2>
-            </CardHeader>
-            <CardBody className="pt-2">
-              <p className="text-sm md:text-base">
-                "인텔(소켓1700)/10nm(인텔7)/P6+E4코어/12+4스레드/기본
-                클럭:2.5GHz/최대 클럭:4.7GHz/L2 캐시:9.5MB/L3 캐시:20MB"
-              </p>
-            </CardBody>
-          </Card>
         </div>
       </ScrollShadow>
     </div>
