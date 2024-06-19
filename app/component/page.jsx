@@ -9,15 +9,12 @@ import { CircularProgress } from "@nextui-org/react";
 export default function Component() {
   const [cpuComponents, setCpuComponents] = useState([]);
   const [gpuComponents, setGpuComponents] = useState([]);
-  /*
   const [coolerComponents, setCoolerComponents] = useState([]);
   const [mainboardComponents, setMainboardComponents] = useState([]);
   const [memoryComponents, setMemoryComponents] = useState([]);
   const [storageComponents, setStorageComponents] = useState([]);
   const [caseComponents, setCaseComponents] = useState([]);
   const [powerComponents, setPowerComponents] = useState([]);
-  */
- 
   const [filteredComponents, setFilteredComponents] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,11 +23,16 @@ export default function Component() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { cpuData, gpuData/*,mainboardData,memoryData,storageData,powerData,coolerData,caseData*/ } = await ComponentAPI();
+        const { cpuData, gpuData, mainboardData, memoryData, storageData, powerData, coolerData, caseData } = await ComponentAPI();
         setCpuComponents(cpuData);
         setGpuComponents(gpuData);
-
-        setFilteredComponents([...cpuData, ...gpuData]); // Initially show all components
+        setMainboardComponents(mainboardData);
+        setMemoryComponents(memoryData);
+        setStorageComponents(storageData);
+        setPowerComponents(powerData);
+        setCoolerComponents(coolerData);
+        setCaseComponents(caseData);
+        setFilteredComponents([...cpuData, ...gpuData, ...mainboardData, ...memoryData, ...storageData, ...powerData, ...coolerData, ...caseData]); // Initially show all components
       } catch (error) {
         console.error('Error fetching components:', error.message);
         setError(error.message);
@@ -44,32 +46,29 @@ export default function Component() {
 
   useEffect(() => {
     if (selectedTab === "All") {
-      setFilteredComponents([...cpuComponents, ...gpuComponents]);
+      setFilteredComponents([...cpuComponents, ...gpuComponents, ...mainboardComponents, ...memoryComponents, ...storageComponents, ...powerComponents, ...coolerComponents, ...caseComponents]);
     } else if (selectedTab === "CPU") {
       setFilteredComponents(cpuComponents);
     } else if (selectedTab === "GPU") {
       setFilteredComponents(gpuComponents);
+    } else if (selectedTab === "MAINBOARD") {
+      setFilteredComponents(mainboardComponents);
+    } else if (selectedTab === "STORAGE") {
+      setFilteredComponents(storageComponents);
+    } else if (selectedTab === "MEMORY") {
+      setFilteredComponents(memoryComponents);
+    } else if (selectedTab === "CASE") {
+      setFilteredComponents(caseComponents);
+    } else if (selectedTab === "POWER") {
+      setFilteredComponents(powerComponents);
+    } else if (selectedTab === "COOLER") {
+      setFilteredComponents(coolerComponents);
     }
-    // }else if (selectedTab === "MAINBOARD") {
-    //   setFilteredComponents(gpuComponents);
-    // }else if (selectedTab === "STORAGE") {
-    //   setFilteredComponents(gpuComponents);
-    // }else if (selectedTab === "MEMORY") {
-    //   setFilteredComponents(gpuComponents);
-    // }else if (selectedTab === "CASE") {
-    //   setFilteredComponents(gpuComponents);
-    // }else if (selectedTab === "POWER") {
-    //   setFilteredComponents(gpuComponents);
-    // }else if (selectedTab === "COOLER") {
-    //   setFilteredComponents(gpuComponents);
-    // }
-    else{
-      setFilteredComponents(gpuComponents);
-    }
-  }, [selectedTab, cpuComponents, gpuComponents]);
 
-  const handleTabChange = (title) => {
-    setSelectedTab(title);
+  }, [selectedTab, cpuComponents, gpuComponents, mainboardComponents, storageComponents, memoryComponents, caseComponents, powerComponents, coolerComponents]);
+
+  const handleTabChange = (key) => {
+    setSelectedTab(key);
   };
 
   if (isLoading) {
@@ -100,13 +99,18 @@ export default function Component() {
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 h-full">
       <div className="inline-block max-w-lg text-center">
-        <h1 className={title({ color: "" })}>PC 부품&nbsp;</h1>
+        <h1 className={title({ color: "" })}>PC Components&nbsp;</h1>
       </div>
       <Tabs aria-label="Options" selectedKey={selectedTab} onSelectionChange={handleTabChange}>
         <Tab title="All" key="All"></Tab>
         <Tab title="CPU" key="CPU"></Tab>
         <Tab title="GPU" key="GPU"></Tab>
-        {/* 다른 탭을 추가하고 싶다면 여기에 추가 */}
+        <Tab title="MAINBOARD" key="MAINBOARD"></Tab>
+        <Tab title="MEMORY" key="MEMORY"></Tab>
+        <Tab title="STORAGE" key="STORAGE"></Tab>
+        <Tab title="CASE" key="CASE"></Tab>
+        <Tab title="POWER" key="POWER"></Tab>
+        <Tab title="COOLER" key="COOLER"></Tab>
       </Tabs>
       <div
         className="grid gap-x-8 gap-y-4 grid-cols-3 mt-4 overflow-y-auto hide-scrollbar"
@@ -114,10 +118,11 @@ export default function Component() {
       >
         {filteredComponents.map((component) => (
           <MyCard
-            key={component.ComponentID}
-            id={component.ComponentID}
-            title={component.name}
-            description={component.specs}
+            key={component[`${selectedTab.toLowerCase()}_id`]}
+            id={component[`${selectedTab.toLowerCase()}_id`]}
+            title={component.model}
+            description={component.company}
+            imageUrl={component.image_url}
           />
         ))}
       </div>

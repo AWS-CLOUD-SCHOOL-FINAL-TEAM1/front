@@ -3,13 +3,20 @@
 export async function ComponentAPI() {
   console.log('test');
   try {
-    const response = await fetch('http://127.0.0.1:8000/filtered-data/', {
+    const response = await fetch('http://127.0.0.1:8000/component/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        categories: ["CPU", "GPU"/*,"MAINBOARD","STORAGE","MEMORY","CASE","POWER","COOLER"*/],
+        "cpu_index": "0",
+        "memory_index": "0",
+        "cooler_index": "0",
+        "case_index": "0",
+        "power_index": "0",
+        "mainboard_index": "0",
+        "gpu_index": "0",
+        "storage_index": "0"
       }),
     });
 
@@ -20,24 +27,25 @@ export async function ComponentAPI() {
     const responseData = await response.json();
     console.log('Fetched data:', responseData);
 
-    const { data } = responseData;
+    const { cpu, gpu, mainboard, memory, storage, power, cooler, case: pcCase } = responseData;
 
-    if (!data || !data.CPU || !data.GPU /*|| !data.MAINBOARD|| !data.MEMORY|| !data.STORAGE|| !data.POWER|| !data.COOLER|| !data.CASE */) {
+    if (!Array.isArray(cpu) || !Array.isArray(gpu) || 
+        !Array.isArray(mainboard) || !Array.isArray(memory) || 
+        !Array.isArray(storage) || !Array.isArray(power) || 
+        !Array.isArray(cooler) || !Array.isArray(pcCase)) {
       throw new Error('Invalid data structure');
     }
 
-    const cpuData = Array.isArray(data.CPU) ? data.CPU : Object.values(data.CPU || {});
-    const gpuData = Array.isArray(data.GPU) ? data.GPU : Object.values(data.GPU || {});
-    /*
-    const mainboardData = Array.isArray(data.MAINBOARD) ? data.MAINBOARD : Object.values(data.MAINBOARD || {});
-    const memoryData = Array.isArray(data.MEMORY) ? data.MEMORY : Object.values(data.MEMORY || {});
-    const storageData = Array.isArray(data.STORAGE) ? data.STORAGE : Object.values(data.STORAGE || {});
-    const powerData = Array.isArray(data.POWER) ? data.POWER : Object.values(data.POWER || {});
-    const coolerData = Array.isArray(data.COOLER) ? data.COOLER : Object.values(data.COOLER || {});
-    const caseData = Array.isArray(data.CASE) ? data.CASE : Object.values(data.CASE || {});
-    */
-
-    return { cpuData, gpuData/*,mainboardData,memoryData,storageData,powerData,coolerData,caseData*/ };
+    return { 
+      cpuData: cpu, 
+      gpuData: gpu, 
+      mainboardData: mainboard, 
+      memoryData: memory, 
+      storageData: storage, 
+      powerData: power, 
+      coolerData: cooler, 
+      caseData: pcCase 
+    };
   } catch (error) {
     console.error('Fetch components failed:', error.message);
     throw error;
