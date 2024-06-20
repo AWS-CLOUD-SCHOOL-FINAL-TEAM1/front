@@ -17,7 +17,7 @@ export default function Mypage() {
       if (user && user.userId) {
         try {
           const orderResponse = await axios.post(
-            "http://127.0.0.1:8000/get_order_list/",
+            `${process.env.NEXT_PUBLIC_API_KEY}/get_order_list/`,
             { user_id: user.userId }
           );
           setOrderData(orderResponse.data);

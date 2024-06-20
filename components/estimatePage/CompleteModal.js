@@ -55,7 +55,7 @@ const CompleteModal = ({
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/create_order/",
+        `${process.env.NEXT_PUBLIC_API_KEY}/create_order/`,
         orderData
       );
       console.log("Order created successfully:", response.data);

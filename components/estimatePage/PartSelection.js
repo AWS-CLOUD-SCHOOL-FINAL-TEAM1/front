@@ -43,7 +43,7 @@ const PartSelection = ({
     const fetchComponentList = async () => {
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8000/get_component_list/",
+          `${process.env.NEXT_PUBLIC_API_KEY}/get_component_list/`,
           { component_type: componentTypeMap[selectedPart] }
         );
         console.log("API response data:", response.data); // Log API response

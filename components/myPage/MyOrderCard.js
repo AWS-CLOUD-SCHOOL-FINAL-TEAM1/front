@@ -16,7 +16,7 @@ const MyOrderCard = ({ order }) => {
     const fetchCaseDetails = async () => {
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8000/component_detail/",
+          `${process.env.NEXT_PUBLIC_API_KEY}/component_detail/`,
           {
             component_id: PcCaseID,
             component_type: PcCaseType,

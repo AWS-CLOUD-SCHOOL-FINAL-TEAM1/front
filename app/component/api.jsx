@@ -3,34 +3,37 @@
 export async function ComponentAPI(index = 0) {
   console.log("Fetching data with index:", index);
   try {
-    const response = await fetch("http://127.0.0.1:8000/get_table_data/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        table_names: [
-          "Cpu",
-          "Gpu",
-          "Memory",
-          "Storage",
-          "PcCase",
-          "Mainboard",
-          "Power",
-          "Cooler",
-        ],
-        table_pages: {
-          Cpu: index,
-          Gpu: index,
-          Memory: index,
-          Storage: index,
-          PcCase: index,
-          Mainboard: index,
-          Power: index,
-          Cooler: index,
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_KEY}/get_table_data/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      }),
-    });
+        body: JSON.stringify({
+          table_names: [
+            "Cpu",
+            "Gpu",
+            "Memory",
+            "Storage",
+            "PcCase",
+            "Mainboard",
+            "Power",
+            "Cooler",
+          ],
+          table_pages: {
+            Cpu: index,
+            Gpu: index,
+            Memory: index,
+            Storage: index,
+            PcCase: index,
+            Mainboard: index,
+            Power: index,
+            Cooler: index,
+          },
+        }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -69,28 +72,26 @@ export async function ComponentAPI(index = 0) {
   }
 }
 
-
 export const fetchComponentDetail = async (component_id, component_type) => {
   try {
-    const response = await fetch('http://127.0.0.1:8000/component_detail/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        component_id,
-        component_type,
-      }),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_KEY}/component_detail/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          component_id,
+          component_type,
+        }),
+      }
+    );
 
-    if (!response.ok){ 
-      throw new Error('Failed to fetch component details');
+    if (!response.ok) {
+      throw new Error("Failed to fetch component details");
     }
 
     return await response.json();
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
-
-
