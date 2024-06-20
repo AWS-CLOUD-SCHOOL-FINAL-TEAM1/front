@@ -1,42 +1,38 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { myCardData } from "@/data/myCardData";
-import MypageCard from "@/components/MypageCard";
 import { Button } from "@nextui-org/button";
 import { title } from "@/components/primitives";
 import { Tabs, Tab } from "@nextui-org/tabs";
-import MyCard from "@/components/MyCard";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableColumn,
-  TableRow,
-  TableCell,
-} from "@nextui-org/table";
-import alarmData from "@/data/alarmData";
-
-const cardData = [
-  {
-    id: 1,
-    title: "인텔 코어i5-14세대 14400F",
-    description: "Description for card 1",
-  },
-  { id: 2, title: "AMD Ryzen 5 5600X", description: "Description for card 2" },
-  { id: 3, title: "NVIDIA RTX 3080", description: "Description for card 3" },
-  {
-    id: 4,
-    title: "인텔 코어i7-14세대 14700K",
-    description: "Description for card 4",
-  },
-  { id: 5, title: "AMD Ryzen 7 5800X", description: "Description for card 5" },
-  { id: 6, title: "NVIDIA RTX 3090", description: "Description for card 6" },
-];
+import MyOrderCard from "@/components/myPage/MyOrderCard";
+import { getCurrentUser } from "@/auth";
+import axios from "axios";
 
 export default function Mypage() {
+  const [orderData, setOrderData] = useState([]);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const user = await getCurrentUser();
+      if (user && user.userId) {
+        try {
+          const orderResponse = await axios.post(
+            "http://127.0.0.1:8000/get_order_list/",
+            { user_id: user.userId }
+          );
+          setOrderData(orderResponse.data);
+        } catch (error) {
+          console.error("Failed to fetch orders:", error);
+        }
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 h-full w-full">
-      <div className="flex items-center justify-end w-full max-w-lg space-x-4">
+      <div className="flex items-center justify-center w-full max-w-lg space-x-4">
         <h1 className={`${title({ color: "" })}`}>마이페이지&nbsp;</h1>
         <Link href="/estimate">
           <Button
@@ -47,71 +43,28 @@ export default function Mypage() {
           </Button>
         </Link>
       </div>
-      <Tabs aria-label="Options">
+      <Tabs aria-label="Options" className="w-full">
         <Tab title="내 견적">
           <div
             className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 overflow-y-auto hide-scrollbar w-full"
             style={{ height: "calc(100vh - 16rem)" }}
           >
-            {myCardData.map((card) => (
-              <MypageCard
-                key={card.id}
-                id={card.id}
-                title={card.title}
-                description={card.description}
-                details={card.details}
-              />
+            {orderData.map((order) => (
+              <MyOrderCard key={order.OrderID} order={order} />
             ))}
           </div>
         </Tab>
         <Tab title="관심상품" isDisabled>
           <div
-            className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 overflow-y-auto hide-scrollbar"
+            className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 overflow-y-auto hide-scrollbar w-full"
             style={{ height: "calc(100vh - 16rem)" }}
           >
-            {cardData.map((card) => (
-              <MyCard
-                key={card.id}
-                id={card.id}
-                title={card.title}
-                description={card.description}
-              />
-            ))}
+            {/* Placeholder for 관심상품 tab content */}
           </div>
         </Tab>
         <Tab title="알림내역" isDisabled>
           <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white">
-            <Table
-              isStriped
-              aria-label="Component Table"
-              className="w-full text-lg mb-4" // text-lg for larger text size
-              style={{ fontSize: "1.25rem" }} // 1.25rem = 20px
-            >
-              <TableHeader>
-                <TableColumn className="text-lg">부품/견적</TableColumn>
-                <TableColumn className="text-lg">이름</TableColumn>
-                <TableColumn className="text-lg">알림내역</TableColumn>
-                <TableColumn className="text-lg">날짜</TableColumn>
-              </TableHeader>
-              <TableBody>
-                {alarmData.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="text-blue-400 font-semibold text-lg">
-                      {item.type}
-                    </TableCell>
-                    <TableCell className=" font-semibold text-lg">
-                      {item.name}
-                    </TableCell>
-                    <TableCell className=" font-semibold text-lg">
-                      {item.details}
-                    </TableCell>
-                    <TableCell className=" font-semibold text-lg">
-                      {item.date}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            {/* Placeholder for 알림내역 tab content */}
           </div>
         </Tab>
       </Tabs>

@@ -187,10 +187,21 @@ export default function Component() {
       >
         {filteredComponents.map((component) => {
           const specs = Object.keys(component)
-            .filter(key => ![
-              "Model", "Company", "Type", "ImageURL", "URL", "ComponentID", "Shop", "Date", "Price"
-            ].includes(key))
-            .map(key => `${key}: ${component[key]}`);
+            .filter(
+              (key) =>
+                ![
+                  "Model",
+                  "Company",
+                  "Type",
+                  "ImageURL",
+                  "URL",
+                  "ComponentID",
+                  "Shop",
+                  "Date",
+                  "Price",
+                ].includes(key)
+            )
+            .map((key) => `${key}: ${component[key]}`);
           return (
             <MyCard
               key={component.ComponentID}

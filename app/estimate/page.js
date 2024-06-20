@@ -1,32 +1,12 @@
 "use client";
-
 import React, { useState } from "react";
 import { ScrollShadow } from "@nextui-org/react";
-
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import { cpuData } from "@/data/partsData/cpuData";
-import { mainboardData } from "@/data/partsData/mainboardData";
-import { memoryData } from "@/data/partsData/memoryData";
-import { gpuData } from "@/data/partsData/gpuData";
-import { coolerData } from "@/data/partsData/coolerData";
-import { ssdData } from "@/data/partsData/ssdData";
-import { caseData } from "@/data//partsData/caseData";
-import { powerData } from "@/data/partsData/powerData";
 import EstimateTable from "@/components/estimatePage/EstimateTable";
 import PartSelection from "@/components/estimatePage/PartSelection";
 import CompareModal from "@/components/estimatePage/CompareModal";
 import CompleteModal from "@/components/estimatePage/CompleteModal";
-
-const optionsData = {
-  CPU: cpuData,
-  메인보드: mainboardData,
-  메모리: memoryData,
-  그래픽카드: gpuData,
-  쿨러: coolerData,
-  SSD: ssdData,
-  케이스: caseData,
-  파워: powerData,
-};
 
 const Estimate = () => {
   const [estimate, setEstimate] = useState({
@@ -70,14 +50,37 @@ const Estimate = () => {
     setIsCompleteModalOpen(true);
   };
 
-  const handleConfirmComplete = () => {
-    setIsCompleteModalOpen(false);
-    router.push("/mypage");
+  const handleConfirmComplete = async () => {
+    try {
+      await axios.post("http://127.0.0.1:8000/create_order/", {
+        user_id: "jms",
+        cpu_id: estimate.CPU.ComponentID,
+        cpu_type: estimate.CPU.Type,
+        gpu_id: estimate.그래픽카드.ComponentID,
+        gpu_type: estimate.그래픽카드.Type,
+        memory_id: estimate.메모리.ComponentID,
+        memory_type: estimate.메모리.Type,
+        storage_id: estimate.SSD.ComponentID,
+        storage_type: estimate.SSD.Type,
+        pc_case_id: estimate.케이스.ComponentID,
+        pc_case_type: estimate.케이스.Type,
+        mainboard_id: estimate.메인보드.ComponentID,
+        mainboard_type: estimate.메인보드.Type,
+        cooler_id: estimate.쿨러.ComponentID,
+        cooler_type: estimate.쿨러.Type,
+        power_id: estimate.파워.ComponentID,
+        power_type: estimate.파워.Type,
+      });
+      setIsCompleteModalOpen(false);
+      router.push("/mypage");
+    } catch (error) {
+      console.error("Failed to create order:", error);
+    }
   };
 
   return (
-    <ScrollShadow hideScrollBar size={100} className="w-full h-[55rem]">
-      <div className="m-8 bg-gray-100  h-60vh">
+    <ScrollShadow hideScrollBar size={100} className="w-full h-[60rem]">
+      <div className="m-8 bg-gray-100  h-80vh w-80vw">
         <ScrollShadow hideScrollBar size={100} className="w-full h-[55rem]">
           <div className="bg-white p-4 rounded shadow-md flex flex-col md:flex-row gap-4 ">
             <EstimateTable
@@ -88,7 +91,6 @@ const Estimate = () => {
             />
             <PartSelection
               selectedPart={selectedPart}
-              optionsData={optionsData}
               handleCompare={handleCompare}
               handleAddOption={handleAddOption}
               compareParts={compareParts}

@@ -1,5 +1,4 @@
 import React from "react";
-import { ScrollShadow } from "@nextui-org/react";
 
 const EstimateTable = ({
   estimate,
@@ -7,6 +6,8 @@ const EstimateTable = ({
   setSelectedPart,
   handleComplete,
 }) => {
+  const isComplete = Object.values(estimate).every((part) => part !== null);
+
   return (
     <div className="w-full md:w-1/2 p-4">
       <h1 className="text-2xl md:text-3xl font-bold mb-4 text-center md:text-left">
@@ -28,7 +29,7 @@ const EstimateTable = ({
             >
               <td className="border px-2 md:px-4 py-2">{partType}</td>
               <td className="border px-2 md:px-4 py-2">
-                {estimate[partType] ? estimate[partType].name : "Not Selected"}
+                {estimate[partType] ? estimate[partType].Model : "Not Selected"}
               </td>
               <td className="border px-2 md:px-4 py-2">
                 <button
@@ -48,8 +49,18 @@ const EstimateTable = ({
       </table>
       <div className="flex justify-center mt-4">
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleComplete}
+          className={`bg-blue-500 text-white px-4 py-2 rounded ${
+            isComplete ? "" : "opacity-50 cursor-not-allowed"
+          }`}
+          onClick={
+            isComplete
+              ? handleComplete
+              : () =>
+                  alert(
+                    "Please select all parts before completing the estimate."
+                  )
+          }
+          disabled={!isComplete}
         >
           Complete
         </button>

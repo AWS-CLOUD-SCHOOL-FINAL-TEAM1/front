@@ -85,28 +85,7 @@ const Filter = ({
             </div>
           </div>
         );
-      case "쿨러":
-        return (
-          <div className="flex flex-col space-y-2">
-            <label className="font-semibold">Type</label>
-            <div className="flex space-x-2">
-              <Checkbox
-                onChange={(e) =>
-                  toggleFilter("type", e.target.checked ? "CPU" : "")
-                }
-              >
-                CPU
-              </Checkbox>
-              <Checkbox
-                onChange={(e) =>
-                  toggleFilter("type", e.target.checked ? "System" : "")
-                }
-              >
-                System
-              </Checkbox>
-            </div>
-          </div>
-        );
+
       case "메인보드":
         return (
           <div className="flex flex-col space-y-2">
@@ -249,7 +228,7 @@ const Filter = ({
                   toggleFilter("formFactor", e.target.checked ? "2.5" : "")
                 }
               >
-                2.5"
+                2.5
               </Checkbox>
               <Checkbox
                 onChange={(e) =>
@@ -383,25 +362,25 @@ const Filter = ({
       case "케이스":
         return (
           <div className="flex flex-col space-y-2">
-            <label className="font-semibold">Board Size</label>
+            <label className="font-semibold">PowerSize</label>
             <div className="flex space-x-2">
               <Checkbox
                 onChange={(e) =>
-                  toggleFilter("boardSize", e.target.checked ? "ATX" : "")
+                  toggleFilter("PowerSize", e.target.checked ? "ATX" : "")
                 }
               >
                 ATX
               </Checkbox>
               <Checkbox
                 onChange={(e) =>
-                  toggleFilter("boardSize", e.target.checked ? "Micro-ATX" : "")
+                  toggleFilter("PowerSize", e.target.checked ? "Micro-ATX" : "")
                 }
               >
                 Micro-ATX
               </Checkbox>
               <Checkbox
                 onChange={(e) =>
-                  toggleFilter("boardSize", e.target.checked ? "Mini-ITX" : "")
+                  toggleFilter("PowerSize", e.target.checked ? "Mini-ITX" : "")
                 }
               >
                 Mini-ITX

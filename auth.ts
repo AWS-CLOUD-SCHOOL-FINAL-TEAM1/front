@@ -3,7 +3,7 @@ import {
   GlobalSignOutCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { parseCookies, destroyCookie } from "nookies";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; // Note the corrected import
 
 const client = new CognitoIdentityProviderClient({
   region: process.env.NEXT_PUBLIC_AWS_REGION,
@@ -12,6 +12,7 @@ const client = new CognitoIdentityProviderClient({
 interface User {
   username: string;
   name: string;
+  userId: string; // Add userId to the User interface
 }
 
 export const getCurrentUser = async (): Promise<User | null> => {
@@ -27,12 +28,14 @@ export const getCurrentUser = async (): Promise<User | null> => {
     const decoded: any = jwtDecode(idToken);
     const username = decoded["cognito:username"] || decoded["sub"];
     const name = decoded["name"];
+    const userId = decoded["identities"]?.[0]?.userId; // Extract userId
 
     console.log("Decoded ID Token:", decoded);
     console.log("Username:", username);
     console.log("Name:", name);
+    console.log("User ID:", userId);
 
-    return { username, name };
+    return { username, name, userId };
   } catch (error) {
     console.log("Error decoding token:", error);
     return null;
