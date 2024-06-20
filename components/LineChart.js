@@ -22,7 +22,7 @@ ChartJS.register(
   Filler
 );
 
-const LineChart = ({ data }) => {
+const LineChart = ({ data, width = "800px", height = "500px" }) => {
   const chartData = {
     labels: data.map((entry) => entry.date),
     datasets: [
@@ -79,14 +79,18 @@ const LineChart = ({ data }) => {
         },
         ticks: {
           callback: function(value) {
-            return '$' + value;
+            return '₩' + value;
           }
         }
       }
     },
   };
 
-  return <Line data={chartData} options={options} />;
+  return (
+    <div style={{ width, height }}>
+      <Line data={chartData} options={options} />
+    </div>
+  );
 };
 
 export default LineChart;

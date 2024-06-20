@@ -116,7 +116,7 @@ export default function Component() {
           ...PcCase,
         ]);
       } else {
-        setFilteredComponents(components[key] || []);
+        setFilteredComponents(components[key]);
       }
     };
 
@@ -199,6 +199,9 @@ export default function Component() {
                   "Shop",
                   "Date",
                   "Price",
+                  "LowestPrice",
+                  "LowestShop",
+                  "LowestURL",
                 ].includes(key)
             )
             .map((key) => `${key}: ${component[key]}`);
@@ -209,7 +212,7 @@ export default function Component() {
               title={component.Model}
               specs={specs}
               componentType={component.Type}
-              price={component.Price}
+              price={component.LowestPrice}
               imageUrl={component.ImageURL}
             />
           );
