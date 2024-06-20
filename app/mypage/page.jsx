@@ -64,7 +64,7 @@ export default function Mypage() {
             ))}
           </div>
         </Tab>
-        <Tab title="관심상품">
+        <Tab title="관심상품" isDisabled>
           <div
             className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 overflow-y-auto hide-scrollbar"
             style={{ height: "calc(100vh - 16rem)" }}
@@ -79,7 +79,7 @@ export default function Mypage() {
             ))}
           </div>
         </Tab>
-        <Tab title="알림내역">
+        <Tab title="알림내역" isDisabled>
           <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white">
             <Table
               isStriped
