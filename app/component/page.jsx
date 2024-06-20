@@ -116,7 +116,7 @@ export default function Component() {
           ...PcCase,
         ]);
       } else {
-        setFilteredComponents(components[key] || []);
+        setFilteredComponents(components[key]);
       }
     };
 
@@ -188,7 +188,7 @@ export default function Component() {
         {filteredComponents.map((component) => {
           const specs = Object.keys(component)
             .filter(key => ![
-              "Model", "Company", "Type", "ImageURL", "URL", "ComponentID", "Shop", "Date", "Price"
+              "Model", "Company", "Type", "ImageURL", "URL", "ComponentID", "Shop", "Date", "Price","LowestPrice", "LowestShop","LowestURL"
             ].includes(key))
             .map(key => `${key}: ${component[key]}`);
           return (
@@ -198,7 +198,7 @@ export default function Component() {
               title={component.Model}
               specs={specs}
               componentType={component.Type}
-              price={component.Price}
+              price={component.LowestPrice}
               imageUrl={component.ImageURL}
             />
           );

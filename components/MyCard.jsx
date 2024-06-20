@@ -8,7 +8,7 @@ import Link from "next/link";
 const MyCard = ({ id, title, specs, componentType, price, imageUrl }) => {
   return (
     <Link href={`/component/${id}?componentType=${componentType}`} passHref>
-      <Card className="py-4 cursor-pointer" style={{ width: "360px", height: "460px" }}>
+      <Card className="py-4 cursor-pointer" style={{ width: "360px", height: "550px" }}>
         <Checkbox
           className=" transform scale-125 font-semibold ml-2"
           icon={<HeartIcon />}
@@ -26,7 +26,7 @@ const MyCard = ({ id, title, specs, componentType, price, imageUrl }) => {
         <CardBody className="overflow-visible py-2 items-center">
           <h4 className="font-bold text-large mb-2">{title}</h4>
           <h2 className="font-bold text-large mb-2">최저가:&nbsp;₩{price}</h2>
-          <Card className="bg-white w-full">
+          <Card className="mt-5 bg-white w-full">
             <CardHeader className="pb-0">
               <h2 className="font-bold text-xl">부품 상세 스펙</h2>
             </CardHeader>
