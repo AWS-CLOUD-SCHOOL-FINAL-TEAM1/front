@@ -25,8 +25,6 @@ const Estimate = () => {
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
   const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false);
 
-  const router = useRouter();
-
   const handleAddOption = (partType, option) => {
     setEstimate({ ...estimate, [partType]: option });
   };
@@ -48,34 +46,6 @@ const Estimate = () => {
 
   const handleComplete = () => {
     setIsCompleteModalOpen(true);
-  };
-
-  const handleConfirmComplete = async () => {
-    try {
-      await axios.post("http://127.0.0.1:8000/create_order/", {
-        user_id: "jms",
-        cpu_id: estimate.CPU.ComponentID,
-        cpu_type: estimate.CPU.Type,
-        gpu_id: estimate.그래픽카드.ComponentID,
-        gpu_type: estimate.그래픽카드.Type,
-        memory_id: estimate.메모리.ComponentID,
-        memory_type: estimate.메모리.Type,
-        storage_id: estimate.SSD.ComponentID,
-        storage_type: estimate.SSD.Type,
-        pc_case_id: estimate.케이스.ComponentID,
-        pc_case_type: estimate.케이스.Type,
-        mainboard_id: estimate.메인보드.ComponentID,
-        mainboard_type: estimate.메인보드.Type,
-        cooler_id: estimate.쿨러.ComponentID,
-        cooler_type: estimate.쿨러.Type,
-        power_id: estimate.파워.ComponentID,
-        power_type: estimate.파워.Type,
-      });
-      setIsCompleteModalOpen(false);
-      router.push("/mypage");
-    } catch (error) {
-      console.error("Failed to create order:", error);
-    }
   };
 
   return (
@@ -109,7 +79,7 @@ const Estimate = () => {
             isCompleteModalOpen={isCompleteModalOpen}
             setIsCompleteModalOpen={setIsCompleteModalOpen}
             estimate={estimate}
-            handleConfirmComplete={handleConfirmComplete}
+            handleConfirmComplete={() => setIsCompleteModalOpen(false)}
           />
         </ScrollShadow>
       </div>
