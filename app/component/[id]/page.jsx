@@ -1,4 +1,3 @@
-// app/component/[id]/page.jsx
 "use client";
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from 'next/navigation';
@@ -16,9 +15,12 @@ import {
   TableCell,
 } from "@nextui-org/table";
 import LineChart from "@/components/LineChart";
+import priceData from "../../../data/priceData";
+import chartData from "@/data/chartData"; // Ensure this data has the correct format
 import { fetchComponentDetail } from "@/app/component/api";
 
 const CardDetail = () => {
+
   const params = useParams();
   const searchParams = useSearchParams();
   const { id } = params;
@@ -27,7 +29,6 @@ const CardDetail = () => {
   const [componentDetail, setComponentDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
   useEffect(() => {
     if (id && componentType) {
       const fetchData = async () => {
@@ -76,9 +77,14 @@ const CardDetail = () => {
     { date: "2024-06-02", price: 110 },
     { date: "2024-06-03", price: 105 },
   ];
+  const excludedKeys = ["Model", "Company", "Type", "ImageURL", "URL", "ComponentID", "Shop", "Date", "Price"];
+  const detailedInfo = Object.entries(componentDetail[0])
+    .filter(([key]) => !excludedKeys.includes(key))
+    .map(([key, value]) => `${key}: ${value}`)
+    .join(" / ");
 
   return (
-    <div className="relative flex flex-col items-center p-6 md:p-20 rounded-xl bg-white">
+    <div className=" relative flex flex-col items-center p-4 md:p-20 rounded-xl bg-white ">
       <Checkbox
         className="absolute top-4 left-10 transform scale-125 font-semibold"
         icon={<HeartIcon />}
@@ -86,17 +92,17 @@ const CardDetail = () => {
         관심상품
       </Checkbox>
       <ScrollShadow hideScrollBar size={100} className="w-full h-[45rem]">
-        <div className="items-center mt-5 mb-10 flex flex-col md:flex-row w-full max-w-4xl mb-4">
+        <div className="mt-5 mb-10 flex flex-col md:flex-row w-full max-w-4xl mb-4">
           <div className="flex-1 pr-0 md:pr-8 mb-4 md:mb-0">
             <div
               className="relative shadow-black/5 shadow-none rounded-xl"
               style={{ width: "100%", height: "auto" }}
             >
               <Image
-                src={"https://spoidimage.s3.ap-northeast-2.amazonaws.com/test.jpeg"}
+                src="https://nextui.org/images/hero-card-complete.jpeg"
                 alt="Detail Image"
                 className="object-cover rounded-xl"
-                style={{ width: "100%", height: 400, objectFit: "cover" }}
+                style={{ width: '700px', width: 700, objectFit: "cover" }}
               />
             </div>
           </div>
@@ -107,7 +113,7 @@ const CardDetail = () => {
             <Card className="bg-white mb-4">
               <CardHeader className="pb-2">
                 <h2 className="font-bold text-xl md:text-2xl">
-                  {componentDetail[0].Model}
+                {componentDetail[0].Model}
                 </h2>
               </CardHeader>
             </Card>
@@ -126,23 +132,50 @@ const CardDetail = () => {
                 </TableColumn>
               </TableHeader>
               <TableBody>
-                {Object.entries(componentDetail[0]).map(([key, value]) => (
-                  <TableRow key={key}>
-                    <TableCell className="text-blue-700 font-semibold text-base md:text-lg">
-                      {key}
+                {priceData.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="text-blue-400 font-semibold text-base md:text-lg">
+                      {item.component}
                     </TableCell>
                     <TableCell className="text-base md:text-lg">
-                      {value}
+                      {item.details}
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
 
-            <div className="w-full max-w-4xl mt-2">
+            <div className="w-full max-w-4xl mt-4">
               <LineChart data={data} />
             </div>
           </div>
+        </div>
+        <div className="mt-10 mb-10">
+          <Card className="bg-white mb-4 w-full max-w-4xl">
+            <CardHeader className="pb-2">
+              <h2 className="font-bold text-lg md:text-xl">
+                Detail Information
+              </h2>
+            </CardHeader>
+            <CardBody className="pt-2">
+              <p className="text-sm md:text-base">
+              {detailedInfo}
+              </p>
+            </CardBody>
+          </Card>
+          <Card className="bg-white mb-4 w-full max-w-4xl">
+            <CardHeader className="pb-2">
+              <h2 className="font-bold text-lg md:text-xl">
+                Detail Information
+              </h2>
+            </CardHeader>
+            <CardBody className="pt-2">
+              <p className="text-sm md:text-base">
+                "인텔(소켓1700)/10nm(인텔7)/P6+E4코어/12+4스레드/기본
+                클럭:2.5GHz/최대 클럭:4.7GHz/L2 캐시:9.5MB/L3 캐시:20MB"
+              </p>
+            </CardBody>
+          </Card>
         </div>
       </ScrollShadow>
     </div>
