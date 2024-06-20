@@ -43,7 +43,7 @@ export default function Mypage() {
           </Button>
         </Link>
       </div>
-      <Tabs aria-label="Options" className="w-full">
+      <Tabs aria-label="Options" className="w-full items-center justify-center">
         <Tab title="내 견적">
           <div
             className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 overflow-y-auto hide-scrollbar w-full"
@@ -58,14 +58,10 @@ export default function Mypage() {
           <div
             className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 overflow-y-auto hide-scrollbar w-full"
             style={{ height: "calc(100vh - 16rem)" }}
-          >
-            {/* Placeholder for 관심상품 tab content */}
-          </div>
+          ></div>
         </Tab>
         <Tab title="알림내역" isDisabled>
-          <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white">
-            {/* Placeholder for 알림내역 tab content */}
-          </div>
+          <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white"></div>
         </Tab>
       </Tabs>
     </section>
