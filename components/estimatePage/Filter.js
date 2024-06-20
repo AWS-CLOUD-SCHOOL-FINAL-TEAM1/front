@@ -35,8 +35,10 @@ const Filter = ({
       case "CPU":
         return (
           <div className="flex flex-col space-y-2">
-            <label className="font-semibold">Cores</label>
-            <div className="flex space-x-2">
+            <label className="font-semibold" htmlFor="cores">
+              Cores
+            </label>
+            <div className="flex space-x-2" id="cores">
               <Checkbox
                 onChange={(e) =>
                   toggleFilter("cores", e.target.checked ? "4" : "")
@@ -59,8 +61,11 @@ const Filter = ({
                 8
               </Checkbox>
             </div>
-            <label className="font-semibold">Threads</label>
-            <div className="flex space-x-2">
+
+            <label className="font-semibold" htmlFor="threads">
+              Threads
+            </label>
+            <div className="flex space-x-2" id="threads">
               <Checkbox
                 onChange={(e) =>
                   toggleFilter("threads", e.target.checked ? "8" : "")
@@ -85,12 +90,37 @@ const Filter = ({
             </div>
           </div>
         );
-
+      case "쿨러":
+        return (
+          <div className="flex flex-col space-y-2">
+            <label className="font-semibold" htmlFor="type">
+              Type
+            </label>
+            <div className="flex space-x-2" id="type">
+              <Checkbox
+                onChange={(e) =>
+                  toggleFilter("type", e.target.checked ? "CPU" : "")
+                }
+              >
+                CPU
+              </Checkbox>
+              <Checkbox
+                onChange={(e) =>
+                  toggleFilter("type", e.target.checked ? "System" : "")
+                }
+              >
+                System
+              </Checkbox>
+            </div>
+          </div>
+        );
       case "메인보드":
         return (
           <div className="flex flex-col space-y-2">
-            <label className="font-semibold">Socket</label>
-            <div className="flex space-x-2">
+            <label className="font-semibold" htmlFor="socket">
+              Socket
+            </label>
+            <div className="flex space-x-2" id="socket">
               <Checkbox
                 onChange={(e) =>
                   toggleFilter("socket", e.target.checked ? "LGA1200" : "")
@@ -120,8 +150,11 @@ const Filter = ({
                 AM5
               </Checkbox>
             </div>
-            <label className="font-semibold">Chipset</label>
-            <div className="flex space-x-2">
+
+            <label className="font-semibold" htmlFor="chipset">
+              Chipset
+            </label>
+            <div className="flex space-x-2" id="chipset">
               <Checkbox
                 onChange={(e) =>
                   toggleFilter("chipset", e.target.checked ? "Intel H" : "")
@@ -170,8 +203,10 @@ const Filter = ({
       case "메모리":
         return (
           <div className="flex flex-col space-y-2">
-            <label className="font-semibold">DDR</label>
-            <div className="flex space-x-2">
+            <label className="font-semibold" htmlFor="ddr">
+              DDR
+            </label>
+            <div className="flex space-x-2" id="ddr">
               <Checkbox
                 onChange={(e) =>
                   toggleFilter("ddr", e.target.checked ? "4" : "")
@@ -192,8 +227,10 @@ const Filter = ({
       case "그래픽카드":
         return (
           <div className="flex flex-col space-y-2">
-            <label className="font-semibold">Chipset</label>
-            <div className="flex space-x-2">
+            <label className="font-semibold" htmlFor="gpuChipset">
+              Chipset
+            </label>
+            <div className="flex space-x-2" id="gpuChipset">
               <Checkbox
                 onChange={(e) =>
                   toggleFilter("chipset", e.target.checked ? "NVIDIA" : "")
@@ -221,8 +258,10 @@ const Filter = ({
       case "SSD":
         return (
           <div className="flex flex-col space-y-2">
-            <label className="font-semibold">Form Factor</label>
-            <div className="flex space-x-2">
+            <label className="font-semibold" htmlFor="formFactor">
+              Form Factor
+            </label>
+            <div className="flex space-x-2" id="formFactor">
               <Checkbox
                 onChange={(e) =>
                   toggleFilter("formFactor", e.target.checked ? "2.5" : "")
@@ -264,8 +303,10 @@ const Filter = ({
       case "파워":
         return (
           <div className="flex flex-col space-y-2">
-            <label className="font-semibold">Output Power</label>
-            <div className="grid grid-cols-3 gap-2">
+            <label className="font-semibold" htmlFor="outputPower">
+              Output Power
+            </label>
+            <div className="grid grid-cols-3 gap-2" id="outputPower">
               <Checkbox
                 onChange={(e) =>
                   toggleFilter("outputPower", e.target.checked ? "300W" : "")
@@ -337,8 +378,11 @@ const Filter = ({
                 1200W
               </Checkbox>
             </div>
-            <label className="font-semibold">Product Type</label>
-            <div className="flex space-x-2">
+
+            <label className="font-semibold" htmlFor="productType">
+              Product Type
+            </label>
+            <div className="flex space-x-2" id="productType">
               <Checkbox
                 onChange={(e) =>
                   toggleFilter("productType", e.target.checked ? "Modular" : "")
@@ -362,25 +406,27 @@ const Filter = ({
       case "케이스":
         return (
           <div className="flex flex-col space-y-2">
-            <label className="font-semibold">PowerSize</label>
-            <div className="flex space-x-2">
+            <label className="font-semibold" htmlFor="boardSize">
+              Board Size
+            </label>
+            <div className="flex space-x-2" id="boardSize">
               <Checkbox
                 onChange={(e) =>
-                  toggleFilter("PowerSize", e.target.checked ? "ATX" : "")
+                  toggleFilter("boardSize", e.target.checked ? "ATX" : "")
                 }
               >
                 ATX
               </Checkbox>
               <Checkbox
                 onChange={(e) =>
-                  toggleFilter("PowerSize", e.target.checked ? "Micro-ATX" : "")
+                  toggleFilter("boardSize", e.target.checked ? "Micro-ATX" : "")
                 }
               >
                 Micro-ATX
               </Checkbox>
               <Checkbox
                 onChange={(e) =>
-                  toggleFilter("PowerSize", e.target.checked ? "Mini-ITX" : "")
+                  toggleFilter("boardSize", e.target.checked ? "Mini-ITX" : "")
                 }
               >
                 Mini-ITX
@@ -403,24 +449,24 @@ const Filter = ({
   return (
     <div className="p-4 border rounded bg-white shadow-md">
       <Input
-        type="text"
-        placeholder="Search by name"
-        value={keyword}
-        onChange={handleKeywordChange}
         className="mb-4"
         fullWidth
+        onChange={handleKeywordChange}
+        placeholder="Search by name"
+        type="text"
+        value={keyword}
       />
       <div className="space-y-4">{renderSpecificFilters()}</div>
       <div className="mt-4">
         <Slider
-          label="Price Range"
-          step={1}
-          minValue={0}
-          maxValue={maxPrice}
-          value={priceRange}
-          onChange={handleSliderChange}
-          formatOptions={{ style: "currency", currency: "KOR" }}
           className="max-w-md"
+          formatOptions={{ style: "currency", currency: "KOR" }}
+          label="Price Range"
+          maxValue={maxPrice}
+          minValue={0}
+          onChange={handleSliderChange}
+          step={1}
+          value={priceRange}
         />
       </div>
     </div>
