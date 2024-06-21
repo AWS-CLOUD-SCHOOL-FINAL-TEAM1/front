@@ -17,7 +17,7 @@ const CompleteModal = ({
     const fetchUserId = async () => {
       const user = await getCurrentUser();
       if (user && user.userId) {
-        setUserId(user.userId);
+        setUserId(`google_${user.userId}`);
       }
     };
 

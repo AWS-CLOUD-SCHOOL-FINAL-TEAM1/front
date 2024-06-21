@@ -15,10 +15,12 @@ export default function Mypage() {
     const fetchOrders = async () => {
       const user = await getCurrentUser();
       if (user && user.userId) {
+        const userIdWithPrefix = `google_${user.userId}`;
+
         try {
           const orderResponse = await axios.post(
             `${process.env.NEXT_PUBLIC_API_KEY}/get_order_list/`,
-            { user_id: user.userId }
+            { user_id: userIdWithPrefix }
           );
           setOrderData(orderResponse.data);
         } catch (error) {
