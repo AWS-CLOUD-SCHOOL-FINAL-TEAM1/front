@@ -18,7 +18,6 @@ FROM node:22-slim as runner
 WORKDIR /my-space
 
 COPY --from=builder /my-space/package.json ./
-COPY --from=builder /my-space/package-lock.json ./
 COPY --from=builder /my-space/next.config.js ./
 COPY --from=builder /my-space/public ./public
 COPY --from=builder /my-space/.next ./.next
