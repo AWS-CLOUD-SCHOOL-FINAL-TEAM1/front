@@ -1,13 +1,8 @@
 #!/bin/sh
 
-# Export runtime environment variables
-export NEXT_PUBLIC_API_KEY=${NEXT_PUBLIC_API_KEY}
-export NEXT_PUBLIC_COGNITO_DOMAIN=${NEXT_PUBLIC_COGNITO_DOMAIN}
-export NEXT_PUBLIC_USER_POOL_ID=${NEXT_PUBLIC_USER_POOL_ID}
-export NEXT_PUBLIC_AWS_REGION=${NEXT_PUBLIC_AWS_REGION}
-export NEXT_PUBLIC_APP_CLIENT_ID=${NEXT_PUBLIC_APP_CLIENT_ID}
-export NEXT_PUBLIC_APP_CLIENT_SECRET=${NEXT_PUBLIC_APP_CLIENT_SECRET}
-export NEXT_PUBLIC_REDIRECT_SIGNIN=${NEXT_PUBLIC_REDIRECT_SIGNIN}
-export NEXT_PUBLIC_REDIRECT_SIGNOUT=${NEXT_PUBLIC_REDIRECT_SIGNOUT}
+# Load environment variables from .env.local
+if [ -f /my-space/.env.local ]; then
+  export $(grep -v '^#' /my-space/.env.local | xargs)
+fi
 
 exec "$@"
