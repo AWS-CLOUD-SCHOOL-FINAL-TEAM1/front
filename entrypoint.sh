@@ -1,10 +1,7 @@
 #!/bin/sh
 
-# Load environment variables from .env.local
 if [ -f /my-space/.env.local ]; then
-  set -o allexport
-  . /my-space/.env.local
-  set +o allexport
+  export $(grep -v '^#' /my-space/.env.local | xargs)
 fi
 
 echo "Environment variables loaded:"
