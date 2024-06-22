@@ -17,7 +17,9 @@ export async function getComponentDetail (componentId,componentType){
             }),
           }
         );
-        return await response.data[0];
+        const data = await response.json();
+        console.log('componentdetail',data)
+        return data[0];
       } catch (error) {
         console.error("Failed to fetch component details:", error);
         return 'failed';
@@ -41,7 +43,8 @@ export async function getCaseDetail (PcCaseID,PcCaseType ){
           }
 
         );
-          return await response;
+        const data = await response.json();
+        return data;
       } catch (error) {
         console.error("Failed to fetch case details:", error);
       }

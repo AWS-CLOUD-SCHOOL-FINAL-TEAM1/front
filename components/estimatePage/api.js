@@ -34,9 +34,9 @@ export async function CompleteOrder(orderData) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          orderData,
-        }),
+        body: (
+         orderData
+        ),
       }
     );
     console.log("Order created successfully:", response.data);
