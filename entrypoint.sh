@@ -1,19 +1,19 @@
 #!/bin/sh
 
-echo "Starting entrypoint.sh"
-
 # Load environment variables from .env.local
 if [ -f /my-space/.env.local ]; then
-  echo ".env.local file found. Loading environment variables..."
-  set -o allexport
-  source /my-space/.env.local
-  set +o allexport
-else
-  echo ".env.local file not found."
+  export $(cat /my-space/.env.local | xargs)
 fi
 
-echo "Environment variables loaded:"
-env | grep NEXT_PUBLIC
+# Log loaded environment variables for debugging
+echo "Loaded environment variables:"
+echo "NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY"
+echo "NEXT_PUBLIC_COGNITO_DOMAIN=$NEXT_PUBLIC_COGNITO_DOMAIN"
+echo "NEXT_PUBLIC_USER_POOL_ID=$NEXT_PUBLIC_USER_POOL_ID"
+echo "NEXT_PUBLIC_AWS_REGION=$NEXT_PUBLIC_AWS_REGION"
+echo "NEXT_PUBLIC_APP_CLIENT_ID=$NEXT_PUBLIC_APP_CLIENT_ID"
+echo "NEXT_PUBLIC_APP_CLIENT_SECRET=$NEXT_PUBLIC_APP_CLIENT_SECRET"
+echo "NEXT_PUBLIC_REDIRECT_SIGNIN=$NEXT_PUBLIC_REDIRECT_SIGNIN"
+echo "NEXT_PUBLIC_REDIRECT_SIGNOUT=$NEXT_PUBLIC_REDIRECT_SIGNOUT"
 
-echo "Starting the application"
 exec "$@"

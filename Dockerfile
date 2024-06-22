@@ -1,3 +1,4 @@
+# Stage 1: Build the application
 FROM node:22-slim as builder
 
 WORKDIR /my-space
@@ -27,6 +28,7 @@ ENV NEXT_PUBLIC_REDIRECT_SIGNOUT=${NEXT_PUBLIC_REDIRECT_SIGNOUT:-http://localhos
 
 RUN npm run build
 
+# Stage 2: Run the application
 FROM node:22-slim as runner
 
 WORKDIR /my-space
@@ -40,6 +42,7 @@ COPY --from=builder /my-space/node_modules ./node_modules
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+# Create a placeholder for the .env.local file
 RUN touch /my-space/.env.local
 
 EXPOSE 3000

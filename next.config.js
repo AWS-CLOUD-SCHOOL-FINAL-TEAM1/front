@@ -1,5 +1,4 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
   reactStrictMode: true,
   images: {
     remotePatterns: [
@@ -22,7 +21,3 @@ const nextConfig = {
     NEXT_PUBLIC_REDIRECT_SIGNOUT: process.env.NEXT_PUBLIC_REDIRECT_SIGNOUT,
   },
 };
-
-console.log("Loaded environment variables:", nextConfig.publicRuntimeConfig);
-
-module.exports = nextConfig;
