@@ -7,24 +7,7 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/table";
-import axios from "axios";
-
-const fetchComponentDetails = async (componentId, componentType) => {
-  try {
-    const response = await axios.post(
-      `${process.env.API_KEY}/component_detail/`,
-      {
-        component_id: componentId,
-        component_type: componentType,
-      }
-    );
-    return response.data[0];
-  } catch (error) {
-    console.error("Failed to fetch component details:", error);
-    return null;
-  }
-};
-
+import { getComponentDetail } from "./api";
 const ComponentTable = ({ order, style }) => {
   const [componentDetails, setComponentDetails] = useState({});
 
@@ -48,8 +31,12 @@ const ComponentTable = ({ order, style }) => {
       }
       setComponentDetails(details);
     };
-
+    const fetchComponentDetails = async (componentId, componentType) => {
+      const response = await getComponentDetail(componentId, componentType);
+      return response;
+    };
     fetchAllComponentDetails();
+    fetchComponentDetails();
   }, [order]);
 
   const keyDetails = (details) => {

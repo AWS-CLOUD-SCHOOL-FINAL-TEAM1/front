@@ -6,7 +6,7 @@ import Link from "next/link";
 import ComponentTable from "@/components/myPage/ComponentTable";
 import { Image } from "@nextui-org/image";
 import { FaEdit } from "react-icons/fa";
-import axios from "axios";
+import { getCaseDetail } from "./api";
 
 const MyOrderCard = ({ order }) => {
   const { OrderID, PcCaseID, PcCaseType } = order;
@@ -14,14 +14,8 @@ const MyOrderCard = ({ order }) => {
 
   useEffect(() => {
     const fetchCaseDetails = async () => {
+      const response = await getCaseDetail(PcCaseID, PcCaseType);
       try {
-        const response = await axios.post(
-          `${process.env.API_KEY}/component_detail/`,
-          {
-            component_id: PcCaseID,
-            component_type: PcCaseType,
-          }
-        );
         if (response.data.length > 0) {
           setCaseImageUrl(response.data[0].ImageURL);
         }
@@ -29,7 +23,6 @@ const MyOrderCard = ({ order }) => {
         console.error("Failed to fetch case details:", error);
       }
     };
-
     fetchCaseDetails();
   }, [PcCaseID, PcCaseType]);
 

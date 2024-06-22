@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Checkbox } from "@nextui-org/react";
 import Filter from "@/components/estimatePage/Filter";
-import axios from "axios";
-
+import { FetchComponentList } from "./api";
 const PartSelection = ({
   selectedPart,
   handleCompare,
@@ -40,22 +39,11 @@ const PartSelection = ({
   };
 
   useEffect(() => {
-    const fetchComponentList = async () => {
+    const getComponentList = async () => {
       try {
-        const response = await axios.post(
-          `${process.env.API_KEY}/get_component_list/`,
-          { component_type: componentTypeMap[selectedPart] }
-        );
-        console.log("API response data:", response.data); // Log API response
-
-        const data = response.data.map((option) => ({
-          ...option,
-          price: parseFloat(option.LowestPrice.replace(/[^0-9.-]+/g, "")) || 0, // Extract the minimum price
-          DDR: option.DDR || 0, // Default DDR to 0 if not available
-        }));
-
-        console.log("Mapped data:", data); // Log mapped data
-
+        
+        const data = await FetchComponentList(); 
+        console.log(data);
         setOptionsData(data);
         setMaxPrice(Math.max(...data.map((option) => option.price)));
         setFilters({});
@@ -66,7 +54,7 @@ const PartSelection = ({
       }
     };
 
-    fetchComponentList();
+    getComponentList();
   }, [selectedPart]);
 
   const handleFilterChange = (filterType, value) => {

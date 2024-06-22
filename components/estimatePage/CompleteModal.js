@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { getCurrentUser } from "@/auth";
-
+import { CompleteOrder } from "./api";
+import { OrderResponse } from "../../app/mypage/api";
 const CompleteModal = ({
   isCompleteModalOpen,
   setIsCompleteModalOpen,
@@ -49,21 +49,14 @@ const CompleteModal = ({
       power_id: estimate.파워?.ComponentID,
       power_type: "Power",
     };
-
+   
     // 콘솔에 보내는 데이터 출력
     console.log("Sending order data:", orderData);
 
-    try {
-      const response = await axios.post(
-        `${process.env.API_KEY}/create_order/`,
-        orderData
-      );
-      console.log("Order created successfully:", response.data);
-      handleConfirmComplete();
-      router.push("/mypage"); // 주문 생성 후 mypage로 라우팅
-    } catch (error) {
-      console.error("Failed to create order:", error);
-    }
+    const data = await OrderResponse(orderData)
+    console.log("Order created successfully:", data);
+    handleConfirmComplete();
+    router.push("/mypage");
   };
 
   const keyFeaturesMap = {

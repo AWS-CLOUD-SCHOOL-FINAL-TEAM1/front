@@ -6,26 +6,18 @@ import { title } from "@/components/primitives";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import MyOrderCard from "@/components/myPage/MyOrderCard";
 import { getCurrentUser } from "@/auth";
-import axios from "axios";
-
+import { OrderResponse } from "./api";
 export default function Mypage() {
   const [orderData, setOrderData] = useState([]);
-
+  
   useEffect(() => {
+   
     const fetchOrders = async () => {
       const user = await getCurrentUser();
       if (user && user.userId) {
         const userIdWithPrefix = `google_${user.userId}`;
-
-        try {
-          const orderResponse = await axios.post(
-            `${process.env.API_KEY}/get_order_list/`,
-            { user_id: userIdWithPrefix }
-          );
-          setOrderData(orderResponse.data);
-        } catch (error) {
-          console.error("Failed to fetch orders:", error);
-        }
+        const data = await OrderResponse(userIdWithPrefix); 
+        setOrderData(data);
       }
     };
 
