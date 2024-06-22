@@ -3,7 +3,6 @@ FROM node:22-slim as builder
 WORKDIR /my-space
 
 COPY package.json ./
-COPY package-lock.json ./
 RUN npm install
 
 COPY . .
