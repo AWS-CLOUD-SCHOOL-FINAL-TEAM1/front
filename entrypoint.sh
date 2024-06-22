@@ -2,7 +2,9 @@
 
 # Load environment variables from .env.local
 if [ -f /my-space/.env.local ]; then
-  export $(grep -v '^#' /my-space/.env.local | xargs)
+  set -o allexport
+  source /my-space/.env.local
+  set +o allexport
 fi
 
 exec "$@"
