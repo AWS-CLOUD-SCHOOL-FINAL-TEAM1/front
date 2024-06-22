@@ -1,3 +1,4 @@
+# Stage 1: Build the application
 FROM node:22-slim as builder
 
 WORKDIR /my-space
@@ -7,6 +8,7 @@ RUN npm install
 
 COPY . .
 
+# 실제 환경 변수 값 설정
 ARG NEXT_PUBLIC_API_KEY
 ARG NEXT_PUBLIC_COGNITO_DOMAIN
 ARG NEXT_PUBLIC_APP_CLIENT_ID
