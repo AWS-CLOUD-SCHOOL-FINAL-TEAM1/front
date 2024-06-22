@@ -6,7 +6,7 @@ import { parseCookies, destroyCookie } from "nookies";
 import { jwtDecode } from "jwt-decode"; // Note the corrected import
 
 const client = new CognitoIdentityProviderClient({
-  region: process.env.NEXT_PUBLIC_AWS_REGION,
+  region: process.env.AWS_REGION,
 });
 
 interface User {

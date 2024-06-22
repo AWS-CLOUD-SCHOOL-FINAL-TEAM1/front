@@ -4,9 +4,9 @@ import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 
 const {
-  NEXT_PUBLIC_COGNITO_DOMAIN,
-  NEXT_PUBLIC_APP_CLIENT_ID,
-  NEXT_PUBLIC_APP_CLIENT_SECRET,
+  COGNITO_DOMAIN,
+  APP_CLIENT_ID,
+  APP_CLIENT_SECRET,
 } = process.env;
 
 export async function GET(request: NextRequest) {
@@ -25,11 +25,11 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: error || "Unknown error" });
     }
 
-    const authorizationHeader = `Basic ${Buffer.from(`${NEXT_PUBLIC_APP_CLIENT_ID}:${NEXT_PUBLIC_APP_CLIENT_SECRET}`).toString("base64")}`;
+    const authorizationHeader = `Basic ${Buffer.from(`${APP_CLIENT_ID}:${APP_CLIENT_SECRET}`).toString("base64")}`;
 
     const requestBody = new URLSearchParams({
       grant_type: "authorization_code",
-      client_id: NEXT_PUBLIC_APP_CLIENT_ID as string,
+      client_id: APP_CLIENT_ID as string,
       code,
       redirect_uri: `${origin}/api/auth/callback`,
     });
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
     console.log("Authorization Header:", authorizationHeader);
     console.log("Request Body:", requestBody.toString());
 
-    const res = await fetch(`${NEXT_PUBLIC_COGNITO_DOMAIN}/oauth2/token`, {
+    const res = await fetch(`${COGNITO_DOMAIN}/oauth2/token`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

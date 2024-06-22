@@ -4,7 +4,7 @@ export async function ComponentAPI(index = 0) {
   console.log("Fetching data with index:", index);
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_KEY}/get_table_data/`,
+      `${process.env.API_KEY}/get_table_data/`,
       {
         method: "POST",
         headers: {
@@ -75,7 +75,7 @@ export async function ComponentAPI(index = 0) {
 export const fetchComponentDetail = async (component_id, component_type) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_KEY}/component_detail/`,
+      `${process.env.API_KEY}/component_detail/`,
       {
         method: "POST",
         headers: {

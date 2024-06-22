@@ -19,7 +19,7 @@ export default function Mypage() {
 
         try {
           const orderResponse = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_KEY}/get_order_list/`,
+            `${process.env.API_KEY}/get_order_list/`,
             { user_id: userIdWithPrefix }
           );
           setOrderData(orderResponse.data);

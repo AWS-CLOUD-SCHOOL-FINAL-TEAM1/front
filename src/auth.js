@@ -6,7 +6,7 @@ import {
 import { parseCookies, setCookie, destroyCookie } from "nookies";
 
 const client = new CognitoIdentityProviderClient({
-  region: process.env.NEXT_PUBLIC_AWS_REGION,
+  region: process.env.AWS_REGION,
 });
 
 export const getCurrentUser = async () => {

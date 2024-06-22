@@ -12,7 +12,7 @@ import axios from "axios";
 const fetchComponentDetails = async (componentId, componentType) => {
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_KEY}/component_detail/`,
+      `${process.env.API_KEY}/component_detail/`,
       {
         component_id: componentId,
         component_type: componentType,

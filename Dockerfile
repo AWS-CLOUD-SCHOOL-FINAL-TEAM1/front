@@ -1,48 +1,67 @@
-# Stage 1: Build the application
-FROM node:22-slim as builder
+FROM node:18-alpine AS base
 
-WORKDIR /my-space
+# Install dependencies only when needed
+FROM base AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
 
-COPY package.json ./
-RUN npm install
+# Install dependencies based on the preferred package manager
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
+
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# 실제 환경 변수 값 설정
-ARG NEXT_PUBLIC_API_KEY
-ARG NEXT_PUBLIC_COGNITO_DOMAIN
-ARG NEXT_PUBLIC_APP_CLIENT_ID
-ARG NEXT_PUBLIC_APP_CLIENT_SECRET
-ARG NEXT_PUBLIC_USER_POOL_ID
-ARG NEXT_PUBLIC_AWS_REGION
-ARG NEXT_PUBLIC_REDIRECT_SIGNIN
-ARG NEXT_PUBLIC_REDIRECT_SIGNOUT
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line in case you want to disable telemetry during the build.
+# ENV NEXT_TELEMETRY_DISABLED 1
 
-ENV NEXT_PUBLIC_API_KEY=${NEXT_PUBLIC_API_KEY}
-ENV NEXT_PUBLIC_COGNITO_DOMAIN=${NEXT_PUBLIC_COGNITO_DOMAIN}
-ENV NEXT_PUBLIC_APP_CLIENT_ID=${NEXT_PUBLIC_APP_CLIENT_ID}
-ENV NEXT_PUBLIC_APP_CLIENT_SECRET=${NEXT_PUBLIC_APP_CLIENT_SECRET}
-ENV NEXT_PUBLIC_USER_POOL_ID=${NEXT_PUBLIC_USER_POOL_ID}
-ENV NEXT_PUBLIC_AWS_REGION=${NEXT_PUBLIC_AWS_REGION}
-ENV NEXT_PUBLIC_REDIRECT_SIGNIN=${NEXT_PUBLIC_REDIRECT_SIGNIN}
-ENV NEXT_PUBLIC_REDIRECT_SIGNOUT=${NEXT_PUBLIC_REDIRECT_SIGNOUT}
+RUN \
+  if [ -f yarn.lock ]; then yarn run build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-RUN npm run build
+# Production image, copy all the files and run next
+FROM base AS runner
+WORKDIR /app
 
-FROM node:22-slim as runner
+ENV NODE_ENV production
+# Uncomment the following line in case you want to disable telemetry during runtime.
+# ENV NEXT_TELEMETRY_DISABLED 1
 
-WORKDIR /my-space
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /my-space/package.json ./
-COPY --from=builder /my-space/next.config.js ./
-COPY --from=builder /my-space/public ./public
-COPY --from=builder /my-space/.next ./.next
-COPY --from=builder /my-space/node_modules ./node_modules
+COPY --from=builder /app/public ./public
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Set the correct permission for prerender cache
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
 
 EXPOSE 3000
 
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["npm", "start"]
+ENV PORT 3000
+
+# server.js is created by next build from the standalone output
+# https://nextjs.org/docs/pages/api-reference/next-config-js/output
+CMD HOSTNAME="0.0.0.0" node server.js
