@@ -40,7 +40,7 @@ COPY --from=builder /my-space/node_modules ./node_modules
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-COPY .env.local /my-space/.env.local
+RUN touch /my-space/.env.local
 
 EXPOSE 3000
 
