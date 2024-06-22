@@ -41,9 +41,15 @@ const PartSelection = ({
   useEffect(() => {
     const getComponentList = async () => {
       try {
-        
-        const data = await FetchComponentList(); 
-        console.log(data);
+        const selection = componentTypeMap[selectedPart];
+        console.log("selection", selection);
+        const response = await FetchComponentList(selection);
+        const data = response.map((option) => ({
+          ...option,
+          price: parseFloat(option.LowestPrice.replace(/[^0-9.-]+/g, "")) || 0, // Extract the minimum price
+          DDR: option.DDR || 0, // Default DDR to 0 if not available
+        }));
+        //console.log("componentlistdata", data);
         setOptionsData(data);
         setMaxPrice(Math.max(...data.map((option) => option.price)));
         setFilters({});

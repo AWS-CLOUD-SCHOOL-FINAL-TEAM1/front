@@ -10,7 +10,7 @@ const CompleteModal = ({
   estimate,
   handleConfirmComplete,
 }) => {
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -49,11 +49,11 @@ const CompleteModal = ({
       power_id: estimate.파워?.ComponentID,
       power_type: "Power",
     };
-   
+
     // 콘솔에 보내는 데이터 출력
     console.log("Sending order data:", orderData);
 
-    const data = await OrderResponse(orderData)
+    const data = await CompleteOrder(orderData);
     console.log("Order created successfully:", data);
     handleConfirmComplete();
     router.push("/mypage");
