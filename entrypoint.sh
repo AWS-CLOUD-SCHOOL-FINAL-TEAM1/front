@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# Export runtime environment variables
 export NEXT_PUBLIC_API_KEY=${API_KEY}
 export NEXT_PUBLIC_COGNITO_DOMAIN=${COGNITO_DOMAIN}
 export NEXT_PUBLIC_USER_POOL_ID=${USER_POOL_ID}
