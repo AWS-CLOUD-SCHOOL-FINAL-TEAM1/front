@@ -5,6 +5,7 @@ if [ -f /my-space/.env.local ]; then
   export $(grep -v '^#' /my-space/.env.local | xargs)
 fi
 
+# Log loaded environment variables for debugging
 echo "Loaded environment variables:"
 echo "NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY"
 echo "NEXT_PUBLIC_COGNITO_DOMAIN=$NEXT_PUBLIC_COGNITO_DOMAIN"
