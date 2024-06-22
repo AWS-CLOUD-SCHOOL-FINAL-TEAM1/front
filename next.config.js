@@ -1,3 +1,9 @@
+const dotenv = require("dotenv");
+const path = require("path");
+
+// .env.local 파일을 로드
+dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
+
 module.exports = {
   reactStrictMode: true,
   images: {
