@@ -1,7 +1,10 @@
+// components/estimatePage/PartSelection.js
 import React, { useState, useEffect } from "react";
 import { Button, Checkbox } from "@nextui-org/react";
 import Filter from "@/components/estimatePage/Filter";
 import { FetchComponentList } from "./api";
+import { getCurrentUser } from "@/auth"; // getCurrentUser 함수 임포트
+
 const PartSelection = ({
   selectedPart,
   handleCompare,
@@ -14,6 +17,7 @@ const PartSelection = ({
   const [filters, setFilters] = useState({});
   const [maxPrice, setMaxPrice] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [userId, setUserId] = useState(""); // 사용자 ID 상태 추가
   const itemsPerPage = 6;
 
   const componentTypeMap = {
@@ -39,17 +43,26 @@ const PartSelection = ({
   };
 
   useEffect(() => {
+    const fetchUserId = async () => {
+      const user = await getCurrentUser();
+      setUserId(user ? `google_${user.userId}` : ""); // userId 설정
+    };
+
+    fetchUserId();
+  }, []);
+
+  useEffect(() => {
     const getComponentList = async () => {
       try {
         const selection = componentTypeMap[selectedPart];
         console.log("selection", selection);
-        const response = await FetchComponentList(selection);
+        const response = await FetchComponentList(selection, userId || ""); // userId가 없을 경우 빈 문자열로 전달
         const data = response.map((option) => ({
           ...option,
           price: parseFloat(option.LowestPrice.replace(/[^0-9.-]+/g, "")) || 0, // Extract the minimum price
           DDR: option.DDR || 0, // Default DDR to 0 if not available
         }));
-        //console.log("componentlistdata", data);
+        console.log("componentlistdata", data);
         setOptionsData(data);
         setMaxPrice(Math.max(...data.map((option) => option.price)));
         setFilters({});
@@ -60,8 +73,10 @@ const PartSelection = ({
       }
     };
 
-    getComponentList();
-  }, [selectedPart]);
+    if (selectedPart) {
+      getComponentList();
+    }
+  }, [selectedPart, userId]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters({ ...filters, [filterType]: value });

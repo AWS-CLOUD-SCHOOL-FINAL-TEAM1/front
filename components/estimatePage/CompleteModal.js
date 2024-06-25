@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import { useRouter } from "next/navigation";
 import { getCurrentUser } from "@/auth";
 import { CompleteOrder } from "./api";
-import { OrderResponse } from "../../app/mypage/api";
+
 const CompleteModal = ({
   isCompleteModalOpen,
   setIsCompleteModalOpen,
@@ -49,11 +49,10 @@ const CompleteModal = ({
       power_id: estimate.파워?.ComponentID,
       power_type: "Power",
     };
-    console.log('userid',userId)
-    // 콘솔에 보내는 데이터 출력
-    console.log("Sending order data:", orderData);
 
-    const data = await CompleteOrder(JSON.stringify(orderData));
+    console.log("Sending order data:", orderData); // 로그 추가
+
+    const data = await CompleteOrder(orderData); // JSON.stringify 제거
     console.log("Order created successfully:", data);
     handleConfirmComplete();
     router.push("/mypage");

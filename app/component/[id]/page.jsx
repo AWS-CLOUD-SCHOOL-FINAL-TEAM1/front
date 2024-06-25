@@ -1,10 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
-import { Card, CardHeader, CardBody } from "@nextui-org/card";
-import { Checkbox, ScrollShadow, CircularProgress } from "@nextui-org/react";
-import { HeartIcon } from "@/components/HeartIcon.jsx";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CircularProgress,
+  ScrollShadow,
+} from "@nextui-org/react";
 import { Image } from "@nextui-org/image";
+import LineChart from "@/components/LineChart"; // LineChart 컴포넌트 임포트
+import { fetchComponentDetail } from "../api";
+
 import {
   Table,
   TableHeader,
@@ -12,9 +19,7 @@ import {
   TableColumn,
   TableRow,
   TableCell,
-} from "@nextui-org/table";
-import LineChart from "@/components/LineChart";
-import { fetchComponentDetail } from "@/app/component/api";
+} from "@nextui-org/react"; // NextUI 테이블 컴포넌트 임포트
 
 const CardDetail = () => {
   const params = useParams();
@@ -32,12 +37,21 @@ const CardDetail = () => {
       const fetchData = async () => {
         try {
           const detail = await fetchComponentDetail(id, componentType);
+          if (!detail || detail.length === 0) {
+            throw new Error("No component detail found");
+          }
           setComponentDetail(detail);
+
           const sanitizeJSON = (str) => {
-            return str
-              .replace(/'/g, '"')
-              .replace(/,\s*}/g, "}")
-              .replace(/,\s*]/g, "]");
+            try {
+              return str
+                .replace(/'/g, '"')
+                .replace(/,\s*}/g, "}")
+                .replace(/,\s*]/g, "]");
+            } catch (e) {
+              console.error("Error sanitizing JSON:", e);
+              return null;
+            }
           };
 
           const shops = detail[0]?.Shop
@@ -111,12 +125,6 @@ const CardDetail = () => {
 
   return (
     <div className="relative flex flex-col items-center p-4 md:p-20 rounded-xl bg-white">
-      <Checkbox
-        className="absolute top-4 left-10 transform scale-125 font-semibold"
-        icon={<HeartIcon />}
-      >
-        관심상품
-      </Checkbox>
       <ScrollShadow hideScrollBar size={100} className="w-full h-[45rem]">
         <div className="mt-5 flex flex-col md:flex-row w-full max-w-4xl ">
           <div className="flex-1 pr-0 md:pr-8 mb-4 md:mb-0">

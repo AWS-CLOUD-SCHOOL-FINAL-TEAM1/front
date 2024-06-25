@@ -1,61 +1,74 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
-import { Button } from "@nextui-org/button";
-import Link from "next/link";
-import ComponentTable from "@/components/myPage/ComponentTable";
 import { Image } from "@nextui-org/image";
-import { FaEdit } from "react-icons/fa";
-import { getCaseDetail } from "./api";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableColumn,
+  TableRow,
+  TableCell,
+} from "@nextui-org/react";
 
 const MyOrderCard = ({ order }) => {
-  const { OrderID, PcCaseID, PcCaseType } = order;
-  const [caseImageUrl, setCaseImageUrl] = useState("");
-
-  useEffect(() => {
-    const fetchCaseDetails = async () => {
-      const response = await getCaseDetail(PcCaseID, PcCaseType);
-      try {
-        if (response.data.length > 0) {
-          setCaseImageUrl(response.data[0].ImageURL);
-        }
-      } catch (error) {
-        console.error("Failed to fetch case details:", error);
-      }
-    };
-    fetchCaseDetails();
-  }, [PcCaseID, PcCaseType]);
+  const renderOrderDetails = () => {
+    return (
+      <Table aria-label="Order Details">
+        <TableHeader>
+          <TableColumn>Component</TableColumn>
+          <TableColumn>Details</TableColumn>
+        </TableHeader>
+        <TableBody>
+          <TableRow key="CPU">
+            <TableCell>CPU</TableCell>
+            <TableCell>{order.CPU}</TableCell>
+          </TableRow>
+          <TableRow key="GPU">
+            <TableCell>GPU</TableCell>
+            <TableCell>{order.GPU}</TableCell>
+          </TableRow>
+          <TableRow key="Mainboard">
+            <TableCell>Mainboard</TableCell>
+            <TableCell>{order.Mainboard}</TableCell>
+          </TableRow>
+          <TableRow key="Memory">
+            <TableCell>Memory</TableCell>
+            <TableCell>{order.Memory}</TableCell>
+          </TableRow>
+          <TableRow key="Storage">
+            <TableCell>Storage</TableCell>
+            <TableCell>{order.Storage}</TableCell>
+          </TableRow>
+          <TableRow key="PcCase">
+            <TableCell>PC Case</TableCell>
+            <TableCell>{order.PcCase}</TableCell>
+          </TableRow>
+          <TableRow key="Cooler">
+            <TableCell>Cooler</TableCell>
+            <TableCell>{order.Cooler}</TableCell>
+          </TableRow>
+          <TableRow key="Power">
+            <TableCell>Power</TableCell>
+            <TableCell>{order.Power}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    );
+  };
 
   return (
-    <Card className="py-4" style={{ width: "100%", height: "600px" }}>
-      <CardHeader className="pb-0 pt-2 px-4 flex items-center justify-between">
-        <div className="flex space-x-2">
-          <Link href={`/estimate/${OrderID}`}>
-            <Button color="primary" variant="ghost" size="sm">
-              <FaEdit />
-            </Button>
-          </Link>
-        </div>
+    <Card className="p-4 w-full h-auto border border-gray-200 rounded-lg shadow-sm">
+      <CardHeader className="pb-0 text-center">
+        <h2 className="text-lg font-semibold">{order.OrderID}</h2>
       </CardHeader>
-      <Link href={`/mypage/${OrderID}`}>
-        <CardBody className="overflow-visible py-2 items-center mt-4">
-          <Image
-            alt="Case Image"
-            className="object-cover rounded-xl mb-4"
-            src={
-              caseImageUrl ||
-              "https://spoidimage.s3.ap-northeast-2.amazonaws.com/test.jpeg"
-            }
-            width={160}
-            height={160}
-            style={{ width: "160px", height: "160px" }}
-          />
-          <ComponentTable
-            order={order}
-            style={{ width: "100%", height: "320px" }}
-          />
-        </CardBody>
-      </Link>
+      <CardBody className="pt-2">
+        <Image
+          src={order.ImageURL}
+          alt="PC Case Image"
+          className="rounded-xl w-full h-48 object-cover"
+        />
+        {renderOrderDetails()}
+      </CardBody>
     </Card>
   );
 };

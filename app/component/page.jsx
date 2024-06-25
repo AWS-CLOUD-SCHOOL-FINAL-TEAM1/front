@@ -1,62 +1,37 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { ComponentAPI } from "./api";
+import { getCurrentUser } from "@/auth";
 import { title } from "@/components/primitives";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import MyCard from "@/components/MyCard";
 import { CircularProgress } from "@nextui-org/react";
 import { Pagination } from "@nextui-org/pagination";
+import AlarmModal from "@/components/AlarmModal";
+import { ComponentAPI, createHeart, deleteHeart } from "./api";
 
 export default function Component() {
-  const [components, setComponents] = useState({
-    Cpu: [],
-    Gpu: [],
-    Cooler: [],
-    Mainboard: [],
-    Memory: [],
-    Storage: [],
-    PcCase: [],
-    Power: [],
-  });
+  const [components, setComponents] = useState([]);
   const [filteredComponents, setFilteredComponents] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedTab, setSelectedTab] = useState("All");
+  const [selectedTab, setSelectedTab] = useState("Cpu");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // 페이지당 아이템 수를 10으로 설정
+  const itemsPerPage = 10;
+  const [userId, setUserId] = useState("");
+  const [isAlarmModalOpen, setIsAlarmModalOpen] = useState(false);
+  const [currentComponentId, setCurrentComponentId] = useState(null);
+  const [currentComponentType, setCurrentComponentType] = useState(null);
+  const [isAlarmEnabled, setIsAlarmEnabled] = useState(false);
 
-  const fetchData = async (index = 0) => {
+  const fetchData = async (componentType, userId) => {
+    console.log(
+      `Fetching data for component type: ${componentType} and user: ${userId}`
+    );
     try {
-      const {
-        cpuData,
-        gpuData,
-        mainboardData,
-        memoryData,
-        storageData,
-        powerData,
-        coolerData,
-        pcCaseData,
-      } = await ComponentAPI(index);
-      setComponents({
-        Cpu: cpuData,
-        Gpu: gpuData,
-        Cooler: coolerData,
-        Mainboard: mainboardData,
-        Memory: memoryData,
-        Storage: storageData,
-        PcCase: pcCaseData,
-        Power: powerData,
-      });
-      setFilteredComponents([
-        ...cpuData,
-        ...gpuData,
-        ...mainboardData,
-        ...memoryData,
-        ...storageData,
-        ...powerData,
-        ...coolerData,
-        ...pcCaseData,
-      ]); // Initially show all components
+      const data = await ComponentAPI(componentType, userId);
+      console.log("Fetched data:", data);
+      setComponents(data);
+      setFilteredComponents(data);
     } catch (error) {
       console.error("Error fetching components:", error.message);
       setError(error.message);
@@ -66,72 +41,78 @@ export default function Component() {
   };
 
   useEffect(() => {
-    fetchData();
+    const fetchUser = async () => {
+      try {
+        const user = await getCurrentUser();
+        setUserId(user ? `google_${user.userId}` : "");
+        await fetchData("Cpu", user ? `google_${user.userId}` : "");
+      } catch (error) {
+        console.error("Error fetching user:", error.message);
+      }
+    };
+
+    fetchUser();
   }, []);
 
   useEffect(() => {
     const filterComponents = () => {
-      const { Cpu, Gpu, Cooler, Mainboard, Memory, Storage, PcCase, Power } =
-        components;
-      let key = selectedTab.toLowerCase();
-      switch (key) {
-        case "cpu":
-          key = "Cpu";
-          break;
-        case "gpu":
-          key = "Gpu";
-          break;
-        case "mainboard":
-          key = "Mainboard";
-          break;
-        case "memory":
-          key = "Memory";
-          break;
-        case "storage":
-          key = "Storage";
-          break;
-        case "case":
-          key = "PcCase";
-          break;
-        case "power":
-          key = "Power";
-          break;
-        case "cooler":
-          key = "Cooler";
-          break;
-        default:
-          key = "All";
-          break;
-      }
-
       if (selectedTab === "All") {
-        setFilteredComponents([
-          ...Cpu,
-          ...Gpu,
-          ...Mainboard,
-          ...Memory,
-          ...Storage,
-          ...Power,
-          ...Cooler,
-          ...PcCase,
-        ]);
+        setFilteredComponents(components);
       } else {
-        setFilteredComponents(components[key]);
+        setFilteredComponents(
+          components.filter(
+            (component) =>
+              component.Type.toLowerCase() === selectedTab.toLowerCase()
+          )
+        );
       }
     };
 
     filterComponents();
   }, [selectedTab, components]);
 
-  const handleTabChange = (key) => {
+  const handleTabChange = async (key) => {
+    setIsLoading(true);
     setSelectedTab(key);
-    setCurrentPage(1); // Reset to first page when tab changes
+    setCurrentPage(1);
+    await fetchData(key === "All" ? "Cpu" : key, userId);
   };
 
   const handlePageChange = async (page) => {
     setIsLoading(true);
     setCurrentPage(page);
-    await fetchData(page);
+    await fetchData(selectedTab === "All" ? "Cpu" : selectedTab, userId);
+  };
+
+  const handleAlarmClick = (componentId, componentType, isFavorite) => {
+    console.log("Button clicked:", componentId, componentType, isFavorite); // 로그 추가
+    setCurrentComponentId(componentId);
+    setCurrentComponentType(componentType);
+    setIsAlarmEnabled(isFavorite);
+    setIsAlarmModalOpen(true);
+  };
+
+  const handleConfirmAlarm = async () => {
+    try {
+      if (isAlarmEnabled) {
+        await deleteHeart({
+          user_id: userId,
+          component_id: currentComponentId,
+          component_type: currentComponentType,
+        });
+      } else {
+        await createHeart({
+          user_id: userId,
+          component_id: currentComponentId,
+          component_type: currentComponentType,
+        });
+      }
+      fetchData(selectedTab, userId);
+    } catch (error) {
+      console.error("Error toggling alarm:", error.message);
+    } finally {
+      setIsAlarmModalOpen(false);
+    }
   };
 
   if (isLoading) {
@@ -171,18 +152,17 @@ export default function Component() {
         selectedKey={selectedTab}
         onSelectionChange={handleTabChange}
       >
-        <Tab title="All" key="All"></Tab>
-        <Tab title="CPU" key="CPU"></Tab>
-        <Tab title="GPU" key="GPU"></Tab>
-        <Tab title="MAINBOARD" key="MAINBOARD"></Tab>
-        <Tab title="MEMORY" key="MEMORY"></Tab>
-        <Tab title="STORAGE" key="STORAGE"></Tab>
-        <Tab title="CASE" key="CASE"></Tab>
-        <Tab title="POWER" key="POWER"></Tab>
-        <Tab title="COOLER" key="COOLER"></Tab>
+        <Tab title="CPU" key="Cpu"></Tab>
+        <Tab title="GPU" key="Gpu"></Tab>
+        <Tab title="MAINBOARD" key="Mainboard"></Tab>
+        <Tab title="MEMORY" key="Memory"></Tab>
+        <Tab title="STORAGE" key="Storage"></Tab>
+        <Tab title="CASE" key="PcCase"></Tab>
+        <Tab title="POWER" key="Power"></Tab>
+        <Tab title="COOLER" key="Cooler"></Tab>
       </Tabs>
       <div
-        className="grid gap-x-8 gap-y-4 grid-cols-3 mt-2 overflow-y-auto hide-scrollbar"
+        className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-w-7xl mt-2 overflow-y-auto hide-scrollbar"
         style={{ height: "calc(90vh - 16rem)" }}
       >
         {filteredComponents.map((component) => {
@@ -202,6 +182,8 @@ export default function Component() {
                   "LowestPrice",
                   "LowestShop",
                   "LowestURL",
+                  "IsFavorite",
+                  "Color",
                 ].includes(key)
             )
             .map((key) => `${key}: ${component[key]}`);
@@ -214,6 +196,8 @@ export default function Component() {
               componentType={component.Type}
               price={component.LowestPrice}
               imageUrl={component.ImageURL}
+              isFavorite={component.IsFavorite}
+              onAlarmClick={handleAlarmClick}
             />
           );
         })}
@@ -225,6 +209,12 @@ export default function Component() {
         initialPage={1}
         page={currentPage}
         onChange={handlePageChange}
+      />
+      <AlarmModal
+        isOpen={isAlarmModalOpen}
+        onClose={() => setIsAlarmModalOpen(false)}
+        onConfirm={handleConfirmAlarm}
+        isAlarmEnabled={isAlarmEnabled}
       />
     </section>
   );

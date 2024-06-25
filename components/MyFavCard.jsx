@@ -5,7 +5,7 @@ import { Image } from "@nextui-org/image";
 import HeartButton from "@/components/HeartButton";
 
 // MyCard 컴포넌트: 개별 컴포넌트를 카드 형식으로 렌더링
-const MyCard = ({
+const MyFavCard = ({
   id,
   title,
   specs,
@@ -74,4 +74,4 @@ const MyCard = ({
   );
 };
 
-export default MyCard;
+export default MyFavCard;

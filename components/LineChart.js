@@ -22,7 +22,7 @@ ChartJS.register(
   Filler
 );
 
-const LineChart = ({ data, width = "800px", height = "500px" }) => {
+const LineChart = ({ data, width = "600px", height = "400px" }) => {
   const chartData = {
     labels: data.map((entry) => entry.date),
     datasets: [
@@ -45,25 +45,25 @@ const LineChart = ({ data, width = "800px", height = "500px" }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: "top",
         labels: {
           font: {
-            size: 14,
-            weight: 'bold'
-          }
-        }
+            size: 12,
+            weight: "bold",
+          },
+        },
       },
       title: {
         display: true,
-        text: '가격추이',
+        text: "가격추이",
         font: {
-          size: 20,
-          weight: 'bold'
+          size: 16,
+          weight: "bold",
         },
       },
       tooltip: {
         enabled: true,
-        mode: 'index',
+        mode: "index",
         intersect: false,
       },
     },
@@ -75,14 +75,14 @@ const LineChart = ({ data, width = "800px", height = "500px" }) => {
       },
       y: {
         grid: {
-          color: 'rgba(200, 200, 200, 0.2)',
+          color: "rgba(200, 200, 200, 0.2)",
         },
         ticks: {
-          callback: function(value) {
-            return '₩' + value;
-          }
-        }
-      }
+          callback: function (value) {
+            return "₩" + value;
+          },
+        },
+      },
     },
   };
 

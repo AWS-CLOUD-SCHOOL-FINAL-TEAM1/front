@@ -7,16 +7,16 @@ import { Tabs, Tab } from "@nextui-org/tabs";
 import MyOrderCard from "@/components/myPage/MyOrderCard";
 import { getCurrentUser } from "@/auth";
 import { OrderResponse } from "./api";
+
 export default function Mypage() {
   const [orderData, setOrderData] = useState([]);
-  
+
   useEffect(() => {
-   
     const fetchOrders = async () => {
       const user = await getCurrentUser();
       if (user && user.userId) {
         const userIdWithPrefix = `google_${user.userId}`;
-        const data = await OrderResponse(userIdWithPrefix); 
+        const data = await OrderResponse(userIdWithPrefix);
         setOrderData(data);
       }
     };
@@ -37,25 +37,38 @@ export default function Mypage() {
           </Button>
         </Link>
       </div>
-      <Tabs aria-label="Options" className="w-full items-center justify-center">
-        <Tab title="내 견적">
+      <Tabs
+        aria-label="Options"
+        className="w-full items-center justify-center"
+        variant="bordered"
+      >
+        <Tab title={<Link href="/mypage#orders">내 견적</Link>}>
           <div
-            className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 overflow-y-auto hide-scrollbar w-full"
+            id="orders"
+            className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 overflow-y-auto w-full"
             style={{ height: "calc(100vh - 16rem)" }}
           >
-            {orderData.map((order) => (
-              <MyOrderCard key={order.OrderID} order={order} />
-            ))}
+            {orderData && orderData.length > 0 ? (
+              orderData.map((order) => (
+                <MyOrderCard key={order.OrderID} order={order} />
+              ))
+            ) : (
+              <p className="text-center text-gray-500">No orders found</p>
+            )}
           </div>
         </Tab>
-        <Tab title="관심상품" isDisabled>
+        <Tab title={<Link href="/mypage/heart">관심상품</Link>}>
           <div
-            className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 overflow-y-auto hide-scrollbar w-full"
+            className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 overflow-y-auto w-full"
             style={{ height: "calc(100vh - 16rem)" }}
-          ></div>
+          >
+            {/* 관심상품 컨텐츠 */}
+          </div>
         </Tab>
-        <Tab title="알림내역" isDisabled>
-          <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white"></div>
+        <Tab title={<Link href="/notifications">알림내역</Link>}>
+          <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white w-full">
+            {/* 알림내역 컨텐츠 */}
+          </div>
         </Tab>
       </Tabs>
     </section>

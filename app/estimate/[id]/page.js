@@ -5,15 +5,7 @@ import React, { useState } from "react";
 import { ScrollShadow } from "@nextui-org/react";
 
 import { useRouter } from "next/navigation";
-import { cpuData } from "@/data/partsData/cpuData";
-import { mainboardData } from "@/data/partsData/mainboardData";
-import { memoryData } from "@/data/partsData/memoryData";
-import { gpuData } from "@/data/partsData/gpuData";
-import { coolerData } from "@/data/partsData/coolerData";
-import { ssdData } from "@/data/partsData/ssdData";
-import { caseData } from "@/data/partsData/caseData";
-import { powerData } from "@/data/partsData/powerData";
-import { myCardData } from "@/data/myCardData";
+
 import EstimateTable from "@/components/estimatePage/EstimateTable";
 import PartSelection from "@/components/estimatePage/PartSelection";
 import CompareModal from "@/components/estimatePage/CompareModal";
