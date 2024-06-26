@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { PersonIcon } from "@/components/icons";
 import { getCurrentUser, signOut } from "@/auth";
+import { useRouter } from "next/navigation"; // useRouter 가져오기
 
 interface User {
   username: string;
@@ -23,6 +24,7 @@ interface User {
 export const Navbar = () => {
   const [user, setUser] = useState<User | null>(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const router = useRouter(); // useRouter 초기화
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -57,6 +59,16 @@ export const Navbar = () => {
     setShowDropdown(!showDropdown);
   };
 
+  const handleMyPageClick = (e: React.MouseEvent) => {
+    e.preventDefault(); // 기본 동작 막기
+    if (!user) {
+      // 비로그인 상태인 경우 로그인 페이지로 리다이렉트
+      router.push("/login");
+    } else {
+      router.push("/mypage");
+    }
+  };
+
   return (
     <NextUINavbar
       maxWidth="2xl"
@@ -81,16 +93,29 @@ export const Navbar = () => {
           <ul className="hidden lg:flex gap-4 lg:gap-40 justify-start ml-2">
             {siteConfig.navItems.map((item) => (
               <NavbarItem key={item.href}>
-                <NextLink
-                  className={clsx(
-                    linkStyles({ color: "foreground" }),
-                    "data-[active=true]:text-primary data-[active=true]:font-medium text-white text-[16px] lg:text-[22px] font-semibold"
-                  )}
-                  color="foreground"
-                  href={item.href}
-                >
-                  {item.label}
-                </NextLink>
+                {item.label === "마이 페이지" ? (
+                  <a
+                    className={clsx(
+                      linkStyles({ color: "foreground" }),
+                      "data-[active=true]:text-primary data-[active=true]:font-medium text-white text-[16px] lg:text-[22px] font-semibold"
+                    )}
+                    href={item.href}
+                    onClick={handleMyPageClick}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <NextLink
+                    className={clsx(
+                      linkStyles({ color: "foreground" }),
+                      "data-[active=true]:text-primary data-[active=true]:font-medium text-white text-[16px] lg:text-[22px] font-semibold"
+                    )}
+                    color="foreground"
+                    href={item.href}
+                  >
+                    {item.label}
+                  </NextLink>
+                )}
               </NavbarItem>
             ))}
           </ul>

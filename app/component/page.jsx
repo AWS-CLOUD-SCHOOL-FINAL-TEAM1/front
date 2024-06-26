@@ -8,6 +8,7 @@ import { CircularProgress } from "@nextui-org/react";
 import { Pagination } from "@nextui-org/pagination";
 import AlarmModal from "@/components/AlarmModal";
 import { ComponentAPI, createHeart, deleteHeart } from "./api";
+import { useRouter } from "next/navigation"; // useRouter 추가
 
 export default function Component() {
   const [components, setComponents] = useState([]);
@@ -22,6 +23,7 @@ export default function Component() {
   const [currentComponentId, setCurrentComponentId] = useState(null);
   const [currentComponentType, setCurrentComponentType] = useState(null);
   const [isAlarmEnabled, setIsAlarmEnabled] = useState(false);
+  const router = useRouter(); // useRouter 초기화
 
   const fetchData = async (componentType, userId) => {
     console.log(
@@ -85,6 +87,12 @@ export default function Component() {
   };
 
   const handleAlarmClick = (componentId, componentType, isFavorite) => {
+    if (!userId) {
+      // 비로그인 상태인 경우 로그인 페이지로 리다이렉트
+      router.push("/login");
+      return;
+    }
+
     console.log("Button clicked:", componentId, componentType, isFavorite); // 로그 추가
     setCurrentComponentId(componentId);
     setCurrentComponentType(componentType);

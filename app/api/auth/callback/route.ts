@@ -1,10 +1,9 @@
-// /app/api/auth/callback/route.ts
-
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 
-const { COGNITO_DOMAIN, APP_CLIENT_ID, APP_CLIENT_SECRET } = process.env;
+const { COGNITO_DOMAIN, APP_CLIENT_ID, APP_CLIENT_SECRET, API_KEY } =
+  process.env;
 
 export async function GET(request: NextRequest) {
   try {
@@ -65,6 +64,28 @@ export async function GET(request: NextRequest) {
     cookieStore.set("refresh_token", data.refresh_token);
 
     console.log("Cookies set successfully");
+
+    // get_user_info API 호출
+    const userInfoResponse = await fetch(
+      `${process.env.API_KEY}/login/user-info/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const userInfo = await userInfoResponse.json();
+
+    if (!userInfoResponse.ok) {
+      console.log("Error fetching user info:", userInfo);
+      return NextResponse.json({
+        error: userInfo.error || "Failed to fetch user info",
+      });
+    }
+
+    console.log("User Info:", userInfo);
 
     return NextResponse.redirect(new URL("/", request.nextUrl));
   } catch (error) {
