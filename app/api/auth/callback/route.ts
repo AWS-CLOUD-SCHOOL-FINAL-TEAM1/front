@@ -1,13 +1,10 @@
 // /app/api/auth/callback/route.ts
+
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 
-const {
-  COGNITO_DOMAIN,
-  APP_CLIENT_ID,
-  APP_CLIENT_SECRET,
-} = process.env;
+const { COGNITO_DOMAIN, APP_CLIENT_ID, APP_CLIENT_SECRET } = process.env;
 
 export async function GET(request: NextRequest) {
   try {

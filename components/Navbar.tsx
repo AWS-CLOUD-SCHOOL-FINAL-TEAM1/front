@@ -42,9 +42,12 @@ export const Navbar = () => {
 
   const handleSignOut = async () => {
     try {
+      console.log("Initiating sign out");
       await signOut();
       setUser(null);
       setShowDropdown(false);
+      window.location.href = "/"; // 로그아웃 후 메인 페이지로 리다이렉트
+      console.log("Sign out completed, redirecting to home");
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -56,7 +59,7 @@ export const Navbar = () => {
 
   return (
     <NextUINavbar
-      maxWidth="2xl" // Increased maxWidth for a wider navbar
+      maxWidth="2xl"
       position="sticky"
       className="bg-gradient-to-b from-black to-white"
     >
