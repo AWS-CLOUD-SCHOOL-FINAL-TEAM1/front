@@ -9,6 +9,7 @@ import { Pagination } from "@nextui-org/pagination";
 import AlarmModal from "@/components/AlarmModal";
 import { ComponentAPI, createHeart, deleteHeart } from "./api";
 import { useRouter } from "next/navigation"; // useRouter 추가
+import Title from "@/components/Title"; // Title 컴포넌트 임포트
 
 export default function Component() {
   const [components, setComponents] = useState([]);
@@ -134,7 +135,7 @@ export default function Component() {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center h-full">
-        <h1 className={title({ color: "" })}>Error</h1>
+        <h2 className={title({ color: "" })}>Error</h2>
         <p>{error}</p>
       </div>
     );
@@ -143,32 +144,70 @@ export default function Component() {
   if (!filteredComponents || filteredComponents.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full">
-        <h1 className={title({ color: "" })}>No components found</h1>
+        <h1 className={title({ color: "foreground", size: "sm" })}>
+          No components found
+        </h1>
       </div>
     );
   }
 
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-4 md:py-6 h-full">
-      <div className="inline-block max-w-lg text-center">
-        <h1 className={title({ color: "", className: "my-2" })}>
-          PC 부품&nbsp;
-        </h1>
+      <Title>PC 부품</Title>
+
+      <div className="inline-block max-w-lg text-center"></div>
+      <div className="w-full flex justify-center">
+        <div className="p-4 rounded-lg w-full sm:w-auto">
+          <Tabs
+            aria-label="Options"
+            selectedKey={selectedTab}
+            onSelectionChange={handleTabChange}
+            variant="bordered"
+            className="flex flex-wrap  justify-center m-5 space-x-2"
+          >
+            <Tab
+              title="CPU"
+              key="Cpu"
+              className="px-4 py-2 hover:bg-gray-100"
+            />
+            <Tab
+              title="GPU"
+              key="Gpu"
+              className="px-4 py-2 hover:bg-gray-100"
+            />
+            <Tab
+              title="MAINBOARD"
+              key="Mainboard"
+              className="px-4 py-2 hover:bg-gray-100"
+            />
+            <Tab
+              title="MEMORY"
+              key="Memory"
+              className="px-4 py-2 hover:bg-gray-100"
+            />
+            <Tab
+              title="STORAGE"
+              key="Storage"
+              className="px-4 py-2 hover:bg-gray-100"
+            />
+            <Tab
+              title="CASE"
+              key="PcCase"
+              className="px-4 py-2 hover:bg-gray-100"
+            />
+            <Tab
+              title="POWER"
+              key="Power"
+              className="px-4 py-2 hover:bg-gray-100"
+            />
+            <Tab
+              title="COOLER"
+              key="Cooler"
+              className="px-4 py-2 hover:bg-gray-100"
+            />
+          </Tabs>
+        </div>
       </div>
-      <Tabs
-        aria-label="Options"
-        selectedKey={selectedTab}
-        onSelectionChange={handleTabChange}
-      >
-        <Tab title="CPU" key="Cpu"></Tab>
-        <Tab title="GPU" key="Gpu"></Tab>
-        <Tab title="MAINBOARD" key="Mainboard"></Tab>
-        <Tab title="MEMORY" key="Memory"></Tab>
-        <Tab title="STORAGE" key="Storage"></Tab>
-        <Tab title="CASE" key="PcCase"></Tab>
-        <Tab title="POWER" key="Power"></Tab>
-        <Tab title="COOLER" key="Cooler"></Tab>
-      </Tabs>
       <div
         className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-w-7xl mt-2 overflow-y-auto hide-scrollbar"
         style={{ height: "calc(90vh - 16rem)" }}
@@ -192,6 +231,7 @@ export default function Component() {
                   "LowestURL",
                   "IsFavorite",
                   "Color",
+                  "AvgPriceLast45Days", // 추가
                 ].includes(key)
             )
             .map((key) => `${key}: ${component[key]}`);
@@ -203,6 +243,7 @@ export default function Component() {
               specs={specs}
               componentType={component.Type}
               price={component.LowestPrice}
+              avgPriceLast45Days={component.AvgPriceLast45Days} // 추가
               imageUrl={component.ImageURL}
               isFavorite={component.IsFavorite}
               onAlarmClick={handleAlarmClick}
@@ -211,6 +252,7 @@ export default function Component() {
         })}
       </div>
       <Pagination
+        className="m-5"
         isCompact
         showControls
         total={Math.ceil(filteredComponents.length / itemsPerPage)}

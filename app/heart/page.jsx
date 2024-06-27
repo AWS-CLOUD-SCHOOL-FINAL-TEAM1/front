@@ -1,12 +1,14 @@
+// /app/heart/page.jsx
+
 "use client";
 import React, { useEffect, useState } from "react";
 import { getCurrentUser } from "@/auth";
-import { getFavoriteComponents, createHeart, deleteHeart } from "../api";
+import { getFavoriteComponents, createHeart, deleteHeart } from "./api";
 import MyCard from "@/components/MyFavCard";
 import { CircularProgress } from "@nextui-org/react";
 import { title } from "@/components/primitives";
 import AlarmModal from "@/components/AlarmModal";
-
+import Title from "@/components/Title"; // Title 컴포넌트 임포트
 export default function HeartPage() {
   const [favoriteComponents, setFavoriteComponents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -97,11 +99,9 @@ export default function HeartPage() {
 
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-4 md:py-6 h-full">
-      <div className="inline-block max-w-lg text-center">
-        <h1 className={title({ color: "", className: "my-2" })}>
-          관심 부품 목록
-        </h1>
-      </div>
+      <Title>내 관심 상품</Title>
+
+      <div className="inline-block max-w-lg text-center"></div>
       <div
         className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 mt-2 overflow-y-auto hide-scrollbar"
         style={{ height: "calc(90vh - 16rem)" }}

@@ -18,7 +18,7 @@ const PartSelection = ({
   const [maxPrice, setMaxPrice] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [userId, setUserId] = useState(""); // 사용자 ID 상태 추가
-  const itemsPerPage = 6;
+  const itemsPerPage = 4;
 
   const componentTypeMap = {
     CPU: "Cpu",
@@ -150,7 +150,7 @@ const PartSelection = ({
   };
 
   return (
-    <div className="p-10 w-full md:w-1/2">
+    <div className="p-4 md:p-10 w-full md:w-3/4">
       {selectedPart && (
         <div className="p-4 border rounded bg-white shadow-md">
           <h2 className="text-xl font-semibold mb-4 text-center">
@@ -163,41 +163,41 @@ const PartSelection = ({
             maxPrice={maxPrice}
           />
           <div className="overflow-x-auto">
-            <table className="table-auto w-full mb-4 bg-white">
+            <table className="table-auto w-full mb-4 bg-white text-sm md:text-base">
               <thead>
                 <tr className="bg-gray-200">
-                  <th className="border px-2 md:px-4 py-2">Select</th>
-                  <th className="border px-2 md:px-4 py-2">Image</th>
-                  <th className="border px-2 md:px-4 py-2">Part</th>
-                  <th className="border px-2 md:px-4 py-2">Details</th>
-                  <th className="border px-2 md:px-4 py-2">Price</th>
-                  <th className="border px-2 md:px-4 py-2">Action</th>
+                  <th className="border px-1 md:px-4 py-2">Select</th>
+                  <th className="border px-1 md:px-4 py-2">Image</th>
+                  <th className="border px-1 md:px-4 py-2">Part</th>
+                  <th className="border px-1 md:px-4 py-2">Details</th>
+                  <th className="border px-1 md:px-4 py-2">Price</th>
+                  <th className="border px-1 md:px-4 py-2">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {paginatedOptions.map((option) => (
                   <tr key={option.ComponentID}>
-                    <td className="border px-2 md:px-4 py-2">
+                    <td className="border px-1 md:px-4 py-2">
                       <Checkbox
                         onChange={() => handleCompare(option)}
                         isSelected={compareParts.includes(option)}
                       />
                     </td>
-                    <td className="border px-2 md:px-4 py-2">
+                    <td className="border px-1 md:px-4 py-2">
                       <img
                         src={option.ImageURL}
                         alt={option.Model}
-                        className="w-16 h-16 object-cover"
+                        className="w-12 h-12 md:w-16 md:h-16 object-cover"
                       />
                     </td>
-                    <td className="border px-2 md:px-4 py-2">{option.Model}</td>
-                    <td className="border px-2 md:px-4 py-2">
+                    <td className="border px-1 md:px-4 py-2">{option.Model}</td>
+                    <td className="border px-1 md:px-4 py-2">
                       {renderDetails(option)}
                     </td>
-                    <td className="border px-2 md:px-4 py-2">
+                    <td className="border px-1 md:px-4 py-2">
                       ₩{option.price.toLocaleString()}
                     </td>
-                    <td className="border px-2 md:px-4 py-2">
+                    <td className="border px-1 md:px-4 py-2">
                       <Button
                         auto
                         onClick={() => handleAddOption(selectedPart, option)}
@@ -226,7 +226,7 @@ const PartSelection = ({
           </div>
           {compareParts.length === 2 && (
             <Button
-              className="mt-4"
+              className="mt-4 bg-blue-500 text-white"
               onClick={() => setIsCompareModalOpen(true)}
             >
               Compare

@@ -1,11 +1,11 @@
+// /app/estimate/page.jsx
 "use client";
 import React, { useState } from "react";
-import { ScrollShadow } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import EstimateTable from "@/components/estimatePage/EstimateTable";
 import PartSelection from "@/components/estimatePage/PartSelection";
 import CompareModal from "@/components/estimatePage/CompareModal";
 import CompleteModal from "@/components/estimatePage/CompleteModal";
+import Title from "@/components/Title"; // Title 컴포넌트 임포트
 
 const Estimate = () => {
   const [estimate, setEstimate] = useState({
@@ -48,41 +48,38 @@ const Estimate = () => {
   };
 
   return (
-    <ScrollShadow hideScrollBar size={100} className="w-full h-[60rem]">
-      <div className="m-8 bg-gray-100  h-80vh w-80vw">
-        <ScrollShadow hideScrollBar size={100} className="w-full h-[55rem]">
-          <div className="bg-white p-4 rounded shadow-md flex flex-col md:flex-row gap-4 ">
-            <EstimateTable
-              estimate={estimate}
-              selectedPart={selectedPart}
-              setSelectedPart={setSelectedPart}
-              handleComplete={handleComplete}
-            />
-            <PartSelection
-              selectedPart={selectedPart}
-              handleCompare={handleCompare}
-              handleAddOption={handleAddOption}
-              compareParts={compareParts}
-              setCompareParts={setCompareParts}
-              setIsCompareModalOpen={setIsCompareModalOpen}
-            />
-          </div>
-
-          <CompareModal
-            isCompareModalOpen={isCompareModalOpen}
-            handleGoBack={handleGoBack}
-            compareParts={compareParts}
-          />
-
-          <CompleteModal
-            isCompleteModalOpen={isCompleteModalOpen}
-            setIsCompleteModalOpen={setIsCompleteModalOpen}
-            estimate={estimate}
-            handleConfirmComplete={() => setIsCompleteModalOpen(false)}
-          />
-        </ScrollShadow>
+    <div className="flex flex-col items-center justify-center w-full h-full p-8 overflow-y-auto">
+      <Title>견적 내기</Title>
+      <div className="flex flex-col md:flex-row gap-6 w-full">
+        <EstimateTable
+          estimate={estimate}
+          selectedPart={selectedPart}
+          setSelectedPart={setSelectedPart}
+          handleComplete={handleComplete}
+        />
+        <PartSelection
+          selectedPart={selectedPart}
+          handleCompare={handleCompare}
+          handleAddOption={handleAddOption}
+          compareParts={compareParts}
+          setCompareParts={setCompareParts}
+          setIsCompareModalOpen={setIsCompareModalOpen}
+        />
       </div>
-    </ScrollShadow>
+
+      <CompareModal
+        isCompareModalOpen={isCompareModalOpen}
+        handleGoBack={handleGoBack}
+        compareParts={compareParts}
+      />
+
+      <CompleteModal
+        isCompleteModalOpen={isCompleteModalOpen}
+        setIsCompleteModalOpen={setIsCompleteModalOpen}
+        estimate={estimate}
+        handleConfirmComplete={() => setIsCompleteModalOpen(false)}
+      />
+    </div>
   );
 };
 

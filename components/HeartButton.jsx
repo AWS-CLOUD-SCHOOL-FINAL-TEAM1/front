@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "@nextui-org/button";
+import { FaBell, FaBellSlash } from "react-icons/fa"; // react-icons에서 아이콘 가져오기
 
 // HeartButton 컴포넌트: 좋아요/알람 버튼
 const HeartButton = ({ isFavorite, onClick }) => {
@@ -21,9 +22,9 @@ const HeartButton = ({ isFavorite, onClick }) => {
       auto
       ghost={!isFavorite}
       onClick={handleClick} // 클릭 이벤트 핸들러
-      css={{ position: "absolute", top: "10px", right: "10px" }}
+      size="sm" // 버튼 크기 작게 설정
     >
-      {isFavorite ? "알람 중" : "알람 받기"}
+      {isFavorite ? <FaBell /> : <FaBellSlash />} {/* 아이콘으로 변경 */}
     </Button>
   );
 };

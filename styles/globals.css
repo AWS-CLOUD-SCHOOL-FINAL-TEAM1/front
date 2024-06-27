@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 .text-gradient {
-  background: linear-gradient(to bottom,  #ffffff,#000000);
+  background: linear-gradient(to bottom, #ffffff, #000000);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -41,4 +41,33 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
+}
+
+.scroll-fade {
+  opacity: 0;
+  transform: translateY(50px);
+  transition:
+    opacity 1s ease-out,
+    transform 15s ease-out;
+}
+
+.fadeInUp {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }

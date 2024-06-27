@@ -11,11 +11,15 @@ export const siteConfig = {
       href: "/component",
     },
     {
-      label: "견적 추천",
-      href: "/recommend",
+      label: "관심 부품",
+      href: "/heart",
     },
     {
-      label: "마이 페이지",
+      label: "견적 내기",
+      href: "/estimate",
+    },
+    {
+      label: "내 견적",
       href: "/mypage",
     },
   ],

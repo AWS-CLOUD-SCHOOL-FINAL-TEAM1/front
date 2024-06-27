@@ -1,3 +1,5 @@
+// /components/estimatePage/EstimateTable.js
+
 import React from "react";
 
 const EstimateTable = ({
@@ -11,7 +13,7 @@ const EstimateTable = ({
   return (
     <div className="w-full md:w-1/2 p-4">
       <h1 className="text-2xl md:text-3xl font-bold mb-4 text-center md:text-left">
-        New Estimate
+        My Spec Card
       </h1>
       <table className="table-auto w-full mb-4 bg-white">
         <thead>

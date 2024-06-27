@@ -38,17 +38,14 @@ const MyFavCard = ({
   return (
     <Link href={`/component/${id}?componentType=${componentType}`} passHref>
       <Card
-        className="py-4 cursor-pointer"
+        className="p-4 cursor-pointer"
         style={{ width: "100%", height: "100%" }}
         onClick={() => console.log("Card clicked")} // 로그 추가
       >
-        <div className="relative">
-          {/* 하트 버튼 컴포넌트 */}
+        <div className="flex justify-between">
+          <h4 className="font-bold ">{title}</h4>
           <HeartButton isFavorite={isFavorite} onClick={handleButtonClick} />
         </div>
-        <CardHeader className="pb-0 text-center">
-          <h4 className="font-semibold">{title}</h4>
-        </CardHeader>
         <CardBody className="pt-2">
           <Image src={imageUrl} alt={title} className="rounded-xl" />
           <div className="mt-4">
