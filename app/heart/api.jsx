@@ -42,23 +42,37 @@ export const getFavoriteComponents = async (userId) => {
 
     Object.keys(data).forEach((key) => {
       data[key].forEach((component) => {
+        const specs = Object.keys(component)
+          .filter(
+            (k) =>
+              ![
+                "Model",
+                "Company",
+                "Type",
+                "ImageURL",
+                "URL",
+                "ComponentID",
+                "Shop",
+                "Date",
+                "Price",
+                "LowestPrice",
+                "LowestShop",
+                "LowestURL",
+                "IsFavorite",
+                "Color",
+                "AvgPriceLast45Days",
+              ].includes(k)
+          )
+          .map((k) => `${k}: ${component[k]}`);
+
         components.push({
           ComponentID: component.ComponentID,
           Model: component.Model,
           Type: component.Type,
           Price: component.LowestPrice,
+          AvgPriceLast45Days: component.AvgPriceLast45Days,
           ImageURL: component.ImageURL,
-          specs: [
-            `Company: ${component.Company}`,
-            `Process: ${component.Process}`,
-            `Socket: ${component.Socket}`,
-            `Core: ${component.Core}`,
-            `Thread: ${component.Thread}`,
-            `Clock: ${component.Clock}`,
-            `Boost: ${component.Boost}`,
-            `Memory: ${component.Memory}`,
-            `GpuClock: ${component.GpuClock}`,
-          ],
+          specs,
         });
       });
     });

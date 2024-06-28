@@ -53,7 +53,14 @@ const MyCard = ({
           </div>
 
           <CardBody className="pt-2">
-            <Image src={imageUrl} alt={title} className="rounded-xl" />
+            <div className="flex justify-center">
+              <Image
+                src={imageUrl}
+                alt={title}
+                className="rounded-xl"
+                style={{ width: "150px", height: "150px" }} // 이미지 크기 조정
+              />
+            </div>{" "}
             <div className="mt-4">
               <div className="flex items-center">
                 <p className="mt-2 font-bold text-blue-600">

@@ -39,7 +39,7 @@ export default function Mypage() {
       </div>
       <div
         id="orders"
-        className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 overflow-y-auto w-auto"
+        className="grid gap-4 grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-8 w-full overflow-hidden"
         style={{ height: "calc(100vh - 16rem)" }}
       >
         {orderData && orderData.length > 0 ? (

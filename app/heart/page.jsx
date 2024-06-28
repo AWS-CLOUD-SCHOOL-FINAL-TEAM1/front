@@ -1,14 +1,15 @@
-// /app/heart/page.jsx
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { getCurrentUser } from "@/auth";
 import { getFavoriteComponents, createHeart, deleteHeart } from "./api";
-import MyCard from "@/components/MyFavCard";
+import MyFavCard from "@/components/MyFavCard"; // 수정된 컴포넌트 이름
 import { CircularProgress } from "@nextui-org/react";
 import { title } from "@/components/primitives";
 import AlarmModal from "@/components/AlarmModal";
 import Title from "@/components/Title"; // Title 컴포넌트 임포트
+const placeholderImage =
+  "https://nextui-docs-v2.vercel.app/images/fruit-1.jpeg";
+
 export default function HeartPage() {
   const [favoriteComponents, setFavoriteComponents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -18,6 +19,24 @@ export default function HeartPage() {
   const [currentComponentId, setCurrentComponentId] = useState(null);
   const [currentComponentType, setCurrentComponentType] = useState(null);
   const [isAlarmEnabled, setIsAlarmEnabled] = useState(false);
+
+  const excludedKeys = [
+    "Model",
+    "Company",
+    "Type",
+    "ImageURL",
+    "URL",
+    "ComponentID",
+    "Shop",
+    "Date",
+    "Price",
+    "LowestPrice",
+    "LowestShop",
+    "LowestURL",
+    "IsFavorite",
+    "Color",
+    "AvgPriceLast45Days",
+  ];
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -107,16 +126,18 @@ export default function HeartPage() {
         style={{ height: "calc(90vh - 16rem)" }}
       >
         {favoriteComponents.map((component) => (
-          <MyCard
+          <MyFavCard
             key={component.ComponentID}
             id={component.ComponentID}
             title={component.Model}
-            specs={component.specs}
             componentType={component.Type}
             price={component.Price}
-            imageUrl={component.ImageURL}
+            avgPriceLast45Days={component.AvgPriceLast45Days}
+            imageUrl={placeholderImage || component.ImageURL}
             isFavorite={true} // 관심 부품이므로 항상 true
-            onAlarmClick={handleAlarmClick} // 알람 클릭 핸들러 추가
+            onAlarmClick={handleAlarmClick}
+            data={component} // 컴포넌트 데이터를 전부 넘김
+            excludedKeys={excludedKeys} // 제외할 키값들
           />
         ))}
       </div>
