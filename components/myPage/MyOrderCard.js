@@ -9,6 +9,8 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/react";
+const placeholderImage =
+  "https://nextui-docs-v2.vercel.app/images/fruit-1.jpeg";
 
 const MyOrderCard = ({ order }) => {
   const renderOrderDetails = () => {
@@ -57,17 +59,20 @@ const MyOrderCard = ({ order }) => {
   };
 
   return (
-    <Card className="p-4 w-full h-auto border border-gray-200 rounded-lg shadow-sm">
+    <Card className="p-4 place-content-center w-full h-fit border border-gray-200 rounded-lg shadow-sm">
       <CardHeader className="pb-0 text-center">
-        <h2 className="text-lg font-semibold">{order.OrderID}</h2>
+        <h2 className="text-lg font-semibold">{order.Model}</h2>
       </CardHeader>
       <CardBody className="pt-2">
         <Image
-          src={order.ImageURL}
+          src={placeholderImage || order.ImageURL}
           alt="PC Case Image"
-          className="rounded-xl w-full h-48 object-cover"
+          className="rounded-xl  w-full h-48 object-cover"
         />
         {renderOrderDetails()}
+        <div className="mt-4 text-blue-500 font-semibold text-lg">
+          총 가격: {order.TotalPrice.toLocaleString()}₩
+        </div>
       </CardBody>
     </Card>
   );

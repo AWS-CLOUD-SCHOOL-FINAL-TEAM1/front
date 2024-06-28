@@ -6,12 +6,10 @@ import {
   CardHeader,
   CardBody,
   CircularProgress,
-  ScrollShadow,
 } from "@nextui-org/react";
 import { Image } from "@nextui-org/image";
-import LineChart from "@/components/LineChart"; // LineChart 컴포넌트 임포트
+import LineChart from "@/components/LineChart"; // LineChart component import
 import { fetchComponentDetail } from "../api";
-
 import {
   Table,
   TableHeader,
@@ -19,7 +17,11 @@ import {
   TableColumn,
   TableRow,
   TableCell,
-} from "@nextui-org/react"; // NextUI 테이블 컴포넌트 임포트
+} from "@nextui-org/react"; // NextUI Table components
+import Title from "@/components/Title"; // Title 컴포넌트 임포트
+
+const placeholderImage =
+  "https://nextui-docs-v2.vercel.app/images/fruit-1.jpeg";
 
 const CardDetail = () => {
   const params = useParams();
@@ -29,6 +31,7 @@ const CardDetail = () => {
 
   const [componentDetail, setComponentDetail] = useState(null);
   const [priceData, setPriceData] = useState([]);
+  const [priceChartData, setPriceChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -36,11 +39,17 @@ const CardDetail = () => {
     if (id && componentType) {
       const fetchData = async () => {
         try {
-          const detail = await fetchComponentDetail(id, componentType);
-          if (!detail || detail.length === 0) {
+          const { component_data, price_data } = await fetchComponentDetail(
+            id,
+            componentType
+          );
+          if (!component_data || component_data.length === 0) {
             throw new Error("No component detail found");
           }
-          setComponentDetail(detail);
+          console.log("Component Data:", component_data);
+          console.log("Price Data:", price_data);
+
+          setComponentDetail(component_data);
 
           const sanitizeJSON = (str) => {
             try {
@@ -54,17 +63,33 @@ const CardDetail = () => {
             }
           };
 
-          const shops = detail[0]?.Shop
-            ? JSON.parse(sanitizeJSON(detail[0].Shop))
+          const shops = component_data[0]?.Shop
+            ? JSON.parse(sanitizeJSON(component_data[0].Shop))
             : [];
-          const prices = detail[0]?.Price
-            ? JSON.parse(sanitizeJSON(detail[0].Price))
+          const prices = component_data[0]?.Price
+            ? JSON.parse(sanitizeJSON(component_data[0].Price))
             : [];
           const priceArray = shops.map((shop, index) => ({
             Shop: shop,
-            Price: prices[index],
+            Price: parseFloat(prices[index]),
           }));
+
+          // Sort priceArray by Price
+          priceArray.sort((a, b) => a.Price - b.Price);
+
           setPriceData(priceArray);
+
+          // Set price chart data
+          const chartData = [
+            { date: "Day 1", price: parseFloat(price_data[0]?.day1 || 0) },
+            { date: "Day 2", price: parseFloat(price_data[0]?.day2 || 0) },
+            { date: "Day 3", price: parseFloat(price_data[0]?.day3 || 0) },
+            { date: "Day 4", price: parseFloat(price_data[0]?.day4 || 0) },
+            { date: "Day 5", price: parseFloat(price_data[0]?.day5 || 0) },
+            { date: "Day 6", price: parseFloat(price_data[0]?.day6 || 0) },
+            { date: "Day 7", price: parseFloat(price_data[0]?.day7 || 0) },
+          ];
+          setPriceChartData(chartData);
         } catch (err) {
           console.error("Error fetching component details:", err);
           setError(err.message);
@@ -102,109 +127,84 @@ const CardDetail = () => {
     );
   }
 
-  const data = [
-    { date: "2024-06-01", price: 100 },
-    { date: "2024-06-02", price: 110 },
-    { date: "2024-06-03", price: 105 },
-  ];
   const excludedKeys = [
-    "Model",
-    "Company",
-    "Type",
-    "ImageURL",
-    "URL",
     "ComponentID",
+    "Type",
+    "AvgPriceLast45Days",
+    "Price",
+    "URL",
+    "LowestPrice",
+    "LowestShop",
+    "LowestURL",
     "Shop",
     "Date",
-    "Price",
+    "ImageURL",
   ];
+
   const detailedInfo = Object.entries(componentDetail[0])
     .filter(([key]) => !excludedKeys.includes(key))
-    .map(([key, value]) => `${key}: ${value}`)
-    .join(" / ");
+    .map(([key, value]) => (
+      <TableRow key={key}>
+        <TableCell className="font-semibold">{key}</TableCell>
+        <TableCell>{value}</TableCell>
+      </TableRow>
+    ));
 
   return (
-    <div className="relative flex flex-col items-center p-4 md:p-20 rounded-xl bg-white">
-      <ScrollShadow hideScrollBar size={100} className="w-full h-[45rem]">
-        <div className="mt-5 flex flex-col md:flex-row w-full max-w-4xl ">
-          <div className="flex-1 pr-0 md:pr-8 mb-4 md:mb-0">
-            <div
-              className="relative shadow-black/5 shadow-none rounded-xl"
-              style={{ width: "100%", height: "auto" }}
-            >
-              <Image
-                src="https://nextui.org/images/hero-card-complete.jpeg"
-                alt="Detail Image"
-                className="object-cover rounded-xl"
-                style={{ width: "700px", height: 450, objectFit: "cover" }}
-              />
-            </div>
-          </div>
-          <div
-            className="flex flex-col flex-1 pl-0 md:pl-8 relative overflow-y-auto"
-            style={{ maxHeight: "80vh" }}
-          >
-            <Card className="bg-white mb-4">
-              <CardHeader className="pb-2">
-                <h2 className="font-bold text-xl md:text-2xl">
-                  {componentDetail[0].Model}
-                </h2>
-              </CardHeader>
-            </Card>
-            <Table
-              isStriped
-              hideHeader
-              aria-label="Component Table"
-              className="w-full text-base md:text-lg mb-4"
-            >
-              <TableHeader>
-                <TableColumn className="text-base md:text-lg">SHOP</TableColumn>
-                <TableColumn className="text-base md:text-lg">
-                  PRICE
-                </TableColumn>
-              </TableHeader>
-              <TableBody>
-                {priceData.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="text-blue-400 font-semibold text-base md:text-lg">
-                      {item.Shop}
-                    </TableCell>
-                    <TableCell className="text-base md:text-lg">
-                      ₩{item.Price}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <div className=" max-w-4xl mt-4">
-              <LineChart data={data} />
-            </div>
-          </div>
+    <div className="container mx-auto p-4 ">
+      <Title>부품 상세</Title>
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
+        <div className="w-full md:w-1/2 p-4">
+          <Image
+            src={placeholderImage || componentDetail[0].ImageURL}
+            alt="Detail Image"
+            className="object-cover rounded-xl w-full"
+          />
         </div>
-        <div className="mt-5 mb-10">
-          <Card className="bg-white mb-4 w-full max-w-4xl">
+        <div className="w-full md:w-1/2 p-4">
+          <Card className="bg-white mb-4">
             <CardHeader className="pb-2">
-              <h2 className="font-bold text-lg md:text-xl">
-                Detail Information
+              <h2 className="font-bold text-xl md:text-2xl">
+                {componentDetail[0].Model}
               </h2>
             </CardHeader>
-            <CardBody className="pt-2">
-              <p className="text-sm md:text-base">{detailedInfo}</p>
-            </CardBody>
           </Card>
-          <Card className="bg-white mb-4 w-full max-w-4xl">
-            <CardHeader className="pb-2">
-              <h2 className="font-bold text-lg md:text-xl">Specifications</h2>
-            </CardHeader>
-            <CardBody className="pt-2">
-              <p className="text-sm md:text-base">
-                인텔(소켓1700)/10nm(인텔7)/P6+E4코어/12+4스레드/기본
-                클럭:2.5GHz/최대 클럭:4.7GHz/L2 캐시:9.5MB/L3 캐시:20MB
-              </p>
-            </CardBody>
-          </Card>
+          <Table
+            aria-label="Shop Prices"
+            className="w-full text-base md:text-lg mb-4"
+          >
+            <TableHeader>
+              <TableColumn className="font-semibold">SHOP</TableColumn>
+              <TableColumn>PRICE</TableColumn>
+            </TableHeader>
+            <TableBody>
+              {priceData.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell className="text-blue-400 font-semibold text-base md:text-lg">
+                    {item.Shop}
+                  </TableCell>
+                  <TableCell className="text-base md:text-lg">
+                    ₩{item.Price.toLocaleString()}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <Table
+            aria-label="Component Specs"
+            className="w-full text-base md:text-lg mb-4"
+          >
+            <TableHeader>
+              <TableColumn className="font-semibold">SPEC</TableColumn>
+              <TableColumn>DETAIL</TableColumn>
+            </TableHeader>
+            <TableBody>{detailedInfo}</TableBody>
+          </Table>
         </div>
-      </ScrollShadow>
+      </div>
+      <div className="max-w-4xl rounded-xl mx-auto mt-8 bg-white">
+        <LineChart data={priceChartData} />
+      </div>
     </div>
   );
 };

@@ -1,7 +1,6 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Image } from "@nextui-org/image";
-import { title } from "@/components/primitives";
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import {
@@ -14,85 +13,60 @@ import {
   FaBatteryFull,
   FaMicrochip,
 } from "react-icons/fa";
+import { fetchLandingPageData } from "./api";
 
 Chart.register(...registerables);
 
-const sampleData = [
-  {
-    type: "CPU",
-    name: "Ryzen 5 3600",
-    seller: "다나와",
-    price: 199000,
-    prices: [
-      199000, 202000, 198000, 195000, 200000, 199000, 202000, 198000, 195000,
-      199000, 202000, 198000, 195000,
-    ],
-    icon: <FaMicrochip color="white" />,
-  },
-  {
-    type: "GPU",
-    name: "RTX 3080",
-    seller: "컴퓨존",
-    price: 899000,
-    prices: [
-      899000, 900000, 895000, 899000, 910000, 900000, 899000, 910000, 899000,
-      910000,
-    ],
-    icon: <FaLaptop color="white" />,
-  },
-  {
-    type: "Memory",
-    name: "16GB DDR4",
-    seller: "컴마왕",
-    price: 79000,
-    prices: [
-      79000, 78000, 80000, 79000, 79500, 80000, 80000, 79000, 80000, 79000,
-    ],
-    icon: <FaMemory color="#cffafe" />,
-  },
-  {
-    type: "Storage",
-    name: "1TB SSD",
-    seller: "다나와",
-    price: 129000,
-    prices: [
-      129000, 130000, 128000, 127000, 129000, 130000, 128000, 130000, 128000,
-    ],
-    icon: <FaHdd color="#bae6fd" />,
-  },
-  {
-    type: "Cooler",
-    name: "Cooler Master",
-    seller: "컴퓨존",
-    price: 69000,
-    prices: [69000, 70000, 68000, 69000, 69500, 70000],
-    icon: <FaFan color="#7dd3fc" />,
-  },
-  {
-    type: "Power",
-    name: "750W PSU",
-    seller: "컴마왕",
-    price: 109000,
-    prices: [
-      129000, 130000, 128000, 127000, 129000, 130000, 128000, 130000, 128000,
-    ],
-    icon: <FaBatteryFull color="#38bdf8" />,
-  },
-  {
-    type: "Case",
-    name: "NZXT H510",
-    seller: "다나와",
-    price: 89000,
-    prices: [89000, 88000, 90000, 89000, 89500, 90000],
-    icon: <FaShoppingCart color="#3b82f6" />,
-  },
-];
+const getIcon = (type) => {
+  switch (type) {
+    case "Cpu":
+      return <FaMicrochip color="white" />;
+    case "Gpu":
+      return <FaLaptop color="white" />;
+    case "Memory":
+      return <FaMemory color="#cffafe" />;
+    case "Storage":
+      return <FaHdd color="#bae6fd" />;
+    case "Cooler":
+      return <FaFan color="#7dd3fc" />;
+    case "Power":
+      return <FaBatteryFull color="#38bdf8" />;
+    case "PcCase":
+      return <FaShoppingCart color="#3b82f6" />;
+    default:
+      return <FaBell color="white" />;
+  }
+};
 
 const getLineColor = (prices) => {
   return prices[prices.length - 1] > prices[0] ? "green" : "orange";
 };
 
+const sanitizeJSON = (str) => {
+  try {
+    return str.replace(/'/g, '"').replace(/,\s*}/g, "}").replace(/,\s*]/g, "]");
+  } catch (e) {
+    console.error("Error sanitizing JSON:", e);
+    return null;
+  }
+};
+
 export default function Home() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetchLandingPageData();
+        setData(response);
+      } catch (error) {
+        console.error("Error fetching landing page data:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = document.querySelectorAll(".scroll-fade");
@@ -110,10 +84,24 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
+  const components = [
+    "Cpu",
+    "Gpu",
+    "Memory",
+    "Storage",
+    "Cooler",
+    "Power",
+    "PcCase",
+  ];
+
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10  text-white">
+    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 text-white">
       <div className="inline-block max-w-lg text-center mt-8 scroll-fade">
-        <h1 className="text-xl md:text-2xl font-semibold  bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent pb-2">
+        <h1 className="text-xl md:text-2xl font-semibold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent pb-2">
           최저가로, 최적의 성능만.
         </h1>
       </div>
@@ -138,57 +126,71 @@ export default function Home() {
               </tr>
             </thead>
             <tbody className="m-5">
-              {sampleData.map((item, index) => (
-                <tr
-                  key={index}
-                  className="hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <td className="px-4 py-2 text-center">{item.icon}</td>
-                  <td className="px-4 py-2">{item.name}</td>
-                  <td className="px-4 py-2">{item.seller}</td>
-                  <td
-                    className="px-4 py-2"
-                    style={{ color: getLineColor(item.prices) }}
+              {components.map((type) =>
+                data[type].map((item, index) => (
+                  <tr
+                    key={index}
+                    className="hover:bg-gray-700 transition-colors duration-200"
                   >
-                    {item.price.toLocaleString()}원
-                  </td>
-                  <td className="w-[100px] h-[50px]">
-                    <Line
-                      data={{
-                        labels: item.prices.map((_, i) => i + 1),
-                        datasets: [
-                          {
-                            data: item.prices,
-                            borderColor: getLineColor(item.prices),
-                            borderWidth: 2,
-                            fill: false,
-                          },
-                        ],
+                    <td className="px-4 py-2 text-center">{getIcon(type)}</td>
+                    <td className="px-4 py-2">{item.Model}</td>
+                    <td className="px-4 py-2">{item.LowestShop}</td>
+                    <td
+                      className="px-4 py-2"
+                      style={{
+                        color: getLineColor(
+                          JSON.parse(sanitizeJSON(item.Price))
+                        ),
                       }}
-                      options={{
-                        maintainAspectRatio: false,
-                        plugins: {
-                          legend: { display: false },
-                        },
-                        scales: {
-                          x: { display: false },
-                          y: {
-                            display: false,
-                            min: Math.min(...item.prices) - 1000,
-                            max: Math.max(...item.prices) + 1000,
+                    >
+                      {item.LowestPrice.toLocaleString()}원
+                    </td>
+                    <td className="w-[50px] h-[30px]">
+                      <Line
+                        data={{
+                          labels: JSON.parse(sanitizeJSON(item.Date)),
+                          datasets: [
+                            {
+                              data: JSON.parse(sanitizeJSON(item.Price)),
+                              borderColor: getLineColor(
+                                JSON.parse(sanitizeJSON(item.Price))
+                              ),
+                              borderWidth: 2,
+                              fill: false,
+                            },
+                          ],
+                        }}
+                        options={{
+                          maintainAspectRatio: false,
+                          plugins: {
+                            legend: { display: false },
                           },
-                        },
-                        elements: {
-                          line: { tension: 0.4 },
-                          point: { radius: 0 },
-                        },
-                      }}
-                      height={50}
-                      width={100}
-                    />
-                  </td>
-                </tr>
-              ))}
+                          scales: {
+                            x: { display: false },
+                            y: {
+                              display: false,
+                              min:
+                                Math.min(
+                                  ...JSON.parse(sanitizeJSON(item.Price))
+                                ) - 1000,
+                              max:
+                                Math.max(
+                                  ...JSON.parse(sanitizeJSON(item.Price))
+                                ) + 1000,
+                            },
+                          },
+                          elements: {
+                            line: { tension: 0.4 },
+                            point: { radius: 0 },
+                          },
+                        }}
+                        height={50}
+                        width={100}
+                      />
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

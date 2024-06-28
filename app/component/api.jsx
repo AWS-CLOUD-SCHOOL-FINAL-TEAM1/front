@@ -36,7 +36,6 @@ export async function ComponentAPI(component_type, user_id) {
     throw error;
   }
 }
-
 export const fetchComponentDetail = async (component_id, component_type) => {
   try {
     const response = await fetch(`${process.env.API_KEY}/component_detail/`, {
@@ -54,7 +53,8 @@ export const fetchComponentDetail = async (component_id, component_type) => {
       throw new Error("Failed to fetch component details");
     }
 
-    return await response.json();
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error("Fetch component detail failed:", error.message);
     throw error;

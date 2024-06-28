@@ -1,96 +1,57 @@
-import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-} from "chart.js";
+import React, { useRef, useEffect } from "react";
+import Chart from "chart.js/auto";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
+const LineChart = ({ data }) => {
+  const chartRef = useRef(null);
+  const chartInstance = useRef(null);
 
-const LineChart = ({ data, width = "600px", height = "400px" }) => {
-  const chartData = {
-    labels: data.map((entry) => entry.date),
-    datasets: [
-      {
-        label: "Price",
-        data: data.map((entry) => entry.price),
-        fill: true,
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgb(75, 192, 192)",
-        pointBackgroundColor: "rgb(75, 192, 192)",
-        pointBorderColor: "#fff",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "rgb(75, 192, 192)",
-        tension: 0.4,
+  useEffect(() => {
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
+
+    console.log("Chart data:", data); // Log the chart data to the console
+
+    chartInstance.current = new Chart(chartRef.current, {
+      type: "line",
+      data: {
+        labels: data.map((entry) => entry.date),
+        datasets: [
+          {
+            label: "Price",
+            data: data.map((entry) => entry.price),
+            borderColor: "rgba(75, 192, 192, 1)",
+            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            borderWidth: 2,
+            fill: true,
+          },
+        ],
       },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-        labels: {
-          font: {
-            size: 12,
-            weight: "bold",
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+          },
+        },
+        scales: {
+          x: {
+            display: true,
+          },
+          y: {
+            display: true,
           },
         },
       },
-      title: {
-        display: true,
-        text: "가격추이",
-        font: {
-          size: 16,
-          weight: "bold",
-        },
-      },
-      tooltip: {
-        enabled: true,
-        mode: "index",
-        intersect: false,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        grid: {
-          color: "rgba(200, 200, 200, 0.2)",
-        },
-        ticks: {
-          callback: function (value) {
-            return "₩" + value;
-          },
-        },
-      },
-    },
-  };
+    });
 
-  return (
-    <div style={{ width, height }}>
-      <Line data={chartData} options={options} />
-    </div>
-  );
+    return () => {
+      chartInstance.current.destroy();
+    };
+  }, [data]);
+
+  return <canvas ref={chartRef} />;
 };
 
 export default LineChart;

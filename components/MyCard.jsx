@@ -51,7 +51,7 @@ const MyCard = ({
           onClick={() => console.log("Card clicked")} // 로그 추가
         >
           <div className="flex justify-between">
-            <h4 className="font-bold ">{title}</h4>
+            <h4 className="font-bold">{title}</h4>
             <HeartButton isFavorite={isFavorite} onClick={handleButtonClick} />
           </div>
 
@@ -61,9 +61,12 @@ const MyCard = ({
               <div className="flex items-center">
                 <p className="mt-2 font-bold text-blue-600">{price}₩</p>
                 <TrendIcon className={`ml-2 ${trendColor}`} />
-                <p className={`ml-2 ${trendColor}`}>{avgPriceLast45Days}₩</p>
+                <p className={`ml-2 ${trendColor}`}>({avgPriceLast45Days}₩)</p>
               </div>
-              <table className="w-full table-auto text-left border-collapse">
+              <p className="text-gray-500 text-sm mt-1">
+                45일 평균 가격: {avgPriceLast45Days}₩
+              </p>
+              <table className="w-full table-auto text-left border-collapse mt-2">
                 <tbody>
                   {filteredSpecs.map((spec, index) => (
                     <tr key={index}>

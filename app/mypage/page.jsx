@@ -1,11 +1,7 @@
-// /app/mypage/page.jsx
-
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@nextui-org/button";
-import { title } from "@/components/primitives";
-import { Tabs, Tab } from "@nextui-org/tabs";
 import MyOrderCard from "@/components/myPage/MyOrderCard";
 import { getCurrentUser } from "@/auth";
 import { OrderResponse } from "./api";
@@ -20,7 +16,7 @@ export default function Mypage() {
       if (user && user.userId) {
         const userIdWithPrefix = `google_${user.userId}`;
         const data = await OrderResponse(userIdWithPrefix);
-        setOrderData(data);
+        setOrderData(data.order_data);
       }
     };
 
@@ -43,7 +39,7 @@ export default function Mypage() {
       </div>
       <div
         id="orders"
-        className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 overflow-y-auto w-full"
+        className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8 overflow-y-auto w-auto"
         style={{ height: "calc(100vh - 16rem)" }}
       >
         {orderData && orderData.length > 0 ? (
