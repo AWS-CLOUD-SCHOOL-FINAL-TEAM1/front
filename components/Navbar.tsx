@@ -1,6 +1,6 @@
-// components/Navbar.jsx
 "use client";
 
+import React, { useState, useEffect } from "react";
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -12,7 +12,6 @@ import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { Image } from "@nextui-org/image";
-import { useEffect, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { getCurrentUser, signOut } from "@/auth";
 import { useRouter } from "next/navigation";
@@ -21,8 +20,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
   DropdownItem,
-} from "@nextui-org/react"; // 추가
-
+} from "@nextui-org/react";
 import {
   FaUser as PersonIcon,
   FaHome as HomeIcon,
@@ -31,7 +29,7 @@ import {
   FaStar as FavoritesIcon,
   FaSignInAlt as LoginIcon,
   FaSignOutAlt as LogoutIcon,
-} from "react-icons/fa"; // 아이콘 추가
+} from "react-icons/fa";
 
 interface User {
   username: string;
@@ -41,7 +39,7 @@ interface User {
 export const Navbar = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const router = useRouter(); // useRouter 초기화
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -65,7 +63,7 @@ export const Navbar = () => {
       await signOut();
       setUser(null);
       setIsMenuOpen(false);
-      window.location.href = "/"; // 로그아웃 후 메인 페이지로 리다이렉트
+      window.location.href = "/";
       console.log("Sign out completed, redirecting to home");
     } catch (error) {
       console.error("Error signing out:", error);
@@ -77,14 +75,13 @@ export const Navbar = () => {
   };
 
   const handleNavItemClick = (e: React.MouseEvent, href: string) => {
-    e.preventDefault(); // 기본 동작 막기
+    e.preventDefault();
     if (!user) {
-      // 비로그인 상태인 경우 로그인 페이지로 리다이렉트
       router.push("/login");
     } else {
       router.push(href);
     }
-    setIsMenuOpen(false); // 메뉴 클릭 시 자동으로 사이드 메뉴 닫힘
+    setIsMenuOpen(false);
   };
 
   return (
@@ -94,7 +91,6 @@ export const Navbar = () => {
       className="bg-black text-white border-b-2 border-white"
     >
       <NavbarMenuToggle
-        isOpen={isMenuOpen}
         onClick={handleMenuToggle}
         className="lg:hidden text-white"
       />
