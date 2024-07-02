@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
@@ -31,7 +33,7 @@ export async function GET(request: NextRequest) {
       grant_type: "authorization_code",
       client_id: APP_CLIENT_ID as string,
       code,
-      redirect_uri: `${REDIRECT_SIGNIN}/api/auth/callback`,
+      redirect_uri: `${process.env.REDIRECT_SIGNIN}/api/auth/callback`,
     });
 
     console.log("Authorization Header:", authorizationHeader);
