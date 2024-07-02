@@ -3,14 +3,13 @@ export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 
-const { COGNITO_DOMAIN, APP_CLIENT_ID } = process.env;
+const { APP_CLIENT_ID } = process.env;
 
 export async function GET(request: NextRequest) {
   const authorizeParams = new URLSearchParams();
   const origin = process.env.SPD_FE_SERVICE_HOST;
 
   console.log("Request Origin:", origin); // origin 값을 로그로 출력하여 확인합니다.
-  console.log("COGNITO_DOMAIN:", COGNITO_DOMAIN); // COGNITO_DOMAIN 값을 로그로 출력하여 확인합니다.
   console.log("APP_CLIENT_ID:", APP_CLIENT_ID); // APP_CLIENT_ID 값을 로그로 출력하여 확인합니다.
 
   const state = crypto.randomBytes(16).toString("hex");
@@ -25,7 +24,7 @@ export async function GET(request: NextRequest) {
   authorizeParams.append("identity_provider", "Google");
   authorizeParams.append("scope", "profile email openid");
 
-  const redirectUrl = `${COGNITO_DOMAIN}/oauth2/authorize?${authorizeParams.toString()}`;
+  const redirectUrl = `${process.env.COGNITO_DOMAIN}/oauth2/authorize?${authorizeParams.toString()}`;
 
   console.log("Redirecting to:", redirectUrl);
 

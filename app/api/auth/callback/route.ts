@@ -1,23 +1,15 @@
-export const dynamic = "force-dynamic";
-
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 
-const {
-  COGNITO_DOMAIN,
-  APP_CLIENT_ID,
-  APP_CLIENT_SECRET,
-  API_KEY,
-  REDIRECT_SIGNIN,
-} = process.env;
+const { COGNITO_DOMAIN, APP_CLIENT_ID, APP_CLIENT_SECRET, API_KEY } =
+  process.env;
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const code = searchParams.get("code") as string;
 
-    console.log("Request Origin:", REDIRECT_SIGNIN);
     console.log("Request Search Params:", searchParams.toString());
     console.log("Authorization Code:", code);
 
@@ -27,7 +19,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: error || "Unknown error" });
     }
 
-    const authorizationHeader = `Basic ${Buffer.from(`${APP_CLIENT_ID}:${APP_CLIENT_SECRET}`).toString("base64")}`;
+    const authorizationHeader = `Basic ${Buffer.from(`${process.env.APP_CLIENT_ID}:${process.env.APP_CLIENT_SECRET}`).toString("base64")}`;
 
     const requestBody = new URLSearchParams({
       grant_type: "authorization_code",
@@ -39,7 +31,7 @@ export async function GET(request: NextRequest) {
     console.log("Authorization Header:", authorizationHeader);
     console.log("Request Body:", requestBody.toString());
 
-    const res = await fetch(`${COGNITO_DOMAIN}/oauth2/token`, {
+    const res = await fetch(`${process.env.COGNITO_DOMAIN}/oauth2/token`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -72,12 +64,15 @@ export async function GET(request: NextRequest) {
     console.log("Cookies set successfully");
 
     // get_user_info API 호출
-    const userInfoResponse = await fetch(`${API_KEY}/login/user-info/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const userInfoResponse = await fetch(
+      `${process.env.API_KEY}/login/user-info/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const userInfo = await userInfoResponse.json();
 
