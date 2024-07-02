@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const {
   COGNITO_DOMAIN,
