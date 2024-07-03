@@ -1,7 +1,4 @@
 // app/api/auth/callback/route.ts
-
-export const dynamic = "force-dynamic";
-
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
@@ -40,8 +37,6 @@ export async function GET(request: NextRequest) {
 
     console.log("Authorization Header:", authorizationHeader);
     console.log("Request Body:", requestBody.toString());
-    console.log("Using REDIRECT_SIGNIN:", REDIRECT_SIGNIN); // 추가된 로그
-    console.log("Final redirect_uri:", `${REDIRECT_SIGNIN}/api/auth/callback`); // 추가된 로그
 
     const res = await fetch(`${COGNITO_DOMAIN}/oauth2/token`, {
       method: "POST",
@@ -93,7 +88,8 @@ export async function GET(request: NextRequest) {
     }
 
     console.log("User Info:", userInfo);
-    return NextResponse.redirect(new URL("/", request.nextUrl));
+
+    return NextResponse.redirect(new URL("/", REDIRECT_SIGNIN));
   } catch (error) {
     console.log("Catch Error:", error);
     return NextResponse.json({ error });

@@ -23,6 +23,7 @@ RUN if [ -f yarn.lock ]; then yarn run build; \
 # Production image, copy all the files and run next
 FROM node:18-alpine AS runner
 WORKDIR /app
+
 ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
@@ -35,5 +36,13 @@ COPY --from=builder /app/package.json ./package.json
 USER nextjs
 
 EXPOSE 3000
+
+# 환경 변수 추가
+ENV COGNITO_DOMAIN=${COGNITO_DOMAIN}
+ENV APP_CLIENT_ID=${APP_CLIENT_ID}
+ENV APP_CLIENT_SECRET=${APP_CLIENT_SECRET}
+ENV API_KEY=${API_KEY}
+ENV REDIRECT_SIGNIN=${REDIRECT_SIGNIN}
+ENV REDIRECT_SIGNOUT=${REDIRECT_SIGNOUT}
 
 CMD ["node_modules/.bin/next", "start"]
