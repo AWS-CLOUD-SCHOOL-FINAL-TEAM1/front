@@ -1,4 +1,3 @@
-// components/Filter.js
 import React, { useState, useEffect } from "react";
 import { Slider, Input, Checkbox } from "@nextui-org/react";
 
@@ -7,13 +6,23 @@ const Filter = ({
   handleFilterChange,
   handlePriceChange,
   maxPrice,
+  resetFilters, // resetFilters 콜백 추가
 }) => {
   const [keyword, setKeyword] = useState("");
   const [priceRange, setPriceRange] = useState([0, maxPrice]);
+  const [checkboxState, setCheckboxState] = useState({});
 
   useEffect(() => {
     setPriceRange([0, maxPrice]);
+    resetFilterStates(); // 필터 상태 초기화
   }, [selectedPart, maxPrice]);
+
+  const resetFilterStates = () => {
+    setKeyword("");
+    setPriceRange([0, maxPrice]);
+    setCheckboxState({});
+    resetFilters(); // 외부에서 필터 상태를 초기화하는 콜백 호출
+  };
 
   const handleKeywordChange = (e) => {
     setKeyword(e.target.value);
@@ -25,10 +34,15 @@ const Filter = ({
     handlePriceChange(value);
   };
 
+  const handleCheckboxChange = (filterType, value) => {
+    setCheckboxState((prev) => ({ ...prev, [filterType]: value }));
+    handleFilterChange(filterType, value);
+  };
+
   const renderSpecificFilters = () => {
     const toggleFilter = (filterType, value) => {
       const newValue = value ? value : "";
-      handleFilterChange(filterType, newValue);
+      handleCheckboxChange(filterType, newValue);
     };
 
     switch (selectedPart) {
@@ -40,6 +54,7 @@ const Filter = ({
             </label>
             <div className="flex space-x-2" id="cores">
               <Checkbox
+                isSelected={checkboxState.cores === "4"}
                 onChange={(e) =>
                   toggleFilter("cores", e.target.checked ? "4" : "")
                 }
@@ -47,6 +62,7 @@ const Filter = ({
                 4
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.cores === "6"}
                 onChange={(e) =>
                   toggleFilter("cores", e.target.checked ? "6" : "")
                 }
@@ -54,6 +70,7 @@ const Filter = ({
                 6
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.cores === "8"}
                 onChange={(e) =>
                   toggleFilter("cores", e.target.checked ? "8" : "")
                 }
@@ -67,6 +84,7 @@ const Filter = ({
             </label>
             <div className="flex space-x-2" id="threads">
               <Checkbox
+                isSelected={checkboxState.threads === "8"}
                 onChange={(e) =>
                   toggleFilter("threads", e.target.checked ? "8" : "")
                 }
@@ -74,6 +92,7 @@ const Filter = ({
                 8
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.threads === "12"}
                 onChange={(e) =>
                   toggleFilter("threads", e.target.checked ? "12" : "")
                 }
@@ -81,6 +100,7 @@ const Filter = ({
                 12
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.threads === "16"}
                 onChange={(e) =>
                   toggleFilter("threads", e.target.checked ? "16" : "")
                 }
@@ -98,6 +118,7 @@ const Filter = ({
             </label>
             <div className="flex space-x-2" id="type">
               <Checkbox
+                isSelected={checkboxState.type === "CPU"}
                 onChange={(e) =>
                   toggleFilter("type", e.target.checked ? "CPU" : "")
                 }
@@ -105,6 +126,7 @@ const Filter = ({
                 CPU
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.type === "System"}
                 onChange={(e) =>
                   toggleFilter("type", e.target.checked ? "System" : "")
                 }
@@ -122,6 +144,7 @@ const Filter = ({
             </label>
             <div className="flex space-x-2" id="socket">
               <Checkbox
+                isSelected={checkboxState.socket === "LGA1200"}
                 onChange={(e) =>
                   toggleFilter("socket", e.target.checked ? "LGA1200" : "")
                 }
@@ -129,6 +152,7 @@ const Filter = ({
                 LGA1200
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.socket === "LGA1700"}
                 onChange={(e) =>
                   toggleFilter("socket", e.target.checked ? "LGA1700" : "")
                 }
@@ -136,6 +160,7 @@ const Filter = ({
                 LGA1700
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.socket === "AM4"}
                 onChange={(e) =>
                   toggleFilter("socket", e.target.checked ? "AM4" : "")
                 }
@@ -143,6 +168,7 @@ const Filter = ({
                 AM4
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.socket === "AM5"}
                 onChange={(e) =>
                   toggleFilter("socket", e.target.checked ? "AM5" : "")
                 }
@@ -156,6 +182,7 @@ const Filter = ({
             </label>
             <div className="flex space-x-2" id="chipset">
               <Checkbox
+                isSelected={checkboxState.chipset === "Intel H"}
                 onChange={(e) =>
                   toggleFilter("chipset", e.target.checked ? "Intel H" : "")
                 }
@@ -163,6 +190,7 @@ const Filter = ({
                 Intel H
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.chipset === "Intel B"}
                 onChange={(e) =>
                   toggleFilter("chipset", e.target.checked ? "Intel B" : "")
                 }
@@ -170,6 +198,7 @@ const Filter = ({
                 Intel B
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.chipset === "Intel Z"}
                 onChange={(e) =>
                   toggleFilter("chipset", e.target.checked ? "Intel Z" : "")
                 }
@@ -177,6 +206,7 @@ const Filter = ({
                 Intel Z
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.chipset === "AMD A"}
                 onChange={(e) =>
                   toggleFilter("chipset", e.target.checked ? "AMD A" : "")
                 }
@@ -184,6 +214,7 @@ const Filter = ({
                 AMD A
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.chipset === "AMD B"}
                 onChange={(e) =>
                   toggleFilter("chipset", e.target.checked ? "AMD B" : "")
                 }
@@ -191,6 +222,7 @@ const Filter = ({
                 AMD B
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.chipset === "AMD X"}
                 onChange={(e) =>
                   toggleFilter("chipset", e.target.checked ? "AMD X" : "")
                 }
@@ -208,6 +240,7 @@ const Filter = ({
             </label>
             <div className="flex space-x-2" id="ddr">
               <Checkbox
+                isSelected={checkboxState.ddr === "4"}
                 onChange={(e) =>
                   toggleFilter("ddr", e.target.checked ? "4" : "")
                 }
@@ -215,6 +248,7 @@ const Filter = ({
                 4
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.ddr === "5"}
                 onChange={(e) =>
                   toggleFilter("ddr", e.target.checked ? "5" : "")
                 }
@@ -232,6 +266,7 @@ const Filter = ({
             </label>
             <div className="flex space-x-2" id="gpuChipset">
               <Checkbox
+                isSelected={checkboxState.chipset === "NVIDIA"}
                 onChange={(e) =>
                   toggleFilter("chipset", e.target.checked ? "NVIDIA" : "")
                 }
@@ -239,6 +274,7 @@ const Filter = ({
                 NVIDIA
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.chipset === "AMD"}
                 onChange={(e) =>
                   toggleFilter("chipset", e.target.checked ? "AMD" : "")
                 }
@@ -246,6 +282,7 @@ const Filter = ({
                 AMD
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.chipset === "Intel"}
                 onChange={(e) =>
                   toggleFilter("chipset", e.target.checked ? "Intel" : "")
                 }
@@ -263,6 +300,7 @@ const Filter = ({
             </label>
             <div className="flex space-x-2" id="formFactor">
               <Checkbox
+                isSelected={checkboxState.formFactor === "2.5"}
                 onChange={(e) =>
                   toggleFilter("formFactor", e.target.checked ? "2.5" : "")
                 }
@@ -270,6 +308,7 @@ const Filter = ({
                 2.5
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.formFactor === "M.2"}
                 onChange={(e) =>
                   toggleFilter("formFactor", e.target.checked ? "M.2" : "")
                 }
@@ -277,6 +316,7 @@ const Filter = ({
                 M.2
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.formFactor === "PCIe"}
                 onChange={(e) =>
                   toggleFilter("formFactor", e.target.checked ? "PCIe" : "")
                 }
@@ -284,6 +324,7 @@ const Filter = ({
                 PCIe
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.formFactor === "U.2"}
                 onChange={(e) =>
                   toggleFilter("formFactor", e.target.checked ? "U.2" : "")
                 }
@@ -291,6 +332,7 @@ const Filter = ({
                 U.2
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.formFactor === "mSATA"}
                 onChange={(e) =>
                   toggleFilter("formFactor", e.target.checked ? "mSATA" : "")
                 }
@@ -308,6 +350,7 @@ const Filter = ({
             </label>
             <div className="grid grid-cols-3 gap-2" id="outputPower">
               <Checkbox
+                isSelected={checkboxState.outputPower === "300W"}
                 onChange={(e) =>
                   toggleFilter("outputPower", e.target.checked ? "300W" : "")
                 }
@@ -315,6 +358,7 @@ const Filter = ({
                 300W
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.outputPower === "400W"}
                 onChange={(e) =>
                   toggleFilter("outputPower", e.target.checked ? "400W" : "")
                 }
@@ -322,6 +366,7 @@ const Filter = ({
                 400W
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.outputPower === "500W"}
                 onChange={(e) =>
                   toggleFilter("outputPower", e.target.checked ? "500W" : "")
                 }
@@ -329,6 +374,7 @@ const Filter = ({
                 500W
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.outputPower === "600W"}
                 onChange={(e) =>
                   toggleFilter("outputPower", e.target.checked ? "600W" : "")
                 }
@@ -336,6 +382,7 @@ const Filter = ({
                 600W
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.outputPower === "700W"}
                 onChange={(e) =>
                   toggleFilter("outputPower", e.target.checked ? "700W" : "")
                 }
@@ -343,6 +390,7 @@ const Filter = ({
                 700W
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.outputPower === "800W"}
                 onChange={(e) =>
                   toggleFilter("outputPower", e.target.checked ? "800W" : "")
                 }
@@ -350,6 +398,7 @@ const Filter = ({
                 800W
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.outputPower === "900W"}
                 onChange={(e) =>
                   toggleFilter("outputPower", e.target.checked ? "900W" : "")
                 }
@@ -357,6 +406,7 @@ const Filter = ({
                 900W
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.outputPower === "1000W"}
                 onChange={(e) =>
                   toggleFilter("outputPower", e.target.checked ? "1000W" : "")
                 }
@@ -364,6 +414,7 @@ const Filter = ({
                 1000W
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.outputPower === "1100W"}
                 onChange={(e) =>
                   toggleFilter("outputPower", e.target.checked ? "1100W" : "")
                 }
@@ -371,6 +422,7 @@ const Filter = ({
                 1100W
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.outputPower === "1200W"}
                 onChange={(e) =>
                   toggleFilter("outputPower", e.target.checked ? "1200W" : "")
                 }
@@ -384,6 +436,7 @@ const Filter = ({
             </label>
             <div className="flex space-x-2" id="productType">
               <Checkbox
+                isSelected={checkboxState.productType === "Modular"}
                 onChange={(e) =>
                   toggleFilter("productType", e.target.checked ? "Modular" : "")
                 }
@@ -391,6 +444,7 @@ const Filter = ({
                 Modular
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.productType === "Non-Modular"}
                 onChange={(e) =>
                   toggleFilter(
                     "productType",
@@ -411,6 +465,7 @@ const Filter = ({
             </label>
             <div className="flex space-x-2" id="boardSize">
               <Checkbox
+                isSelected={checkboxState.boardSize === "ATX"}
                 onChange={(e) =>
                   toggleFilter("boardSize", e.target.checked ? "ATX" : "")
                 }
@@ -418,6 +473,7 @@ const Filter = ({
                 ATX
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.boardSize === "Micro-ATX"}
                 onChange={(e) =>
                   toggleFilter("boardSize", e.target.checked ? "Micro-ATX" : "")
                 }
@@ -425,6 +481,7 @@ const Filter = ({
                 Micro-ATX
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.boardSize === "Mini-ITX"}
                 onChange={(e) =>
                   toggleFilter("boardSize", e.target.checked ? "Mini-ITX" : "")
                 }
@@ -432,6 +489,7 @@ const Filter = ({
                 Mini-ITX
               </Checkbox>
               <Checkbox
+                isSelected={checkboxState.boardSize === "E-ATX"}
                 onChange={(e) =>
                   toggleFilter("boardSize", e.target.checked ? "E-ATX" : "")
                 }

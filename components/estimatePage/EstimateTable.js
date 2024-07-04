@@ -1,5 +1,3 @@
-// /components/estimatePage/EstimateTable.js
-
 import React from "react";
 
 const EstimateTable = ({
@@ -7,8 +5,14 @@ const EstimateTable = ({
   selectedPart,
   setSelectedPart,
   handleComplete,
+  resetFilters,
 }) => {
   const isComplete = Object.values(estimate).every((part) => part !== null);
+
+  const handlePartSelection = (partType) => {
+    setSelectedPart(partType);
+    resetFilters(); // 필터 상태 초기화
+  };
 
   return (
     <div className="w-full md:w-1/2 p-4">
@@ -40,7 +44,7 @@ const EstimateTable = ({
                       ? "bg-blue-400 text-white"
                       : "bg-yellow-400 text-white"
                   }`}
-                  onClick={() => setSelectedPart(partType)}
+                  onClick={() => handlePartSelection(partType)}
                 >
                   {estimate[partType] ? "Change" : "Add"}
                 </button>

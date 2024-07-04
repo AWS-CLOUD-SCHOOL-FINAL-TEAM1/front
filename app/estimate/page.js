@@ -1,11 +1,10 @@
-// /app/estimate/page.jsx
 "use client";
 import React, { useState } from "react";
 import EstimateTable from "@/components/estimatePage/EstimateTable";
 import PartSelection from "@/components/estimatePage/PartSelection";
 import CompareModal from "@/components/estimatePage/CompareModal";
 import CompleteModal from "@/components/estimatePage/CompleteModal";
-import Title from "@/components/Title"; // Title 컴포넌트 임포트
+import Title from "@/components/Title";
 
 const Estimate = () => {
   const [estimate, setEstimate] = useState({
@@ -47,6 +46,10 @@ const Estimate = () => {
     setIsCompleteModalOpen(true);
   };
 
+  const resetFilters = () => {
+    // 필터 상태 초기화
+  };
+
   return (
     <div className="flex flex-col items-center justify-center w-full h-full p-8 overflow-y-auto">
       <Title>견적 내기</Title>
@@ -56,6 +59,7 @@ const Estimate = () => {
           selectedPart={selectedPart}
           setSelectedPart={setSelectedPart}
           handleComplete={handleComplete}
+          resetFilters={resetFilters} // resetFilters 콜백 전달
         />
         <PartSelection
           selectedPart={selectedPart}
@@ -64,6 +68,7 @@ const Estimate = () => {
           compareParts={compareParts}
           setCompareParts={setCompareParts}
           setIsCompareModalOpen={setIsCompareModalOpen}
+          resetFilters={resetFilters} // resetFilters 콜백 전달
         />
       </div>
 

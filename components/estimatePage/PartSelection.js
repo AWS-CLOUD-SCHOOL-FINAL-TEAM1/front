@@ -1,9 +1,8 @@
-// components/estimatePage/PartSelection.js
 import React, { useState, useEffect } from "react";
 import { Button, Checkbox } from "@nextui-org/react";
 import Filter from "@/components/estimatePage/Filter";
 import { FetchComponentList } from "./api";
-import { getCurrentUser } from "@/auth"; // getCurrentUser 함수 임포트
+import { getCurrentUser } from "@/auth";
 
 const PartSelection = ({
   selectedPart,
@@ -17,7 +16,7 @@ const PartSelection = ({
   const [filters, setFilters] = useState({});
   const [maxPrice, setMaxPrice] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [userId, setUserId] = useState(""); // 사용자 ID 상태 추가
+  const [userId, setUserId] = useState("");
   const itemsPerPage = 4;
 
   const componentTypeMap = {
@@ -45,7 +44,7 @@ const PartSelection = ({
   useEffect(() => {
     const fetchUserId = async () => {
       const user = await getCurrentUser();
-      setUserId(user ? `google_${user.userId}` : ""); // userId 설정
+      setUserId(user ? `google_${user.userId}` : "");
     };
 
     fetchUserId();
@@ -55,19 +54,17 @@ const PartSelection = ({
     const getComponentList = async () => {
       try {
         const selection = componentTypeMap[selectedPart];
-        console.log("selection", selection);
-        const response = await FetchComponentList(selection, userId || ""); // userId가 없을 경우 빈 문자열로 전달
+        const response = await FetchComponentList(selection, userId || "");
         const data = response.map((option) => ({
           ...option,
-          price: parseFloat(option.LowestPrice.replace(/[^0-9.-]+/g, "")) || 0, // Extract the minimum price
-          DDR: option.DDR || 0, // Default DDR to 0 if not available
+          price: parseFloat(option.LowestPrice.replace(/[^0-9.-]+/g, "")) || 0,
+          DDR: option.DDR || 0,
         }));
-        console.log("componentlistdata", data);
         setOptionsData(data);
         setMaxPrice(Math.max(...data.map((option) => option.price)));
         setFilters({});
         setCompareParts([]);
-        setCurrentPage(1); // Reset to the first page when data changes
+        setCurrentPage(1);
       } catch (error) {
         console.error("Failed to fetch component list:", error);
       }
@@ -78,12 +75,20 @@ const PartSelection = ({
     }
   }, [selectedPart, userId]);
 
+  useEffect(() => {
+    setFilters({});
+  }, [selectedPart]);
+
   const handleFilterChange = (filterType, value) => {
-    setFilters({ ...filters, [filterType]: value });
+    setFilters((prevFilters) => ({ ...prevFilters, [filterType]: value }));
   };
 
   const handlePriceChange = (price) => {
-    setFilters({ ...filters, price });
+    setFilters((prevFilters) => ({ ...prevFilters, price }));
+  };
+
+  const resetFilters = () => {
+    setFilters({});
   };
 
   const applyFilters = (options) => {
@@ -121,7 +126,6 @@ const PartSelection = ({
 
   const filteredOptions = applyFilters(optionsData);
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredOptions.length / itemsPerPage);
   const paginatedOptions = filteredOptions.slice(
     (currentPage - 1) * itemsPerPage,
@@ -161,6 +165,7 @@ const PartSelection = ({
             handleFilterChange={handleFilterChange}
             handlePriceChange={handlePriceChange}
             maxPrice={maxPrice}
+            resetFilters={resetFilters} // resetFilters 콜백 전달
           />
           <div className="overflow-x-auto">
             <table className="table-auto w-full mb-4 bg-white text-sm md:text-base">
