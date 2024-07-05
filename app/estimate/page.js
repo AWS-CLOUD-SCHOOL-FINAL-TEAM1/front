@@ -4,6 +4,7 @@ import EstimateTable from "@/components/estimatePage/EstimateTable";
 import PartSelection from "@/components/estimatePage/PartSelection";
 import CompareModal from "@/components/estimatePage/CompareModal";
 import CompleteModal from "@/components/estimatePage/CompleteModal";
+import CompatibilityCheckModal from "@/components/estimatePage/CompatibilityCheckModal"; // 새 모달 추가
 import Title from "@/components/Title";
 
 const Estimate = () => {
@@ -22,6 +23,8 @@ const Estimate = () => {
   const [compareParts, setCompareParts] = useState([]);
   const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
   const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false);
+  const [isCompatibilityCheckModalOpen, setIsCompatibilityCheckModalOpen] =
+    useState(false); // 호환성 체크 모달 상태 추가
 
   const handleAddOption = (partType, option) => {
     setEstimate({ ...estimate, [partType]: option });
@@ -46,6 +49,10 @@ const Estimate = () => {
     setIsCompleteModalOpen(true);
   };
 
+  const handleCompatibilityCheck = () => {
+    setIsCompatibilityCheckModalOpen(true);
+  };
+
   const resetFilters = () => {
     // 필터 상태 초기화
   };
@@ -60,6 +67,7 @@ const Estimate = () => {
           setSelectedPart={setSelectedPart}
           handleComplete={handleComplete}
           resetFilters={resetFilters} // resetFilters 콜백 전달
+          handleCompatibilityCheck={handleCompatibilityCheck} // handleCompatibilityCheck 콜백 전달
         />
         <PartSelection
           selectedPart={selectedPart}
@@ -76,6 +84,14 @@ const Estimate = () => {
         isCompareModalOpen={isCompareModalOpen}
         handleGoBack={handleGoBack}
         compareParts={compareParts}
+      />
+      <CompatibilityCheckModal
+        isCompatibilityCheckModalOpen={isCompatibilityCheckModalOpen}
+        setIsCompatibilityCheckModalOpen={setIsCompatibilityCheckModalOpen}
+        estimate={estimate}
+        handleConfirmCompatibility={() =>
+          setIsCompatibilityCheckModalOpen(false)
+        }
       />
 
       <CompleteModal

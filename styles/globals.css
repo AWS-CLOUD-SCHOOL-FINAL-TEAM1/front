@@ -17,7 +17,6 @@
 }
 
 /* styles/global.css */
-
 .modal {
   position: absolute;
   top: 50%;
@@ -26,11 +25,13 @@
   bottom: auto;
   margin-right: -50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background: white;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 4px;
   outline: none;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  width: 80%;
+  max-width: 800px;
 }
 
 .modal-overlay {
@@ -39,7 +40,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.75);
   z-index: 1000;
 }
 

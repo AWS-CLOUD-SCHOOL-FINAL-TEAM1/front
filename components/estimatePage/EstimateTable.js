@@ -6,6 +6,7 @@ const EstimateTable = ({
   setSelectedPart,
   handleComplete,
   resetFilters,
+  handleCompatibilityCheck, // Prop 추가
 }) => {
   const isComplete = Object.values(estimate).every((part) => part !== null);
 
@@ -53,7 +54,14 @@ const EstimateTable = ({
           ))}
         </tbody>
       </table>
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center mt-4 space-x-4">
+        <button
+          className="bg-green-500 text-white px-4 py-2 rounded"
+          onClick={handleCompatibilityCheck}
+          disabled={!isComplete}
+        >
+          ▶ 호환성 검사
+        </button>
         <button
           className={`bg-blue-500 text-white px-4 py-2 rounded ${
             isComplete ? "" : "opacity-50 cursor-not-allowed"
@@ -68,7 +76,7 @@ const EstimateTable = ({
           }
           disabled={!isComplete}
         >
-          Complete
+          견적 담기
         </button>
       </div>
     </div>
