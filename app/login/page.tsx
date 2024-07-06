@@ -1,13 +1,32 @@
 // /app/login/page.tsx
+"use client";
+import { useState } from "react";
 import Image from "next/image";
+import TermsModal from "@/components/TermsModal";
 
 export default function Page() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleGoogleSignInClick = (e) => {
+    e.preventDefault();
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleAgree = () => {
+    setIsModalOpen(false);
+    // 실제 구글 로그인 처리
+    window.location.href = "/api/auth/google-sign-in";
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <form
         className="max-w-md w-full space-y-8 p-6 bg-white shadow rounded-md"
-        action="/api/auth/google-sign-in"
-        method="GET"
+        onSubmit={handleGoogleSignInClick}
       >
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-bold text-gray-900">Sign In</h2>
@@ -31,6 +50,11 @@ export default function Page() {
           </button>
         </div>
       </form>
+      <TermsModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onAgree={handleAgree}
+      />
     </div>
   );
 }
