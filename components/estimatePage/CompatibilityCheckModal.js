@@ -1,10 +1,9 @@
-// /components/estimatePage/CompatibilityCheckModal.js
-
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useRouter } from "next/navigation";
 import { getCurrentUser } from "@/auth";
 import { ClipLoader } from "react-spinners";
+import { CompatibilityCheckAPI } from "./api";
 
 const CompatibilityCheckModal = ({
   isCompatibilityCheckModalOpen,
@@ -13,8 +12,9 @@ const CompatibilityCheckModal = ({
   handleConfirmCompatibility,
 }) => {
   const [userId, setUserId] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [compatibilityMessage, setCompatibilityMessage] = useState("");
+  const [compatibilityResult, setCompatibilityResult] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -26,14 +26,6 @@ const CompatibilityCheckModal = ({
     };
 
     fetchUserId();
-
-    // Simulate a 3-second loading time for compatibility check
-    const timer = setTimeout(() => {
-      setLoading(false);
-      setCompatibilityMessage("호환성 검사 통과했습니다 ✅");
-    }, 3000);
-
-    return () => clearTimeout(timer);
   }, []);
 
   const handleSubmit = async () => {
@@ -42,110 +34,128 @@ const CompatibilityCheckModal = ({
       return;
     }
 
-    // This is where you'd send data to the backend in the future
-    const orderData = {
-      user_id: userId,
-      cpu_id: estimate.CPU?.ComponentID,
-      cpu_type: "Cpu",
-      gpu_id: estimate.그래픽카드?.ComponentID,
-      gpu_type: "Gpu",
-      memory_id: estimate.메모리?.ComponentID,
-      memory_type: "Memory",
-      storage_id: estimate.SSD?.ComponentID,
-      storage_type: "Storage",
-      pc_case_id: estimate.케이스?.ComponentID,
-      pc_case_type: "PcCase",
-      mainboard_id: estimate.메인보드?.ComponentID,
-      mainboard_type: "Mainboard",
-      cooler_id: estimate.쿨러?.ComponentID,
-      cooler_type: "Cooler",
-      power_id: estimate.파워?.ComponentID,
-      power_type: "Power",
-    };
+    setLoading(true);
 
-    console.log("Sending order data:", orderData);
+    try {
+      const response = await CompatibilityCheckAPI(estimate);
+      setCompatibilityResult(response);
 
-    handleConfirmCompatibility();
+      if (response.content[0].text.includes("문제점이 있습니다")) {
+        setCompatibilityMessage("호환성 검사 실패 ❌");
+      } else {
+        setCompatibilityMessage("호환성 검사 통과했습니다 ✅");
+      }
+    } catch (error) {
+      console.error("Error during compatibility check:", error);
+      setCompatibilityMessage("호환성 검사 중 오류가 발생했습니다 ❌");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const keyFeaturesMap = {
-    CPU: ["Core", "Thread", "Clock", "Boost"],
-    메인보드: ["Socket", "ChipSet", "Form", "Memory"],
-    메모리: ["Company", "UseCase", "RamTiming", "XMP"],
-    그래픽카드: ["Manufacturer", "GPU", "BoostClock", "Memory"],
-    쿨러: ["Company", "Size", "RPM", "Noise"],
-    SSD: ["Company", "Capacity", "Interface", "FormFactor"],
-    케이스: ["Company", "Size", "CoolingFan", "PowerSize"],
-    파워: ["Company", "MaximumOutput", "PLUS80", "Modular"],
+  const handleClose = () => {
+    setIsCompatibilityCheckModalOpen(false);
+    setCompatibilityMessage("");
+    setCompatibilityResult(null);
   };
 
   return (
     <Modal
       isOpen={isCompatibilityCheckModalOpen}
-      onRequestClose={() => setIsCompatibilityCheckModalOpen(false)}
+      onRequestClose={handleClose}
       contentLabel="Compatibility Check"
       className="modal"
       overlayClassName="modal-overlay"
       style={{
         content: {
-          width: "600px",
-          height: "400px",
+          width: "80%",
+          maxWidth: "600px",
+          height: "auto",
+          maxHeight: "80%",
           margin: "auto",
         },
       }}
     >
-      <h2 className="text-xl font-semibold mb-4">Compatibility Check</h2>
-      <div className="overflow-y-auto" style={{ maxHeight: "200px" }}>
-        <table className="table-auto w-full bg-white">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border px-4 py-2">Part</th>
-              <th className="border px-4 py-2">Specs</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.keys(estimate).map((partType) => {
-              const part = estimate[partType];
-              const keyFeatures = keyFeaturesMap[partType] || [];
-
-              return (
-                <tr key={partType}>
-                  <td className="border px-4 py-2">{partType}</td>
-                  <td className="border px-4 py-2">
-                    {part
-                      ? keyFeatures.map(
-                          (feature) =>
-                            part[feature] && (
-                              <div key={feature}>
-                                <strong>{feature}:</strong> {part[feature]}
-                              </div>
-                            )
-                        )
-                      : "Not Selected"}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-      <div className="mt-4">
+      <h3 className="text-xl font-semibold text-center">Compatibility Check</h3>
+      <div className="mt-4 mb-1 text-center">
         {loading ? (
           <ClipLoader size={35} color={"#123abc"} loading={loading} />
         ) : (
-          <div className="text-green-600 font-semibold">
+          <div className={`font-semibold ${compatibilityMessage.includes("실패") ? "text-red-600" : "text-green-600"}`}>
             {compatibilityMessage}
           </div>
         )}
       </div>
-      <button
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-        onClick={handleSubmit}
-      >
-        Confirm
-      </button>
+      {compatibilityResult && (
+        <div className="p-4 bg-gray-100 rounded overflow-y-auto">
+          <h3 className="text-lg font-semibold ">Compatibility Result:</h3>
+          <p>
+            {compatibilityResult.content[0].text
+              .replace("문제점이 있습니다:", "")
+              .split("\n")
+              .map((sentence, index) => (
+                <React.Fragment key={index}>
+                  {sentence.trim() && <span>{sentence.trim()}</span>}
+                  <br />
+                </React.Fragment>
+              ))}
+          </p>
+        </div>
+      )}
+      <div className="flex justify-center space-x-4 mt-4">
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={handleSubmit}
+        >
+          ▶ 호환성 검사
+        </button>
+        <button
+          className="bg-gray-500 text-white px-4 py-2 rounded"
+          onClick={handleClose}
+        >
+          닫기
+        </button>
+      </div>
     </Modal>
   );
 };
 
 export default CompatibilityCheckModal;
+
+
+
+
+//  {/* <div className="overflow-y-auto" style={{ maxHeight: "200px" }}>
+//         <table className="table-auto w-full bg-white">
+//           <thead>
+//             <tr className="bg-gray-200">
+//               <th className="border px-4 py-2">Part</th>
+//               <th className="border px-4 py-2">Specs</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {Object.keys(estimate).map((partType) => {
+//               const part = estimate[partType];
+//               const keyFeatures = keyFeaturesMap[partType] || [];
+
+//               return (
+//                 <tr key={partType}>
+//                   <td className="border px-4 py-2">{partType}</td>
+//                   <td className="border px-4 py-2">
+//                     {part
+//                       ? keyFeatures.map(
+//                           (feature) =>
+//                             part[feature] && (
+//                               <div key={feature}>
+//                                 <strong>{feature}:</strong> {part[feature]}
+//                               </div>
+//                             )
+//                         )
+//                       : "Not Selected"}
+//                   </td>
+//                 </tr>
+//               );
+//             })}
+//           </tbody>
+//         </table>
+//       </div> */}

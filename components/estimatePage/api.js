@@ -59,3 +59,30 @@ export async function CompleteOrder(orderData) {
     console.error("Failed to create order:", error);
   }
 }
+
+
+export async function CompatibilityCheckAPI(estimate) {
+  console.log("Sending estimate to API Gateway:", JSON.stringify({ estimate }));
+
+  try {
+    const response = await fetch(`${process.env.API_GATEWAY_URL}/check_compatibility`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ estimate }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    console.log("API Gateway response:", responseData);
+
+    return responseData;
+  } catch (error) {
+    console.error("Compatibility check failed:", error.message);
+    throw error;
+  }
+}
