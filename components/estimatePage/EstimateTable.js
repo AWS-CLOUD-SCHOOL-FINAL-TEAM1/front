@@ -17,9 +17,7 @@ const EstimateTable = ({
 
   return (
     <div className="w-full md:w-1/2 p-4">
-      <h1 className="text-2xl md:text-3xl font-bold mb-4 text-center md:text-left">
-        My Spec Card
-      </h1>
+      <br></br>
       <table className="table-auto w-full mb-4 bg-white">
         <thead>
           <tr className="bg-gray-200">

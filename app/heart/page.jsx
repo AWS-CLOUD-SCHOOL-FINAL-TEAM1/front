@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getCurrentUser } from "@/auth";
 import { getFavoriteComponents, createHeart, deleteHeart } from "./api";
 import MyFavCard from "@/components/MyFavCard"; // 수정된 컴포넌트 이름
@@ -7,6 +8,8 @@ import { CircularProgress } from "@nextui-org/react";
 import { title } from "@/components/primitives";
 import AlarmModal from "@/components/AlarmModal";
 import Title from "@/components/Title"; // Title 컴포넌트 임포트
+import { Button } from "@nextui-org/button";
+import { IoHappyOutline } from "react-icons/io5";
 const placeholderImage =
   "https://nextui-docs-v2.vercel.app/images/fruit-1.jpeg";
 
@@ -19,6 +22,7 @@ export default function HeartPage() {
   const [currentComponentId, setCurrentComponentId] = useState(null);
   const [currentComponentType, setCurrentComponentType] = useState(null);
   const [isAlarmEnabled, setIsAlarmEnabled] = useState(false);
+  const router = useRouter();
 
   const excludedKeys = [
     "Model",
@@ -111,7 +115,35 @@ export default function HeartPage() {
   if (!favoriteComponents || favoriteComponents.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full">
-        <h1 className={title({ color: "" })}>No favorite components found</h1>
+        <div className="flex items-center mb-4">
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <h1 className=" text-2xl text-white font-bold">
+            아직 관심 부품이 등록되지 않았어요
+          </h1>
+          <IoHappyOutline className="text-4xl text-white ml-4" />
+        </div>
+        <Button
+          className="m-12"
+          onClick={() => router.push("/component")}
+          style={{
+            background: "#d269fd",
+            background:
+              "-webkit-linear-gradient(219deg, #d269fd 0%, #399ad1 100%)",
+            background: "linear-gradient(219deg, #d269fd 0%, #399ad1 100%)",
+            color: "white",
+          }}
+        >
+          관심 부품 찾으러 가기
+        </Button>
       </div>
     );
   }
