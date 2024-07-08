@@ -158,7 +158,7 @@ const CompatibilityCheckModal = ({
         </button>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .spinner {
           width: 44.8px;
           height: 44.8px;
