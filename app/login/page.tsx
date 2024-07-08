@@ -1,4 +1,3 @@
-// /app/login/page.tsx
 "use client";
 import { useState } from "react";
 import Image from "next/image";
@@ -7,7 +6,7 @@ import TermsModal from "@/components/TermsModal";
 export default function Page() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleGoogleSignInClick = (e) => {
+  const handleGoogleSignInClick = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsModalOpen(true);
   };
