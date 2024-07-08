@@ -230,12 +230,20 @@ const PartSelection = ({
             </div>
           </div>
           {compareParts.length === 2 && (
-            <Button
-              className="mt-4 bg-blue-500 text-white"
-              onClick={() => setIsCompareModalOpen(true)}
-            >
-              Compare
-            </Button>
+            <div className="flex justify-end mt-4">
+              <Button
+                className="px-4 py-2 rounded text-white"
+                style={{
+                  background: "#2897ff",
+                  background:
+                    "-webkit-linear-gradient(0deg, #2897ff 0%, #ae46f7 100%)",
+                  background: "linear-gradient(0deg, #2897ff 0%, #ae46f7 100%)",
+                }}
+                onClick={() => setIsCompareModalOpen(true)}
+              >
+                Compare
+              </Button>
+            </div>
           )}
         </div>
       )}

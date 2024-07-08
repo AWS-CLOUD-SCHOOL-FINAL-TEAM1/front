@@ -157,9 +157,18 @@ export const Navbar = () => {
               </DropdownMenu>
             </Dropdown>
           ) : (
-            <NextLink href="/login" className="text-white text-sm lg:text-lg">
-              로그인
-            </NextLink>
+            <div className="flex items-center gap-2">
+              <NextLink href="/login" className="text-white text-sm lg:text-lg">
+                로그인
+              </NextLink>
+              <span className="text-white">|</span>
+              <NextLink
+                href="/signin"
+                className="text-white text-sm lg:text-lg"
+              >
+                회원가입
+              </NextLink>
+            </div>
           )}
         </div>
       </NavbarContent>
@@ -222,13 +231,23 @@ export const Navbar = () => {
                 Logout
               </button>
             ) : (
-              <NextLink
-                href="/login"
-                className="flex items-center w-full text-white"
-              >
-                <LoginIcon size={20} className="mr-2" />
-                Login
-              </NextLink>
+              <div className="flex items-center gap-2">
+                <NextLink
+                  href="/login"
+                  className="flex items-center w-full text-white"
+                >
+                  <LoginIcon size={20} className="mr-2" />
+                  Login
+                </NextLink>
+                <span className="text-white">|</span>
+                <NextLink
+                  href="/signin"
+                  className="flex items-center w-full text-white"
+                >
+                  <LoginIcon size={20} className="mr-2" />
+                  회원가입
+                </NextLink>
+              </div>
             )}
             <hr className="my-2 border-gray-700" />
           </li>

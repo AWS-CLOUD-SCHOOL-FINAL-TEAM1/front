@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useRouter } from "next/navigation";
 import { getCurrentUser } from "@/auth";
-import { ClipLoader } from "react-spinners";
 import { CompatibilityCheckAPI } from "./api";
 
 const CompatibilityCheckModal = ({
@@ -15,6 +14,7 @@ const CompatibilityCheckModal = ({
   const [loading, setLoading] = useState(false);
   const [compatibilityMessage, setCompatibilityMessage] = useState("");
   const [compatibilityResult, setCompatibilityResult] = useState(null);
+  const [hasCheckedCompatibility, setHasCheckedCompatibility] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -45,6 +45,9 @@ const CompatibilityCheckModal = ({
       } else {
         setCompatibilityMessage("호환성 검사 통과했습니다 ✅");
       }
+
+      // Set hasCheckedCompatibility to true after the check is completed
+      setHasCheckedCompatibility(true);
     } catch (error) {
       console.error("Error during compatibility check:", error);
       setCompatibilityMessage("호환성 검사 중 오류가 발생했습니다 ❌");
@@ -57,6 +60,7 @@ const CompatibilityCheckModal = ({
     setIsCompatibilityCheckModalOpen(false);
     setCompatibilityMessage("");
     setCompatibilityResult(null);
+    setHasCheckedCompatibility(false); // Reset the check state when the modal is closed
   };
 
   return (
@@ -71,7 +75,8 @@ const CompatibilityCheckModal = ({
           width: "80%",
           maxWidth: "600px",
           height: "auto",
-          maxHeight: "80%",
+          maxHeight: "80%", // Max height for the modal
+          overflow: "auto", // Ensure scrolling for the content
           margin: "auto",
         },
       }}
@@ -79,17 +84,45 @@ const CompatibilityCheckModal = ({
       <h3 className="text-xl font-semibold text-center">Compatibility Check</h3>
       <div className="mt-4 mb-1 text-center">
         {loading ? (
-          <ClipLoader size={35} color={"#123abc"} loading={loading} />
+          <div className="flex flex-col items-center">
+            <div className="flex space-x-2 mt-2 text-2xl font-bold text-gray-700">
+              {"s p o i d".split(" ").map((letter, index) => (
+                <span key={index}>{letter}</span>
+              ))}
+            </div>
+            <br />
+            <div className="spinner">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <br />
+            <div className="mt-2 text-gray-600">
+              <strong>부품 간 호환성 검사 중입니다.</strong>
+            </div>
+            <br />
+          </div>
         ) : (
-          <div className={`font-semibold ${compatibilityMessage.includes("실패") ? "text-red-600" : "text-green-600"}`}>
+          <div
+            className={`font-semibold ${
+              compatibilityMessage.includes("실패")
+                ? "text-red-600"
+                : "text-green-600"
+            }`}
+          >
             {compatibilityMessage}
           </div>
         )}
       </div>
       {compatibilityResult && (
-        <div className="p-4 bg-gray-100 rounded overflow-y-auto">
-          <h3 className="text-lg font-semibold ">Compatibility Result:</h3>
-          <p>
+        <div
+          className="p-4 bg-gray-100 rounded"
+          style={{ maxHeight: "50vh", overflowY: "auto" }} // Ensuring max height for content and scroll
+        >
+          <div>
             {compatibilityResult.content[0].text
               .replace("문제점이 있습니다:", "")
               .split("\n")
@@ -99,16 +132,24 @@ const CompatibilityCheckModal = ({
                   <br />
                 </React.Fragment>
               ))}
-          </p>
+          </div>
         </div>
       )}
       <div className="flex justify-center space-x-4 mt-4">
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleSubmit}
-        >
-          ▶ 호환성 검사
-        </button>
+        {!hasCheckedCompatibility && (
+          <button
+            className="px-4 py-2 rounded text-white"
+            style={{
+              background: "#2897ff",
+              background:
+                "-webkit-linear-gradient(0deg, #2897ff 0%, #ae46f7 100%)",
+              background: "linear-gradient(0deg, #2897ff 0%, #ae46f7 100%)",
+            }}
+            onClick={handleSubmit}
+          >
+            ▶ 호환성 검사
+          </button>
+        )}
         <button
           className="bg-gray-500 text-white px-4 py-2 rounded"
           onClick={handleClose}
@@ -116,46 +157,57 @@ const CompatibilityCheckModal = ({
           닫기
         </button>
       </div>
+
+      <style jsx>{`
+        .spinner {
+          width: 44.8px;
+          height: 44.8px;
+          animation: spinner-y0fdc1 2s infinite ease;
+          transform-style: preserve-3d;
+        }
+        .spinner > div {
+          background-color: rgba(71, 75, 255, 0.2);
+          height: 100%;
+          position: absolute;
+          width: 100%;
+          border: 2.2px solid #474bff;
+        }
+        .spinner div:nth-of-type(1) {
+          transform: translateZ(-22.4px) rotateY(180deg);
+        }
+        .spinner div:nth-of-type(2) {
+          transform: rotateY(-270deg) translateX(50%);
+          transform-origin: top right;
+        }
+        .spinner div:nth-of-type(3) {
+          transform: rotateY(270deg) translateX(-50%);
+          transform-origin: center left;
+        }
+        .spinner div:nth-of-type(4) {
+          transform: rotateX(90deg) translateY(-50%);
+          transform-origin: top center;
+        }
+        .spinner div:nth-of-type(5) {
+          transform: rotateX(-90deg) translateY(50%);
+          transform-origin: bottom center;
+        }
+        .spinner div:nth-of-type(6) {
+          transform: translateZ(22.4px);
+        }
+        @keyframes spinner-y0fdc1 {
+          0% {
+            transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
+          }
+          50% {
+            transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
+          }
+          100% {
+            transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
+          }
+        }
+      `}</style>
     </Modal>
   );
 };
 
 export default CompatibilityCheckModal;
-
-
-
-
-//  {/* <div className="overflow-y-auto" style={{ maxHeight: "200px" }}>
-//         <table className="table-auto w-full bg-white">
-//           <thead>
-//             <tr className="bg-gray-200">
-//               <th className="border px-4 py-2">Part</th>
-//               <th className="border px-4 py-2">Specs</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {Object.keys(estimate).map((partType) => {
-//               const part = estimate[partType];
-//               const keyFeatures = keyFeaturesMap[partType] || [];
-
-//               return (
-//                 <tr key={partType}>
-//                   <td className="border px-4 py-2">{partType}</td>
-//                   <td className="border px-4 py-2">
-//                     {part
-//                       ? keyFeatures.map(
-//                           (feature) =>
-//                             part[feature] && (
-//                               <div key={feature}>
-//                                 <strong>{feature}:</strong> {part[feature]}
-//                               </div>
-//                             )
-//                         )
-//                       : "Not Selected"}
-//                   </td>
-//                 </tr>
-//               );
-//             })}
-//           </tbody>
-//         </table>
-//       </div> */}

@@ -1,4 +1,3 @@
-// /app/components/TermsModal.tsx
 import { useState } from "react";
 
 export default function TermsModal({ isOpen, onClose, onAgree }) {

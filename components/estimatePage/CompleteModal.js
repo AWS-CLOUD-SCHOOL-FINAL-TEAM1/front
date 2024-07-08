@@ -114,12 +114,20 @@ const CompleteModal = ({
           </tbody>
         </table>
       </div>
-      <button
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-        onClick={handleSubmit}
-      >
-        Confirm
-      </button>
+      <div className="flex justify-end mt-4">
+        <button
+          className="px-4 py-2 rounded text-white"
+          style={{
+            background: "#2897ff",
+            background:
+              "-webkit-linear-gradient(0deg, #2897ff 0%, #ae46f7 100%)",
+            background: "linear-gradient(0deg, #2897ff 0%, #ae46f7 100%)",
+          }}
+          onClick={handleSubmit}
+        >
+          Confirm
+        </button>
+      </div>
     </Modal>
   );
 };

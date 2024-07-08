@@ -4,7 +4,7 @@ import EstimateTable from "@/components/estimatePage/EstimateTable";
 import PartSelection from "@/components/estimatePage/PartSelection";
 import CompareModal from "@/components/estimatePage/CompareModal";
 import CompleteModal from "@/components/estimatePage/CompleteModal";
-import CompatibilityCheckModal from "@/components/estimatePage/CompatibilityCheckModal"; // 새 모달 추가
+import CompatibilityCheckModal from "@/components/estimatePage/CompatibilityCheckModal"; // Ensure this path is correct
 import Title from "@/components/Title";
 
 const Estimate = () => {

@@ -1,4 +1,3 @@
-// /components/estimatePage/comepareModal.js
 import React from "react";
 import Modal from "react-modal";
 
@@ -69,12 +68,21 @@ const CompareModal = ({ isCompareModalOpen, handleGoBack, compareParts }) => {
           </tbody>
         </table>
       </div>
-      <button
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-        onClick={handleGoBack}
-      >
-        Close
-      </button>
+      <div className="flex justify-end mt-4">
+        <button
+          className="px-4 py-2 rounded text-white"
+          style={{
+            background: "rgba(0, 98, 244, 0.76)",
+            background:
+              "-webkit-linear-gradient(0deg, rgba(0, 98, 244, 0.76) 0%, #86d7e6 100%)",
+            background:
+              "linear-gradient(0deg, rgba(0, 98, 244, 0.76) 0%, #86d7e6 100%)",
+          }}
+          onClick={handleGoBack}
+        >
+          Close
+        </button>
+      </div>
     </Modal>
   );
 };

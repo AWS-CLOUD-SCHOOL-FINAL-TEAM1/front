@@ -40,11 +40,24 @@ const EstimateTable = ({
               </td>
               <td className="border px-2 md:px-4 py-2">
                 <button
-                  className={`px-2 py-1 rounded ${
+                  className={`px-2 py-1 rounded text-white`}
+                  style={
                     estimate[partType]
-                      ? "bg-blue-400 text-white"
-                      : "bg-yellow-400 text-white"
-                  }`}
+                      ? {
+                          background: "rgba(0, 98, 244, 0.76)",
+                          background:
+                            "-webkit-linear-gradient(0deg, rgba(0, 98, 244, 0.76) 0%, #86d7e6 100%)",
+                          background:
+                            "linear-gradient(0deg, rgba(0, 98, 244, 0.76) 0%, #86d7e6 100%)",
+                        }
+                      : {
+                          background: "rgba(255, 235, 59, 0.76)",
+                          background:
+                            "-webkit-linear-gradient(0deg, rgba(255, 235, 59, 0.76) 0%, #ffd700 100%)",
+                          background:
+                            "linear-gradient(0deg, rgba(255, 235, 59, 0.76) 0%, #ffd700 100%)",
+                        }
+                  }
                   onClick={() => handlePartSelection(partType)}
                 >
                   {estimate[partType] ? "Change" : "Add"}
@@ -56,16 +69,27 @@ const EstimateTable = ({
       </table>
       <div className="flex justify-center mt-4 space-x-4">
         <button
-          className="bg-green-500 text-white px-4 py-2 rounded"
+          className="px-4 py-2 rounded text-white"
+          style={{
+            background: "#2897ff",
+            background:
+              "-webkit-linear-gradient(0deg, #2897ff 0%, #ae46f7 100%)",
+            background: "linear-gradient(0deg, #2897ff 0%, #ae46f7 100%)",
+          }}
           onClick={handleCompatibilityCheck}
           disabled={!isComplete}
         >
-          ▶AI 호환성 검사
+          ▶ AI 호환성 검사
         </button>
         <button
-          className={`bg-blue-500 text-white px-4 py-2 rounded ${
+          className={`text-white px-4 py-2 rounded ${
             isComplete ? "" : "opacity-50 cursor-not-allowed"
           }`}
+          style={{
+            background: isComplete
+              ? "linear-gradient(0deg, #ae46f7 0%, #2897ff 100%)"
+              : "gray",
+          }}
           onClick={
             isComplete
               ? handleComplete
