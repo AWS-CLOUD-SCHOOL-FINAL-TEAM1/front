@@ -1,3 +1,5 @@
+// /app/mypage/page.jsx
+
 export default function ComponentLayout({
   children,
 }: {

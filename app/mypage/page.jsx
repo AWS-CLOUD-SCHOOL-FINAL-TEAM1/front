@@ -24,7 +24,7 @@ export default function Mypage() {
   }, []);
 
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 h-full w-full">
+    <section className="flex flex-col items-center justify-start gap-4 py-8 md:py-10 h-full w-full">
       <Title>내 견적</Title>
 
       <div className="flex items-center justify-center w-full max-w-lg space-x-4">
@@ -37,11 +37,7 @@ export default function Mypage() {
           </Button>
         </Link>
       </div>
-      <div
-        id="orders"
-        className="grid gap-4 grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-8 w-full overflow-hidden"
-        style={{ height: "calc(100vh - 16rem)" }}
-      >
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-w-7xl mt-2 overflow-y-auto hide-scrollbar">
         {orderData && orderData.length > 0 ? (
           orderData.map((order) => (
             <MyOrderCard key={order.OrderID} order={order} />
