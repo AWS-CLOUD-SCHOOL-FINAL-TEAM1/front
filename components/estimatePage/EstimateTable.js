@@ -44,9 +44,9 @@ const EstimateTable = ({
                       ? {
                           background: "rgba(0, 98, 244, 0.76)",
                           background:
-                            "-webkit-linear-gradient(0deg, rgba(0, 98, 244, 0.76) 0%, #86d7e6 100%)",
+                            "-webkit-linear-gradient(0deg, rgba(0, 98, 244, 0.76) 0%, #8aa2d4 100%)",
                           background:
-                            "linear-gradient(0deg, rgba(0, 98, 244, 0.76) 0%, #86d7e6 100%)",
+                            "linear-gradient(0deg, rgba(0, 98, 244, 0.76) 0%, #8aa2d4 100%)",
                         }
                       : {
                           background: "rgba(255, 235, 59, 0.76)",
