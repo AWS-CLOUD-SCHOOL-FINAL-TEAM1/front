@@ -37,7 +37,7 @@ export default function RootLayout({
       >
         <div className="flex flex-col min-h-screen">
           <Navbar />
-          <main className="flex-grow container mx-auto max-w-8xl pt-16 px-4 overflow-hidden">
+          <main className="flex-grow container mx-auto max-w-8xl px-4 overflow-hidden">
             <div className="bg-gradient-to-b from-black via-gray-400 via-gray-100 via-gray-400 to-black p-6 rounded-md shadow-md h-full m-0">
               {children}
             </div>

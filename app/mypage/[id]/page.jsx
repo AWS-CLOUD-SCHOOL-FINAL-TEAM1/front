@@ -1,76 +1,55 @@
 "use client";
-import { Card, CardHeader, CardBody } from "@nextui-org/card";
-import { Image } from "@nextui-org/image";
-import ComponentDetailCard from '@/components/ComponentDetailCard';
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableColumn,
-  TableRow,
-  TableCell,
-} from "@nextui-org/table";
-import priceData from "../../../data/priceData";
-import LineChart from '@/components/LineChart';
-import chartData from "../../../data/chartData";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { Button } from "@nextui-org/button";
+import MyOrderCard from "@/components/myPage/MyOrderCard";
+import { getCurrentUser } from "@/auth";
+import { OrderResponse } from "./api";
+import Title from "@/components/Title"; // Title 컴포넌트 임포트
 
-const MypageDetail = () => {
+export default function Mypage() {
+  const [orderData, setOrderData] = useState([]);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const user = await getCurrentUser();
+      if (user && user.userId) {
+        const userIdWithPrefix = `google_${user.userId}`;
+        const data = await OrderResponse(userIdWithPrefix);
+        setOrderData(data.order_data);
+      }
+    };
+
+    fetchOrders();
+  }, []);
 
   return (
-    <div className="relative flex flex-col items-center justify-center p-8 rounded-xl bg-white">
-      <div className="flex w-full max-w-4xl mb-4" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-        <div className="flex-1 pr-8">
-          <div className="relative shadow-black/5 shadow-none rounded-xl" style={{ width: '500px', height: '500px' }}>
-            <Image
-              src="https://nextui.org/images/hero-card-complete.jpeg"
-              alt="Detail Image"
-              className="object-cover rounded-xl"
-              style={{ width: '500px', height: '500px', objectFit: 'cover' }}
-            />
-          </div>
-        </div>
-        <div className="flex flex-col flex-1 pl-8 relative overflow-y-auto" style={{ maxHeight: '80vh' }}>
-          <Card className="bg-white mb-4">
-            <CardHeader>
-              <h2 className="font-bold text-2xl">인텔 코어i5-14세대 14400F</h2>
-            </CardHeader>
-          </Card>
-          <Table
-            isStriped
-            hideHeader
-            aria-label="Component Table"
-            className="w-full text-lg mb-4" // text-lg for larger text size
-            style={{ fontSize: '1.25rem' }} // 1.25rem = 20px
-          >
-            <TableHeader>
-              <TableColumn className="text-lg">COMPONENT</TableColumn> {/* text-lg for larger text size */}
-              <TableColumn className="text-lg">DETAILS</TableColumn> {/* text-lg for larger text size */}
-            </TableHeader>
-            <TableBody>
-              {priceData.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell className="text-blue-400 font-semibold text-lg">
-                    {item.component}
-                  </TableCell>
-                  <TableCell className="text-lg">{item.details}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <Card className="bg-white">
-            <CardHeader>
-              <h2 className="font-bold text-xl">Detail Information</h2>
-            </CardHeader>
-            <CardBody>
-              <p className="text-base">
-                부품 상세 스펙
-              </p>
-            </CardBody>
-          </Card>
-        </div>
-      </div>
-    </div>
-  );
-};
+    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 h-full w-full">
+      <Title>내 견적</Title>
 
-export default MypageDetail;
+      <div className="flex items-center justify-center w-full max-w-lg space-x-4">
+        <Link href="/estimate">
+          <Button
+            radius="full"
+            className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg ml-4"
+          >
+            견적추가
+          </Button>
+        </Link>
+      </div>
+      <div
+        id="orders"
+        className="grid gap-4 grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-8 w-full overflow-hidden"
+        style={{ height: "calc(100vh - 16rem)" }}
+      >
+        {orderData && orderData.length > 0 ? (
+          orderData.map((order) => (
+            <MyOrderCard key={order.OrderID} order={order} />
+          ))
+        ) : (
+          <p className="text-center text-gray-500">No orders found</p>
+        )}
+      </div>
+    </section>
+  );
+}

@@ -43,23 +43,26 @@ const MyOrderCard = ({ order }) => {
   };
 
   return (
-    <Card className="p-2 place-content-center w-full h-full border border-gray-200 rounded-lg shadow-sm">
+    <Card
+      className="flex flex-col justify-between p-2 w-full h-full border border-gray-200 rounded-lg shadow-sm"
+      style={{ minHeight: "600px", maxHeight: "600" }}
+    >
       <CardHeader className="pb-0 text-center">
         <h2 className="text-sm font-semibold">{order.Model}</h2>
       </CardHeader>
-      <CardBody className="pt-2 flex flex-col justify-between">
-        <div className="flex justify-center mb-2">
-          <Image
-            src={placeholderImage || order.ImageURL}
-            alt="PC Case Image"
-            className="rounded-xl"
-            style={{ width: "100px", height: "100px" }}
-          />
-        </div>
+      <div className="flex justify-center mb-2">
+        <Image
+          src={placeholderImage || order.ImageURL}
+          alt="PC Case Image"
+          className="rounded-xl"
+          style={{ width: "100px", height: "100px" }}
+        />
+      </div>
+      <div className="mt-2 text-blue-500 font-semibold text-sm text-center">
+        총 가격: {order.TotalPrice.toLocaleString()}₩
+      </div>
+      <CardBody className="pt-2 overflow-y-auto">
         {renderOrderDetails()}
-        <div className="mt-2 text-blue-500 font-semibold text-sm text-center">
-          총 가격: {order.TotalPrice.toLocaleString()}₩
-        </div>
       </CardBody>
     </Card>
   );
