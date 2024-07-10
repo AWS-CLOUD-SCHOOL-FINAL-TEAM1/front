@@ -69,9 +69,13 @@ const CardDetail = () => {
           const prices = component_data[0]?.Price
             ? JSON.parse(sanitizeJSON(component_data[0].Price))
             : [];
+          const urls = component_data[0]?.URL
+            ? JSON.parse(sanitizeJSON(component_data[0].URL))
+            : [];
           const priceArray = shops.map((shop, index) => ({
             Shop: shop,
             Price: parseFloat(prices[index]),
+            URL: urls[index],
           }));
 
           // Sort priceArray by Price
@@ -176,6 +180,7 @@ const CardDetail = () => {
             <TableHeader>
               <TableColumn className="font-semibold">SHOP</TableColumn>
               <TableColumn>PRICE</TableColumn>
+              <TableColumn>상품 링크</TableColumn>
             </TableHeader>
             <TableBody>
               {priceData.map((item, index) => (
@@ -185,6 +190,16 @@ const CardDetail = () => {
                   </TableCell>
                   <TableCell className="text-base md:text-lg">
                     ₩{item.Price.toLocaleString()}
+                  </TableCell>
+                  <TableCell>
+                    <a
+                      href={item.URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 hover:underline"
+                    >
+                      ▶ 상품 보러 가기
+                    </a>
                   </TableCell>
                 </TableRow>
               ))}
