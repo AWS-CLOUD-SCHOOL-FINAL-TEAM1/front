@@ -167,27 +167,27 @@ export default function Component() {
           >
             <Tab
               title="CPU"
-              key="Cpu"
+              key="CPU"
               className="px-4 py-2 hover:bg-gray-100"
             />
             <Tab
               title="GPU"
-              key="Gpu"
+              key="GPU"
               className="px-4 py-2 hover:bg-gray-100"
             />
             <Tab
               title="MAINBOARD"
-              key="Mainboard"
+              key="MAINBOARD"
               className="px-4 py-2 hover:bg-gray-100"
             />
             <Tab
               title="MEMORY"
-              key="Memory"
+              key="MEMORY"
               className="px-4 py-2 hover:bg-gray-100"
             />
             <Tab
               title="STORAGE"
-              key="Storage"
+              key="STORAGE"
               className="px-4 py-2 hover:bg-gray-100"
             />
             <Tab
@@ -197,12 +197,12 @@ export default function Component() {
             />
             <Tab
               title="POWER"
-              key="Power"
+              key="POWER"
               className="px-4 py-2 hover:bg-gray-100"
             />
             <Tab
               title="COOLER"
-              key="Cooler"
+              key="COOLER"
               className="px-4 py-2 hover:bg-gray-100"
             />
           </Tabs>
