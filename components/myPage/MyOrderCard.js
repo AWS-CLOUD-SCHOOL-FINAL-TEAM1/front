@@ -10,9 +10,6 @@ import {
   TableCell,
 } from "@nextui-org/react";
 
-const placeholderImage =
-  "https://nextui-docs-v2.vercel.app/images/fruit-1.jpeg";
-
 const MyOrderCard = ({ order }) => {
   const renderOrderDetails = () => {
     const excludedKeys = [
@@ -50,7 +47,7 @@ const MyOrderCard = ({ order }) => {
       <CardBody className="pt-2 overflow-y-auto">
         <div className="flex justify-center">
           <Image
-            src={placeholderImage || order.ImageURL}
+            src={order.ImageURL}
             alt="PC Case Image"
             className="rounded-xl"
             style={{ width: "150px", height: "150px" }} // 이미지 크기 조정

@@ -10,8 +10,6 @@ import AlarmModal from "@/components/AlarmModal";
 import { ComponentAPI, createHeart, deleteHeart } from "./api";
 import { useRouter } from "next/navigation"; // useRouter 추가
 import Title from "@/components/Title"; // Title 컴포넌트 임포트
-const placeholderImage =
-  "https://nextui-docs-v2.vercel.app/images/fruit-1.jpeg";
 
 export default function Component() {
   const [components, setComponents] = useState([]);
@@ -246,7 +244,7 @@ export default function Component() {
               componentType={component.Type}
               price={component.LowestPrice}
               avgPriceLast45Days={component.AvgPriceLast45Days} // 추가
-              imageUrl={placeholderImage || component.ImageURL}
+              imageUrl={component.ImageURL}
               isFavorite={component.IsFavorite}
               onAlarmClick={handleAlarmClick}
             />
