@@ -20,14 +20,14 @@ const PartSelection = ({
   const itemsPerPage = 4;
 
   const componentTypeMap = {
-    CPU: "Cpu",
-    메인보드: "Mainboard",
-    메모리: "Memory",
-    그래픽카드: "Gpu",
-    쿨러: "Cooler",
-    SSD: "Storage",
+    CPU: "CPU",
+    메인보드: "MAINBOARD",
+    메모리: "MEMORY",
+    그래픽카드: "GPU",
+    쿨러: "COOLER",
+    SSD: "STORAGE",
     케이스: "PcCase",
-    파워: "Power",
+    파워: "POWER",
   };
 
   const displayFieldsMap = {
@@ -200,7 +200,9 @@ const PartSelection = ({
                       {renderDetails(option)}
                     </td>
                     <td className="border px-1 md:px-4 py-2">
-                      ₩{option.price.toLocaleString()}
+                      {option.price === 0
+                        ? "재입고 예정"
+                        : `₩${option.price.toLocaleString()}`}
                     </td>
                     <td className="border px-1 md:px-4 py-2">
                       <Button

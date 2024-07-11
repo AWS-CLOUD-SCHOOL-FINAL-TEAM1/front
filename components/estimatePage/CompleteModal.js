@@ -35,21 +35,21 @@ const CompleteModal = ({
     const orderData = {
       user_id: userId,
       cpu_id: estimate.CPU?.ComponentID,
-      cpu_type: "Cpu",
+      cpu_type: "CPU",
       gpu_id: estimate.그래픽카드?.ComponentID,
-      gpu_type: "Gpu",
+      gpu_type: "GPU",
       memory_id: estimate.메모리?.ComponentID,
-      memory_type: "Memory",
+      memory_type: "MEMORY",
       storage_id: estimate.SSD?.ComponentID,
-      storage_type: "Storage",
+      storage_type: "STORAGE",
       pc_case_id: estimate.케이스?.ComponentID,
       pc_case_type: "PcCase",
       mainboard_id: estimate.메인보드?.ComponentID,
-      mainboard_type: "Mainboard",
+      mainboard_type: "MAINBOARD",
       cooler_id: estimate.쿨러?.ComponentID,
-      cooler_type: "Cooler",
+      cooler_type: "COOLER",
       power_id: estimate.파워?.ComponentID,
-      power_type: "Power",
+      power_type: "POWER",
     };
 
     console.log("Sending order data:", orderData); // 로그 추가

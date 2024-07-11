@@ -89,12 +89,12 @@ export default function Home() {
   }
 
   const components = [
-    "Cpu",
-    "Gpu",
-    "Memory",
-    "Storage",
-    "Cooler",
-    "Power",
+    "CPU",
+    "GPU",
+    "MEMORY",
+    "STORAGE",
+    "COOLER",
+    "POWER",
     "PcCase",
   ];
 

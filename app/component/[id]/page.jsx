@@ -160,7 +160,7 @@ const CardDetail = () => {
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
         <div className="w-full md:w-1/2 p-4">
           <Image
-            src={placeholderImage || componentDetail[0].ImageURL}
+            src={componentDetail[0].ImageURL}
             alt="Detail Image"
             className="object-cover rounded-xl w-full"
           />
@@ -189,7 +189,9 @@ const CardDetail = () => {
                     {item.Shop}
                   </TableCell>
                   <TableCell className="text-base md:text-lg">
-                    ₩{item.Price.toLocaleString()}
+                    {item.Price === 0
+                      ? "재입고 예정"
+                      : `₩${item.Price.toLocaleString()}`}
                   </TableCell>
                   <TableCell>
                     <a

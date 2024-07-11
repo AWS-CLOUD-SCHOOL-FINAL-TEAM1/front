@@ -5,7 +5,6 @@ import { title } from "@/components/primitives";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import MyCard from "@/components/MyCard";
 import { CircularProgress } from "@nextui-org/react";
-import { Pagination } from "@nextui-org/pagination";
 import AlarmModal from "@/components/AlarmModal";
 import { ComponentAPI, createHeart, deleteHeart } from "./api";
 import { useRouter } from "next/navigation"; // useRouter 추가
@@ -17,8 +16,6 @@ export default function Component() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState("Cpu");
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
   const [userId, setUserId] = useState("");
   const [isAlarmModalOpen, setIsAlarmModalOpen] = useState(false);
   const [currentComponentId, setCurrentComponentId] = useState(null);
@@ -48,7 +45,7 @@ export default function Component() {
       try {
         const user = await getCurrentUser();
         setUserId(user ? `google_${user.userId}` : "");
-        await fetchData("Cpu", user ? `google_${user.userId}` : "");
+        await fetchData("CPU", user ? `google_${user.userId}` : "");
       } catch (error) {
         console.error("Error fetching user:", error.message);
       }
@@ -77,14 +74,7 @@ export default function Component() {
   const handleTabChange = async (key) => {
     setIsLoading(true);
     setSelectedTab(key);
-    setCurrentPage(1);
-    await fetchData(key === "All" ? "Cpu" : key, userId);
-  };
-
-  const handlePageChange = async (page) => {
-    setIsLoading(true);
-    setCurrentPage(page);
-    await fetchData(selectedTab === "All" ? "Cpu" : selectedTab, userId);
+    await fetchData(key === "All" ? "CPU" : key, userId);
   };
 
   const handleAlarmClick = (componentId, componentType, isFavorite) => {
@@ -154,7 +144,6 @@ export default function Component() {
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-4 md:py-6 h-full">
       <Title>PC 부품</Title>
-
       <div className="inline-block max-w-lg text-center"></div>
       <div className="w-full flex justify-center">
         <div className="p-4 rounded-lg w-full sm:w-auto">
@@ -251,15 +240,7 @@ export default function Component() {
           );
         })}
       </div>
-      <Pagination
-        className="m-5"
-        isCompact
-        showControls
-        total={Math.ceil(filteredComponents.length / itemsPerPage)}
-        initialPage={1}
-        page={currentPage}
-        onChange={handlePageChange}
-      />
+
       <AlarmModal
         isOpen={isAlarmModalOpen}
         onClose={() => setIsAlarmModalOpen(false)}
