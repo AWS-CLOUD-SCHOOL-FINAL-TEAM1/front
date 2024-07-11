@@ -74,7 +74,8 @@ export default function Component() {
   const handleTabChange = async (key) => {
     setIsLoading(true);
     setSelectedTab(key);
-    await fetchData(key === "All" ? "CPU" : key, userId);
+    const adjustedKey = key === "PcCase" ? "CASE" : key;
+    await fetchData(adjustedKey, userId);
   };
 
   const handleAlarmClick = (componentId, componentType, isFavorite) => {
@@ -181,7 +182,7 @@ export default function Component() {
             />
             <Tab
               title="CASE"
-              key="PcCase"
+              key="CASE"
               className="px-4 py-2 hover:bg-gray-100"
             />
             <Tab
