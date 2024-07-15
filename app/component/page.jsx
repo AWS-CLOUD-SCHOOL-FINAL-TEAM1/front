@@ -4,7 +4,6 @@ import { getCurrentUser } from "@/auth";
 import { title } from "@/components/primitives";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import MyCard from "@/components/MyCard";
-import { CircularProgress } from "@nextui-org/react";
 import AlarmModal from "@/components/AlarmModal";
 import { ComponentAPI, createHeart, deleteHeart } from "./api";
 import { useRouter } from "next/navigation"; // useRouter 추가
@@ -114,11 +113,48 @@ export default function Component() {
       setIsAlarmModalOpen(false);
     }
   };
-
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
-        <CircularProgress size="lg" aria-label="Loading..." />
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <div className="spinner"></div>
+        <style>{`
+          .spinner {
+            position: relative;
+            width: 28.8px;
+            height: 28.8px;
+          }
+
+          .spinner::before,
+          .spinner::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            display: block;
+            animation:
+              spinner-b4c8mmlg 0.6s backwards,
+              spinner-49opz7lg 1.5s 0.6s infinite ease;
+            border: 7.2px solid #4244f0;
+            border-radius: 50%;
+            box-shadow: 0 -43.2px 0 -7.2px #4244f0;
+            position: absolute;
+          }
+
+          .spinner::after {
+            animation-delay: 0s, 1.5s;
+          }
+
+          @keyframes spinner-b4c8mmlg {
+            from {
+              box-shadow: 0 0 0 -7.2px #4244f0;
+            }
+          }
+
+          @keyframes spinner-49opz7lg {
+            to {
+              transform: rotate(360deg);
+            }
+          }
+        `}</style>
       </div>
     );
   }
