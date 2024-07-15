@@ -19,9 +19,7 @@ import {
   TableCell,
 } from "@nextui-org/react"; // NextUI Table components
 import Title from "@/components/Title"; // Title 컴포넌트 임포트
-
-const placeholderImage =
-  "https://nextui-docs-v2.vercel.app/images/fruit-1.jpeg";
+import CustomImage from "@/components/CustomImage"; // CustomImage 컴포넌트 임포트
 
 const CardDetail = () => {
   const params = useParams();
@@ -175,10 +173,10 @@ const CardDetail = () => {
         <div className="flex flex-col md:flex-row items-start justify-between mb-6">
           <div className="flex flex-col w-full md:w-1/2 p-4 items-center">
             <div></div>
-            <Image
+            <CustomImage
               src={componentDetail[0].ImageURL || placeholderImage}
               alt="Detail Image"
-              className="object-cover rounded-xl w-full h-48" // 이미지 크기 고정
+              className="object-contain rounded-xl w-48 h-48" // 이미지 크기 고정, 자르지 않고 크기 조정
             />
             <Table
               aria-label="Component Specs"

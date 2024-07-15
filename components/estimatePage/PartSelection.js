@@ -3,6 +3,7 @@ import { Button, Checkbox } from "@nextui-org/react";
 import Filter from "@/components/estimatePage/Filter";
 import { FetchComponentList } from "./api";
 import { getCurrentUser } from "@/auth";
+import CustomImage from "@/components/CustomImage";
 
 const PartSelection = ({
   selectedPart,
@@ -189,10 +190,10 @@ const PartSelection = ({
                       />
                     </td>
                     <td className="border px-1 md:px-4 py-2">
-                      <img
+                      <CustomImage
                         src={option.ImageURL}
                         alt={option.Model}
-                        className="w-12 h-12 md:w-16 md:h-16 object-cover"
+                        className="w-12 h-12 md:w-16 md:h-16 object-contain"
                       />
                     </td>
                     <td className="border px-1 md:px-4 py-2">{option.Model}</td>

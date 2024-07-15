@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { Card, CardBody } from "@nextui-org/card";
-import { Image } from "@nextui-org/image";
 import HeartButton from "@/components/HeartButton";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+import CustomImage from "@/components/CustomImage"; // 새로운 이미지 컴포넌트 임포트
 
 const MyFavCard = ({
   id,
@@ -55,7 +55,7 @@ const MyFavCard = ({
 
           <CardBody className="pt-2">
             <div className="flex justify-center">
-              <Image
+              <CustomImage
                 src={imageUrl}
                 alt={title}
                 className="rounded-xl"
