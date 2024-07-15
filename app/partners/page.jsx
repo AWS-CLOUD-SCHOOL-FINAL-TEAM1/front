@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -68,10 +69,10 @@ export default function PartnersPage() {
                 {partner.description}
               </p>
               <div className="flex justify-center">
-                <Link href={partner.url} legacyBehavior>
-                  <a className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                <Link href={partner.url} passHref>
+                  <button className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
                     Visit Website
-                  </a>
+                  </button>
                 </Link>
               </div>
             </div>
