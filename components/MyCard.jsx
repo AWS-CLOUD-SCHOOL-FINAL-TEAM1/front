@@ -49,8 +49,13 @@ const MyCard = ({
   const displayPrice =
     numericPrice === 0 ? "재입고 예정" : `${numericPrice.toLocaleString()}₩`;
 
+  const encodedId = encodeURIComponent(id);
+
   return (
-    <Link href={`/component/${id}?componentType=${componentType}`} passHref>
+    <Link
+      href={`/component/${encodedId}?componentType=${componentType}`}
+      passHref
+    >
       <div className="relative">
         <Card
           className="p-3 cursor-pointer"

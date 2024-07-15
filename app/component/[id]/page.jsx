@@ -39,8 +39,12 @@ const CardDetail = () => {
     if (id && componentType) {
       const fetchData = async () => {
         try {
+          const decodedId = decodeURIComponent(id);
+          // 로그 출력
+          console.log("Fetching data with:", { id: decodedId, componentType });
+
           const { component_data, price_data } = await fetchComponentDetail(
-            id,
+            decodedId,
             componentType
           );
           if (!component_data || component_data.length === 0) {
@@ -160,7 +164,7 @@ const CardDetail = () => {
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
         <div className="w-full md:w-1/2 p-4">
           <Image
-            src={componentDetail[0].ImageURL}
+            src={componentDetail[0].ImageURL || placeholderImage}
             alt="Detail Image"
             className="object-cover rounded-xl w-full"
           />

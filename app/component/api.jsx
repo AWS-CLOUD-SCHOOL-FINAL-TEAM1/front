@@ -36,16 +36,23 @@ export async function ComponentAPI(component_type, user_id) {
     throw error;
   }
 }
+
 export const fetchComponentDetail = async (component_id, component_type) => {
   try {
+    // 로그 출력
+    console.log("Calling fetchComponentDetail with:", {
+      component_id,
+      component_type,
+    });
+
     const response = await fetch(`${process.env.API_KEY}/component_detail/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        component_id,
-        component_type,
+        component_id: component_id, // 인코딩된 component_id를 그대로 사용
+        component_type: component_type,
       }),
     });
 
