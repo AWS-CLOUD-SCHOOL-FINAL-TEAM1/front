@@ -159,27 +159,27 @@ const CardDetail = () => {
     ));
 
   return (
-    <div className="container mx-auto p-4 ">
+    <div className="container   mx-auto p-4">
       <Title>부품 상세</Title>
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
-        <div className="w-full md:w-1/2 p-4">
+      <br></br>
+      <Card className=" w-full  mb-4 bg-gradient-to-r from-gray-300 to-gray-500">
+        <CardHeader className=" flex justify-center pb-2 text-center">
+          <h2 className="  font-bold text-xl md:text-2xl">
+            {componentDetail[0].Model}
+          </h2>
+        </CardHeader>
+      </Card>
+      <div className="flex flex-col md:flex-row items-start justify-between mb-6">
+        <div className="flex flex-col w-full md:w-1/2 p-4 items-center">
           <Image
             src={componentDetail[0].ImageURL || placeholderImage}
             alt="Detail Image"
-            className="object-cover rounded-xl w-full"
+            className="object-cover rounded-xl w-full h-64" // 이미지 크기 고정
           />
-        </div>
-        <div className="w-full md:w-1/2 p-4">
-          <Card className="bg-white mb-4">
-            <CardHeader className="pb-2">
-              <h2 className="font-bold text-xl md:text-2xl">
-                {componentDetail[0].Model}
-              </h2>
-            </CardHeader>
-          </Card>
+
           <Table
             aria-label="Shop Prices"
-            className="w-full text-base md:text-lg mb-4"
+            className="w-4/5 text-base  md:text-lg mb-4 mt-8"
           >
             <TableHeader>
               <TableColumn className="font-semibold">SHOP</TableColumn>
@@ -189,7 +189,7 @@ const CardDetail = () => {
             <TableBody>
               {priceData.map((item, index) => (
                 <TableRow key={index}>
-                  <TableCell className="text-blue-400 font-semibold text-base md:text-lg">
+                  <TableCell className="text-blue-400  font-semibold text-base md:text-lg">
                     {item.Shop}
                   </TableCell>
                   <TableCell className="text-base md:text-lg">
@@ -211,6 +211,13 @@ const CardDetail = () => {
               ))}
             </TableBody>
           </Table>
+          <div className="rounded-xl w-4/5  mt-8 bg-white">
+            <LineChart data={priceChartData} />
+          </div>
+        </div>
+        <div className="flex justify-center flex-col w-full md:w-1/2 p-4">
+          <br></br>
+
           <Table
             aria-label="Component Specs"
             className="w-full text-base md:text-lg mb-4"
@@ -222,9 +229,6 @@ const CardDetail = () => {
             <TableBody>{detailedInfo}</TableBody>
           </Table>
         </div>
-      </div>
-      <div className="max-w-4xl rounded-xl mx-auto mt-8 bg-white">
-        <LineChart data={priceChartData} />
       </div>
     </div>
   );
