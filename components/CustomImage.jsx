@@ -4,7 +4,7 @@ const CustomImage = ({ src, alt, className, style, placeholder }) => {
   const [finalImageUrl, setFinalImageUrl] = useState(src);
 
   const handleImageError = () => {
-    setFinalImageUrl(placeholder || "/spoid_logo_black.png");
+    setFinalImageUrl(placeholder || "/sub_image.png");
   };
 
   return (

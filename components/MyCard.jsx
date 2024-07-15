@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { Card, CardBody } from "@nextui-org/card";
-import { Image } from "@nextui-org/image";
 import HeartButton from "@/components/HeartButton";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+import CustomImage from "@/components/CustomImage"; // 새로운 이미지 컴포넌트 임포트
 
 const MyCard = ({
   id,
@@ -16,16 +16,10 @@ const MyCard = ({
   isFavorite,
   onAlarmClick,
 }) => {
-  const [finalImageUrl, setFinalImageUrl] = useState(imageUrl);
-
   const handleButtonClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
     onAlarmClick(id, componentType, isFavorite);
-  };
-
-  const handleImageError = () => {
-    setFinalImageUrl("/spoid_logo_black.png");
   };
 
   // Convert price to a number if it's a string
@@ -74,12 +68,11 @@ const MyCard = ({
 
           <CardBody className="pt-2">
             <div className="flex justify-center">
-              <Image
-                src={finalImageUrl}
+              <CustomImage
+                src={imageUrl}
                 alt={title}
                 className="rounded-xl"
                 style={{ width: "150px", height: "150px" }} // 이미지 크기 조정
-                onError={handleImageError}
               />
             </div>
             <div className="mt-4">
