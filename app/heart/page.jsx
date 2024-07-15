@@ -165,7 +165,7 @@ export default function HeartPage() {
             componentType={component.Type}
             price={component.Price}
             avgPriceLast45Days={component.AvgPriceLast45Days}
-            imageUrl={placeholderImage || component.ImageURL}
+            imageUrl={component.ImageURL || placeholderImage}
             isFavorite={true} // 관심 부품이므로 항상 true
             onAlarmClick={handleAlarmClick}
             data={component} // 컴포넌트 데이터를 전부 넘김
