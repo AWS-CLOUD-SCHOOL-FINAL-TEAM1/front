@@ -147,6 +147,8 @@ const CardDetail = () => {
     "Shop",
     "Date",
     "ImageURL",
+    "GpuClock",
+    "Graphic",
   ];
 
   const detailedInfo = Object.entries(componentDetail[0])
@@ -159,75 +161,82 @@ const CardDetail = () => {
     ));
 
   return (
-    <div className="container   mx-auto p-4">
-      <Title>부품 상세</Title>
-      <br></br>
-      <Card className=" w-full  mb-4 bg-gradient-to-r from-gray-300 to-gray-500">
-        <CardHeader className=" flex justify-center pb-2 text-center">
-          <h2 className="  font-bold text-xl md:text-2xl">
-            {componentDetail[0].Model}
-          </h2>
-        </CardHeader>
-      </Card>
-      <div className="flex flex-col md:flex-row items-start justify-between mb-6">
-        <div className="flex flex-col w-full md:w-1/2 p-4 items-center">
-          <Image
-            src={componentDetail[0].ImageURL || placeholderImage}
-            alt="Detail Image"
-            className="object-cover rounded-xl w-full h-64" // 이미지 크기 고정
-          />
-
-          <Table
-            aria-label="Shop Prices"
-            className="w-4/5 text-base  md:text-lg mb-4 mt-8"
-          >
-            <TableHeader>
-              <TableColumn className="font-semibold">SHOP</TableColumn>
-              <TableColumn>PRICE</TableColumn>
-              <TableColumn>상품 링크</TableColumn>
-            </TableHeader>
-            <TableBody>
-              {priceData.map((item, index) => (
-                <TableRow key={index}>
-                  <TableCell className="text-blue-400  font-semibold text-base md:text-lg">
-                    {item.Shop}
-                  </TableCell>
-                  <TableCell className="text-base md:text-lg">
-                    {item.Price === 0
-                      ? "재입고 예정"
-                      : `₩${item.Price.toLocaleString()}`}
-                  </TableCell>
-                  <TableCell>
-                    <a
-                      href={item.URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 hover:underline"
-                    >
-                      ▶ 상품 보러 가기
-                    </a>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <div className="rounded-xl w-4/5  mt-8 bg-white">
-            <LineChart data={priceChartData} />
+    <div className="container flex justify-center p-10   mx-auto p-4">
+      <div className="w-4/5">
+        <Title>부품 상세</Title>
+        <br></br>
+        <Card className=" w-full  mb-4 bg-gradient-to-r from-gray-300 to-gray-500">
+          <CardHeader className=" flex justify-center pb-2 text-center">
+            <h2 className="  font-bold text-xl md:text-2xl">
+              {componentDetail[0].Model}
+            </h2>
+          </CardHeader>
+        </Card>
+        <div className="flex flex-col md:flex-row items-start justify-between mb-6">
+          <div className="flex flex-col w-full md:w-1/2 p-4 items-center">
+            <div></div>
+            <Image
+              src={componentDetail[0].ImageURL || placeholderImage}
+              alt="Detail Image"
+              className="object-cover rounded-xl w-full h-48" // 이미지 크기 고정
+            />
+            <Table
+              aria-label="Component Specs"
+              className="w-4/5 text-base md:text-lg mt-8 mb-4"
+            >
+              <TableHeader>
+                <TableColumn className="font-bold">SPEC</TableColumn>
+                <TableColumn>DETAIL</TableColumn>
+              </TableHeader>
+              <TableBody>{detailedInfo}</TableBody>
+            </Table>
           </div>
-        </div>
-        <div className="flex justify-center flex-col w-full md:w-1/2 p-4">
-          <br></br>
-
-          <Table
-            aria-label="Component Specs"
-            className="w-full text-base md:text-lg mb-4"
-          >
-            <TableHeader>
-              <TableColumn className="font-semibold">SPEC</TableColumn>
-              <TableColumn>DETAIL</TableColumn>
-            </TableHeader>
-            <TableBody>{detailedInfo}</TableBody>
-          </Table>
+          <div className="flex flex-col mt-10 w-full md:w-1/2 p-4">
+            <div className="sataic w-full">
+              <h2 className="text-l ml-2 md:text-2xl font-semibold text-amber-50	   pb-2">
+                Price Info
+              </h2>
+              <hr className="w-full left-0 right-0 bottom-0  h-0.3 bg-gradient-to-r from-gray-200 to-gray-400"></hr>
+            </div>{" "}
+            <Table
+              aria-label="Shop Prices"
+              className="w-full text-base  md:text-lg 8 mt-8"
+            >
+              <TableHeader>
+                <TableColumn className="font-semibold">SHOP</TableColumn>
+                <TableColumn>PRICE</TableColumn>
+                <TableColumn>상품 링크</TableColumn>
+              </TableHeader>
+              <TableBody>
+                {priceData.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="text-blue-400  font-semibold text-base md:text-lg">
+                      {item.Shop}
+                    </TableCell>
+                    <TableCell className="text-base md:text-lg">
+                      {item.Price === 0
+                        ? "재입고 예정"
+                        : `₩${item.Price.toLocaleString()}`}
+                    </TableCell>
+                    <TableCell>
+                      <a
+                        href={item.URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        ▶ 상품 보러 가기
+                      </a>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <br></br>
+            <div className="rounded-xl w-full  mt-8 bg-white">
+              <LineChart data={priceChartData} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
