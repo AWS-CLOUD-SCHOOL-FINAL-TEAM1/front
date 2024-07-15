@@ -186,7 +186,9 @@ export const Navbar = () => {
         <ul className="mt-16 px-4 bg-gray-900">
           {siteConfig.navItems.map((item) => (
             <li key={item.href} className="py-2">
-              {["관심 부품", "견적 내기", "내 견적"].includes(item.label) ? (
+              {["PC 부품", "관심 부품", "견적 내기", "내 견적"].includes(
+                item.label
+              ) ? (
                 <a
                   className={clsx(
                     linkStyles({ color: "foreground" }),
@@ -196,6 +198,8 @@ export const Navbar = () => {
                   onClick={(e) => handleNavItemClick(e, item.href)}
                 >
                   <span className="mr-2">
+                    {item.label === "PC 부품" && <ComponentsIcon size={20} />}
+
                     {item.label === "관심 부품" && <FavoritesIcon size={20} />}
                     {item.label === "견적 내기" && <EstimateIcon size={20} />}
                     {item.label === "내 견적" && <ComponentsIcon size={20} />}
