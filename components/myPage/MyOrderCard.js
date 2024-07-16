@@ -1,6 +1,5 @@
 import React from "react";
-import { Card, CardHeader, CardBody } from "@nextui-org/card";
-import { Image } from "@nextui-org/image";
+import { Card, CardBody } from "@nextui-org/card";
 import {
   Table,
   TableHeader,
@@ -9,6 +8,7 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/react";
+import CustomImage from "@/components/CustomImage"; // Ensure the path is correct
 
 const MyOrderCard = ({ order }) => {
   const renderOrderDetails = () => {
@@ -46,7 +46,7 @@ const MyOrderCard = ({ order }) => {
     >
       <CardBody className="pt-2 overflow-y-auto">
         <div className="flex justify-center">
-          <Image
+          <CustomImage
             src={order.ImageURL}
             alt="PC Case Image"
             className="rounded-xl"
