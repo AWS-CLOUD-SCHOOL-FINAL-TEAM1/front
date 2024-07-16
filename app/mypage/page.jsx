@@ -7,8 +7,9 @@ import { getCurrentUser } from "@/auth";
 import { OrderResponse } from "./api";
 import Title from "@/components/Title"; // Title 컴포넌트 임포트
 
-export default function Mypage() {
+const Mypage = () => {
   const [orderData, setOrderData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -18,10 +19,57 @@ export default function Mypage() {
         const data = await OrderResponse(userIdWithPrefix);
         setOrderData(data.order_data);
       }
+      setIsLoading(false);
     };
 
     fetchOrders();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex  flex-col items-center justify-center h-96">
+        <div className="spinner"></div>
+        <style>{`
+          .spinner {
+            position: relative;
+            width: 28.8px;
+            height: 28.8px;
+          }
+
+          .spinner::before,
+          .spinner::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            display: block;
+            animation:
+              spinner-b4c8mmlg 0.6s backwards,
+              spinner-49opz7lg 1.5s 0.6s infinite ease;
+            border: 7.2px solid #4244f0;
+            border-radius: 50%;
+            box-shadow: 0 -43.2px 0 -7.2px #4244f0;
+            position: absolute;
+          }
+
+          .spinner::after {
+            animation-delay: 0s, 1.5s;
+          }
+
+          @keyframes spinner-b4c8mmlg {
+            from {
+              box-shadow: 0 0 0 -7.2px #4244f0;
+            }
+          }
+
+          @keyframes spinner-49opz7lg {
+            to {
+              transform: rotate(360deg);
+            }
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <section className="flex flex-col items-center justify-start gap-4 py-8 md:py-10 h-full w-full">
@@ -48,4 +96,6 @@ export default function Mypage() {
       </div>
     </section>
   );
-}
+};
+
+export default Mypage;

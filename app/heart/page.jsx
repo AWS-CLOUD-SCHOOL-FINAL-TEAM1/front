@@ -4,12 +4,11 @@ import { useRouter } from "next/navigation";
 import { getCurrentUser } from "@/auth";
 import { getFavoriteComponents, createHeart, deleteHeart } from "./api";
 import MyFavCard from "@/components/MyFavCard"; // 수정된 컴포넌트 이름
-import { CircularProgress } from "@nextui-org/react";
-import { title } from "@/components/primitives";
 import AlarmModal from "@/components/AlarmModal";
 import Title from "@/components/Title"; // Title 컴포넌트 임포트
 import { Button } from "@nextui-org/button";
 import { IoHappyOutline } from "react-icons/io5";
+
 const placeholderImage =
   "https://nextui-docs-v2.vercel.app/images/fruit-1.jpeg";
 
@@ -97,8 +96,46 @@ export default function HeartPage() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
-        <CircularProgress size="lg" aria-label="Loading..." />
+      <div className="flex flex-col items-center justify-center h-96">
+        <div className="spinner"></div>
+        <style>{`
+          .spinner {
+            position: relative;
+            width: 28.8px;
+            height: 28.8px;
+          }
+
+          .spinner::before,
+          .spinner::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            display: block;
+            animation:
+              spinner-b4c8mmlg 0.6s backwards,
+              spinner-49opz7lg 1.5s 0.6s infinite ease;
+            border: 7.2px solid #4244f0;
+            border-radius: 50%;
+            box-shadow: 0 -43.2px 0 -7.2px #4244f0;
+            position: absolute;
+          }
+
+          .spinner::after {
+            animation-delay: 0s, 1.5s;
+          }
+
+          @keyframes spinner-b4c8mmlg {
+            from {
+              box-shadow: 0 0 0 -7.2px #4244f0;
+            }
+          }
+
+          @keyframes spinner-49opz7lg {
+            to {
+              transform: rotate(360deg);
+            }
+          }
+        `}</style>
       </div>
     );
   }
