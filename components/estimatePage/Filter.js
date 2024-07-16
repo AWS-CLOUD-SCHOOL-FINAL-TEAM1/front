@@ -342,48 +342,29 @@ const Filter = ({
       case "케이스":
         return (
           <div className="flex flex-col space-y-2">
-            <label className="font-semibold" htmlFor="boardSize">
-              Board Size
+            <label className="font-semibold" htmlFor="powerSize">
+              Power Size
             </label>
-            <div className="flex space-x-2" id="boardSize">
+            <div className="flex space-x-2" id="powerSize">
               <Checkbox
-                isSelected={checkboxState.boardSize === "ATX"}
+                isSelected={checkboxState.powerSize === "ATX"}
                 onChange={(e) =>
-                  toggleFilter("boardSize", e.target.checked ? "ATX" : "")
+                  toggleFilter("powerSize", e.target.checked ? "ATX" : "")
                 }
               >
                 ATX
               </Checkbox>
-
               <Checkbox
-                isSelected={checkboxState.boardSize === "SFX"}
+                isSelected={checkboxState.powerSize === "SFX"}
                 onChange={(e) =>
-                  toggleFilter("boardSize", e.target.checked ? "SFX" : "")
+                  toggleFilter("powerSize", e.target.checked ? "SFX" : "")
                 }
               >
                 SFX
               </Checkbox>
-
-              <Checkbox
-                isSelected={checkboxState.boardSize === "Mini-ITX"}
-                onChange={(e) =>
-                  toggleFilter("boardSize", e.target.checked ? "Mini-ITX" : "")
-                }
-              >
-                Mini-ITX
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.boardSize === "E-ATX"}
-                onChange={(e) =>
-                  toggleFilter("boardSize", e.target.checked ? "E-ATX" : "")
-                }
-              >
-                E-ATX
-              </Checkbox>
             </div>
           </div>
         );
-
       default:
         return null;
     }

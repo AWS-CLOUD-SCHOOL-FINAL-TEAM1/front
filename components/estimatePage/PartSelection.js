@@ -107,6 +107,10 @@ const PartSelection = ({
           parseInt(option.MaximumOutput, 10) <
             parseInt(filters.outputPower, 10) + 100);
 
+      const powerSizePrefix = option.PowerSize
+        ? option.PowerSize.split("(")[0].trim().split("/")[0]
+        : "";
+
       return (
         keywordMatch &&
         (!filters.price || option.price <= filters.price[1]) &&
@@ -115,8 +119,8 @@ const PartSelection = ({
         (!filters.threads || option.Thread == filters.threads) &&
         (!filters.type || option.Type == filters.type) &&
         (!filters.socket || option.Socket == filters.socket) &&
-        (!filters.chipset || option.ChipSet == filters.chipset) &&
-        (!filters.ddr || option.Memory == filters.ddr) &&
+        (!filters.chipset || option.Company == filters.chipset) &&
+        (!filters.ddr || option.Spec == filters.ddr) &&
         (!filters.formFactor || option.FormFactor == filters.formFactor) &&
         outputPowerMatch &&
         (!filters.productType || option.Modular == filters.productType) &&
@@ -128,7 +132,8 @@ const PartSelection = ({
         (!filters.interface || option.Interface == filters.interface) &&
         (!filters.coolingFan || option.CoolingFan == filters.coolingFan) &&
         (!filters.powerSize ||
-          option.PowerSize.split("(")[0] == filters.powerSize)
+          (filters.powerSize === "ATX" && powerSizePrefix.startsWith("ATX")) ||
+          (filters.powerSize === "SFX" && powerSizePrefix.startsWith("SF")))
       );
     });
   };
@@ -162,6 +167,16 @@ const PartSelection = ({
     ));
   };
 
+  const handleFilterChangeAndResetPage = (filterType, value) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [filterType]: value }));
+    setCurrentPage(1); // Reset the page to 1
+  };
+
+  const handlePriceChangeAndResetPage = (price) => {
+    setFilters((prevFilters) => ({ ...prevFilters, price }));
+    setCurrentPage(1); // Reset the page to 1
+  };
+
   return (
     <div className="p-4 md:p-10 w-full md:w-3/4">
       {selectedPart && (
@@ -171,8 +186,8 @@ const PartSelection = ({
           </h2>
           <Filter
             selectedPart={selectedPart}
-            handleFilterChange={handleFilterChange}
-            handlePriceChange={handlePriceChange}
+            handleFilterChange={handleFilterChangeAndResetPage}
+            handlePriceChange={handlePriceChangeAndResetPage}
             maxPrice={maxPrice}
             resetFilters={resetFilters} // resetFilters 콜백 전달
           />
