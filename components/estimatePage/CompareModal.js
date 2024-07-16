@@ -1,5 +1,6 @@
 import React from "react";
 import Modal from "react-modal";
+import CustomImage from "@/components/CustomImage"; // Import the CustomImage component
 
 const CompareModal = ({ isCompareModalOpen, handleGoBack, compareParts }) => {
   if (compareParts.length !== 2) return null;
@@ -32,7 +33,7 @@ const CompareModal = ({ isCompareModalOpen, handleGoBack, compareParts }) => {
       <h2 className="text-xl font-semibold mb-4">Compare Parts</h2>
       <div className="flex mb-4">
         <div className="w-1/2 text-center">
-          <img
+          <CustomImage
             src={part1.ImageURL}
             alt={part1.Model}
             className="w-32 h-32 object-cover mx-auto"
@@ -40,7 +41,7 @@ const CompareModal = ({ isCompareModalOpen, handleGoBack, compareParts }) => {
           <h3 className="text-lg font-bold">{part1.Model}</h3>
         </div>
         <div className="w-1/2 text-center">
-          <img
+          <CustomImage
             src={part2.ImageURL}
             alt={part2.Model}
             className="w-32 h-32 object-cover mx-auto"
