@@ -1,3 +1,5 @@
+// components/estimatePage/Filter.js
+
 import React, { useState, useEffect } from "react";
 import { Slider, Input, Checkbox } from "@nextui-org/react";
 
@@ -343,92 +345,35 @@ const Filter = ({
           </div>
         );
       case "파워":
+        const powerOptions = [
+          "300",
+          "400",
+          "500",
+          "600",
+          "700",
+          "800",
+          "900",
+          "1000",
+          "1100",
+          "1200",
+        ];
         return (
           <div className="flex flex-col space-y-2">
             <label className="font-semibold" htmlFor="outputPower">
               Output Power
             </label>
             <div className="grid grid-cols-3 gap-2" id="outputPower">
-              <Checkbox
-                isSelected={checkboxState.outputPower === "300W"}
-                onChange={(e) =>
-                  toggleFilter("outputPower", e.target.checked ? "300W" : "")
-                }
-              >
-                300W
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.outputPower === "400W"}
-                onChange={(e) =>
-                  toggleFilter("outputPower", e.target.checked ? "400W" : "")
-                }
-              >
-                400W
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.outputPower === "500W"}
-                onChange={(e) =>
-                  toggleFilter("outputPower", e.target.checked ? "500W" : "")
-                }
-              >
-                500W
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.outputPower === "600W"}
-                onChange={(e) =>
-                  toggleFilter("outputPower", e.target.checked ? "600W" : "")
-                }
-              >
-                600W
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.outputPower === "700W"}
-                onChange={(e) =>
-                  toggleFilter("outputPower", e.target.checked ? "700W" : "")
-                }
-              >
-                700W
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.outputPower === "800W"}
-                onChange={(e) =>
-                  toggleFilter("outputPower", e.target.checked ? "800W" : "")
-                }
-              >
-                800W
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.outputPower === "900W"}
-                onChange={(e) =>
-                  toggleFilter("outputPower", e.target.checked ? "900W" : "")
-                }
-              >
-                900W
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.outputPower === "1000W"}
-                onChange={(e) =>
-                  toggleFilter("outputPower", e.target.checked ? "1000W" : "")
-                }
-              >
-                1000W
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.outputPower === "1100W"}
-                onChange={(e) =>
-                  toggleFilter("outputPower", e.target.checked ? "1100W" : "")
-                }
-              >
-                1100W
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.outputPower === "1200W"}
-                onChange={(e) =>
-                  toggleFilter("outputPower", e.target.checked ? "1200W" : "")
-                }
-              >
-                1200W
-              </Checkbox>
+              {powerOptions.map((option) => (
+                <Checkbox
+                  key={option}
+                  isSelected={checkboxState.outputPower === option}
+                  onChange={(e) =>
+                    toggleFilter("outputPower", e.target.checked ? option : "")
+                  }
+                >
+                  {option}W ~
+                </Checkbox>
+              ))}
             </div>
 
             <label className="font-semibold" htmlFor="productType">

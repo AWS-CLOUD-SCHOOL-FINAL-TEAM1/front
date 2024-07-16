@@ -1,3 +1,5 @@
+// components/estimatePage/PartSelection.js
+
 import React, { useState, useEffect } from "react";
 import { Button, Checkbox } from "@nextui-org/react";
 import Filter from "@/components/estimatePage/Filter";
@@ -100,6 +102,13 @@ const PartSelection = ({
           String(value).toLowerCase().includes(filters.keyword.toLowerCase())
         );
 
+      const outputPowerMatch =
+        !filters.outputPower ||
+        (parseInt(option.MaximumOutput, 10) >=
+          parseInt(filters.outputPower, 10) &&
+          parseInt(option.MaximumOutput, 10) <
+            parseInt(filters.outputPower, 10) + 100);
+
       return (
         keywordMatch &&
         (!filters.price || option.price <= filters.price[1]) &&
@@ -111,7 +120,7 @@ const PartSelection = ({
         (!filters.chipset || option.ChipSet == filters.chipset) &&
         (!filters.ddr || option.Memory == filters.ddr) &&
         (!filters.formFactor || option.FormFactor == filters.formFactor) &&
-        (!filters.outputPower || option.MaximumOutput == filters.outputPower) &&
+        outputPowerMatch &&
         (!filters.productType || option.Modular == filters.productType) &&
         (!filters.boardSize || option.Size == filters.boardSize) &&
         (!filters.company || option.Company == filters.company) &&
