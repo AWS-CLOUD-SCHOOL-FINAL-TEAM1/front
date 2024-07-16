@@ -181,7 +181,7 @@ const PartSelection = ({
               <thead>
                 <tr className="bg-gray-200">
                   <th className="border px-1 md:px-4 py-2">비교</th>
-                  <th className="border px-1 md:px-4 py-2">이미지</th>
+                  <th className="border px-1 md:px-4 py-2">사진</th>
                   <th className="border px-1 md:px-4 py-2">모델</th>
                   <th className="border px-1 md:px-4 py-2">정보</th>
                   <th className="border px-1 md:px-4 py-2">가격</th>

@@ -9,18 +9,23 @@ const CompareModal = ({ isCompareModalOpen, handleGoBack, compareParts }) => {
   const part2 = compareParts[1];
 
   const keyFeaturesMap = {
-    Cpu: ["Cores", "Threads", "Clock", "Boost"],
-    Memory: ["Company", "UseCase", "RamTiming", "XMP"],
-    Gpu: ["Manufacturer", "GPU", "BoostClock", "Memory"],
-    Storage: ["Company", "Capacity", "Interface", "FormFactor"],
-    PcCase: ["Company", "Size", "CoolingFan", "PowerSize"],
-    Mainboard: ["Company", "Socket", "ChipSet", "Form"],
-    Power: ["Company", "MaximumOutput", "PLUS80", "Modular"],
-    Cooler: ["Company", "Size", "RPM", "Noise"],
+    CPU: ["Core", "Thread", "Clock", "Boost"],
+    MEMORY: ["Company", "UseCase", "RamTiming", "XMP"],
+    GPU: ["Manufacturer", "GPU", "BoostClock", "Memory"],
+    STORAGE: ["Company", "Capacity", "Interface", "FormFactor"],
+    CASE: ["Company", "Size", "CoolingFan", "PowerSize"],
+    MAINBOARD: ["Company", "Socket", "ChipSet", "Form"],
+    POWER: ["Company", "MaximumOutput", "PLUS80", "Modular"],
+    COOLER: ["Company", "Size", "RPM", "Noise"],
   };
 
   const partType = part1.Type;
   const keyFeatures = keyFeaturesMap[partType] || [];
+
+  // Function to format feature values
+  const formatFeatureValue = (part, feature) => {
+    return part[feature] !== undefined ? part[feature] : "N/A";
+  };
 
   return (
     <Modal
@@ -62,8 +67,12 @@ const CompareModal = ({ isCompareModalOpen, handleGoBack, compareParts }) => {
             {keyFeatures.map((feature) => (
               <tr key={feature}>
                 <td className="border px-4 py-2">{feature}</td>
-                <td className="border px-4 py-2">{part1[feature]}</td>
-                <td className="border px-4 py-2">{part2[feature]}</td>
+                <td className="border px-4 py-2">
+                  {formatFeatureValue(part1, feature)}
+                </td>
+                <td className="border px-4 py-2">
+                  {formatFeatureValue(part2, feature)}
+                </td>
               </tr>
             ))}
           </tbody>
