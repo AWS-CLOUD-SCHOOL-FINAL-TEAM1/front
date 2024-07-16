@@ -1,5 +1,3 @@
-// components/estimatePage/PartSelection.js
-
 import React, { useState, useEffect } from "react";
 import { Button, Checkbox } from "@nextui-org/react";
 import Filter from "@/components/estimatePage/Filter";
@@ -36,12 +34,12 @@ const PartSelection = ({
   const displayFieldsMap = {
     CPU: ["Core", "Thread"],
     메인보드: ["Socket", "ChipSet"],
-    메모리: ["Company", "DDR"],
-    그래픽카드: ["Chipset"],
+    메모리: ["Company", "Spec"],
+    그래픽카드: ["Company"],
     쿨러: ["Company", "RPM"],
     SSD: ["Company", "FormFactor"],
     케이스: ["PowerSize"],
-    파워: ["Company", "MaximumOutput"],
+    파워: ["MaximumOutput", "Modular"],
   };
 
   useEffect(() => {
@@ -61,7 +59,7 @@ const PartSelection = ({
         const data = response.map((option) => ({
           ...option,
           price: parseFloat(option.LowestPrice.replace(/[^0-9.-]+/g, "")) || 0,
-          DDR: option.DDR || 0,
+          Spec: option.Spec || "",
         }));
         setOptionsData(data);
         setMaxPrice(Math.max(...data.map((option) => option.price)));
@@ -129,7 +127,8 @@ const PartSelection = ({
         (!filters.nand || option.NAND == filters.nand) &&
         (!filters.interface || option.Interface == filters.interface) &&
         (!filters.coolingFan || option.CoolingFan == filters.coolingFan) &&
-        (!filters.powerSize || option.PowerSize == filters.powerSize)
+        (!filters.powerSize ||
+          option.PowerSize.split("(")[0] == filters.powerSize)
       );
     });
   };
@@ -181,12 +180,12 @@ const PartSelection = ({
             <table className="table-auto w-full mb-4 bg-white text-sm md:text-base">
               <thead>
                 <tr className="bg-gray-200">
-                  <th className="border px-1 md:px-4 py-2">Select</th>
-                  <th className="border px-1 md:px-4 py-2">Image</th>
-                  <th className="border px-1 md:px-4 py-2">Part</th>
-                  <th className="border px-1 md:px-4 py-2">Details</th>
-                  <th className="border px-1 md:px-4 py-2">Price</th>
-                  <th className="border px-1 md:px-4 py-2">Action</th>
+                  <th className="border px-1 md:px-4 py-2">비교</th>
+                  <th className="border px-1 md:px-4 py-2">이미지</th>
+                  <th className="border px-1 md:px-4 py-2">모델</th>
+                  <th className="border px-1 md:px-4 py-2">정보</th>
+                  <th className="border px-1 md:px-4 py-2">가격</th>
+                  <th className="border px-1 md:px-4 py-2">선택</th>
                 </tr>
               </thead>
               <tbody>

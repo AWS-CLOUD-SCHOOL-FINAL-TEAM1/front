@@ -112,32 +112,7 @@ const Filter = ({
             </div>
           </div>
         );
-      case "쿨러":
-        return (
-          <div className="flex flex-col space-y-2">
-            <label className="font-semibold" htmlFor="type">
-              Type
-            </label>
-            <div className="flex space-x-2" id="type">
-              <Checkbox
-                isSelected={checkboxState.type === "CPU"}
-                onChange={(e) =>
-                  toggleFilter("type", e.target.checked ? "CPU" : "")
-                }
-              >
-                CPU
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.type === "System"}
-                onChange={(e) =>
-                  toggleFilter("type", e.target.checked ? "System" : "")
-                }
-              >
-                System
-              </Checkbox>
-            </div>
-          </div>
-        );
+
       case "메인보드":
         return (
           <div className="flex flex-col space-y-2">
@@ -178,60 +153,6 @@ const Filter = ({
                 AM5
               </Checkbox>
             </div>
-
-            <label className="font-semibold" htmlFor="chipset">
-              Chipset
-            </label>
-            <div className="flex space-x-2" id="chipset">
-              <Checkbox
-                isSelected={checkboxState.chipset === "Intel H"}
-                onChange={(e) =>
-                  toggleFilter("chipset", e.target.checked ? "Intel H" : "")
-                }
-              >
-                Intel H
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.chipset === "Intel B"}
-                onChange={(e) =>
-                  toggleFilter("chipset", e.target.checked ? "Intel B" : "")
-                }
-              >
-                Intel B
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.chipset === "Intel Z"}
-                onChange={(e) =>
-                  toggleFilter("chipset", e.target.checked ? "Intel Z" : "")
-                }
-              >
-                Intel Z
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.chipset === "AMD A"}
-                onChange={(e) =>
-                  toggleFilter("chipset", e.target.checked ? "AMD A" : "")
-                }
-              >
-                AMD A
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.chipset === "AMD B"}
-                onChange={(e) =>
-                  toggleFilter("chipset", e.target.checked ? "AMD B" : "")
-                }
-              >
-                AMD B
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.chipset === "AMD X"}
-                onChange={(e) =>
-                  toggleFilter("chipset", e.target.checked ? "AMD X" : "")
-                }
-              >
-                AMD X
-              </Checkbox>
-            </div>
           </div>
         );
       case "메모리":
@@ -242,20 +163,20 @@ const Filter = ({
             </label>
             <div className="flex space-x-2" id="ddr">
               <Checkbox
-                isSelected={checkboxState.ddr === "4"}
+                isSelected={checkboxState.ddr === "DDR4"}
                 onChange={(e) =>
-                  toggleFilter("ddr", e.target.checked ? "4" : "")
+                  toggleFilter("ddr", e.target.checked ? "DDR4" : "")
                 }
               >
-                4
+                DDR4
               </Checkbox>
               <Checkbox
-                isSelected={checkboxState.ddr === "5"}
+                isSelected={checkboxState.ddr === "DDR5"}
                 onChange={(e) =>
-                  toggleFilter("ddr", e.target.checked ? "5" : "")
+                  toggleFilter("ddr", e.target.checked ? "DDR5" : "")
                 }
               >
-                5
+                DDR5
               </Checkbox>
             </div>
           </div>
@@ -264,7 +185,7 @@ const Filter = ({
         return (
           <div className="flex flex-col space-y-2">
             <label className="font-semibold" htmlFor="gpuChipset">
-              Chipset
+              Company
             </label>
             <div className="flex space-x-2" id="gpuChipset">
               <Checkbox
@@ -302,48 +223,49 @@ const Filter = ({
             </label>
             <div className="flex space-x-2" id="formFactor">
               <Checkbox
-                isSelected={checkboxState.formFactor === "2.5"}
+                isSelected={checkboxState.formFactor === "M.2 2280"}
                 onChange={(e) =>
-                  toggleFilter("formFactor", e.target.checked ? "2.5" : "")
+                  toggleFilter("formFactor", e.target.checked ? "M.2 2280" : "")
                 }
               >
-                2.5
+                M.2 2280
               </Checkbox>
               <Checkbox
-                isSelected={checkboxState.formFactor === "M.2"}
+                isSelected={checkboxState.formFactor === "2.5형"}
                 onChange={(e) =>
-                  toggleFilter("formFactor", e.target.checked ? "M.2" : "")
+                  toggleFilter("formFactor", e.target.checked ? "2.5형" : "")
                 }
               >
-                M.2
+                2.5형
               </Checkbox>
               <Checkbox
-                isSelected={checkboxState.formFactor === "PCIe"}
+                isSelected={checkboxState.formFactor === " 외장형"}
                 onChange={(e) =>
-                  toggleFilter("formFactor", e.target.checked ? "PCIe" : "")
+                  toggleFilter("formFactor", e.target.checked ? " 외장형" : "")
                 }
               >
-                PCIe
+                외장형
               </Checkbox>
               <Checkbox
-                isSelected={checkboxState.formFactor === "U.2"}
+                isSelected={checkboxState.formFactor === "3.5형"}
                 onChange={(e) =>
-                  toggleFilter("formFactor", e.target.checked ? "U.2" : "")
+                  toggleFilter("formFactor", e.target.checked ? "3.5형" : "")
                 }
               >
-                U.2
+                3.5형
               </Checkbox>
               <Checkbox
-                isSelected={checkboxState.formFactor === "mSATA"}
+                isSelected={checkboxState.formFactor === "M.2 2230"}
                 onChange={(e) =>
-                  toggleFilter("formFactor", e.target.checked ? "mSATA" : "")
+                  toggleFilter("formFactor", e.target.checked ? "M.2 2230" : "")
                 }
               >
-                mSATA
+                M.2 2230
               </Checkbox>
             </div>
           </div>
         );
+
       case "파워":
         const powerOptions = [
           "300",
@@ -381,27 +303,42 @@ const Filter = ({
             </label>
             <div className="flex space-x-2" id="productType">
               <Checkbox
-                isSelected={checkboxState.productType === "Modular"}
-                onChange={(e) =>
-                  toggleFilter("productType", e.target.checked ? "Modular" : "")
-                }
-              >
-                Modular
-              </Checkbox>
-              <Checkbox
-                isSelected={checkboxState.productType === "Non-Modular"}
+                isSelected={checkboxState.productType === "풀모듈러"}
                 onChange={(e) =>
                   toggleFilter(
                     "productType",
-                    e.target.checked ? "Non-Modular" : ""
+                    e.target.checked ? "풀모듈러" : ""
                   )
                 }
               >
-                Non-Modular
+                풀모듈러
+              </Checkbox>
+              <Checkbox
+                isSelected={checkboxState.productType === "논모듈러"}
+                onChange={(e) =>
+                  toggleFilter(
+                    "productType",
+                    e.target.checked ? "논모듈러" : ""
+                  )
+                }
+              >
+                논모듈러
+              </Checkbox>
+              <Checkbox
+                isSelected={checkboxState.productType === "세미모듈러"}
+                onChange={(e) =>
+                  toggleFilter(
+                    "productType",
+                    e.target.checked ? "세미모듈러" : ""
+                  )
+                }
+              >
+                세미모듈러
               </Checkbox>
             </div>
           </div>
         );
+
       case "케이스":
         return (
           <div className="flex flex-col space-y-2">
@@ -417,14 +354,16 @@ const Filter = ({
               >
                 ATX
               </Checkbox>
+
               <Checkbox
-                isSelected={checkboxState.boardSize === "Micro-ATX"}
+                isSelected={checkboxState.boardSize === "SFX"}
                 onChange={(e) =>
-                  toggleFilter("boardSize", e.target.checked ? "Micro-ATX" : "")
+                  toggleFilter("boardSize", e.target.checked ? "SFX" : "")
                 }
               >
-                Micro-ATX
+                SFX
               </Checkbox>
+
               <Checkbox
                 isSelected={checkboxState.boardSize === "Mini-ITX"}
                 onChange={(e) =>
@@ -444,6 +383,7 @@ const Filter = ({
             </div>
           </div>
         );
+
       default:
         return null;
     }

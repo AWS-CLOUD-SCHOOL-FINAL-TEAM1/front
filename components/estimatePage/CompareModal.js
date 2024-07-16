@@ -9,7 +9,7 @@ const CompareModal = ({ isCompareModalOpen, handleGoBack, compareParts }) => {
   const part2 = compareParts[1];
 
   const keyFeaturesMap = {
-    Cpu: ["Core", "Thread", "Clock", "Boost"],
+    Cpu: ["Cores", "Threads", "Clock", "Boost"],
     Memory: ["Company", "UseCase", "RamTiming", "XMP"],
     Gpu: ["Manufacturer", "GPU", "BoostClock", "Memory"],
     Storage: ["Company", "Capacity", "Interface", "FormFactor"],
