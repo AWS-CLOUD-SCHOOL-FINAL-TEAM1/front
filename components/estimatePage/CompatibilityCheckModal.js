@@ -124,14 +124,23 @@ const CompatibilityCheckModal = ({
         >
           <div>
             {compatibilityResult.content[0].text
-              .replace("문제점이 있습니다:", "")
               .split("\n")
-              .map((sentence, index) => (
-                <React.Fragment key={index}>
-                  {sentence.trim() && <span>{sentence.trim()}</span>}
-                  <br />
-                </React.Fragment>
-              ))}
+              .map((sentence, index) => {
+                let displayText = sentence.trim();
+                if (displayText.includes("문제 원인:")) {
+                  displayText = `⚠️ ${displayText}`;
+                } else if (displayText.includes("솔루션:")) {
+                  displayText = `💡 ${displayText}`;
+                } else if (displayText.includes("전체적인 의견:")) {
+                  displayText = `📋 ${displayText}`;
+                }
+                return (
+                  <React.Fragment key={index}>
+                    {displayText && <span>{displayText}</span>}
+                    <br />
+                  </React.Fragment>
+                );
+              })}
           </div>
         </div>
       )}
