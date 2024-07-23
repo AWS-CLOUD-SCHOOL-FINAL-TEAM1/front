@@ -35,6 +35,10 @@ const getIcon = (type) => {
       icon = <FaMemory color="#cffafe" />;
       label = "MEMORY";
       break;
+    case "MAINBOARD":
+      icon = <FaMemory color="#cffafe" />;
+      label = "MAINBOARD";
+      break;
     case "STORAGE":
       icon = <FaHdd color="#bae6fd" />;
       label = "STORAGE";
@@ -76,6 +80,10 @@ const sanitizeJSON = (str) => {
     console.error("Error sanitizing JSON:", e);
     return null;
   }
+};
+
+const isPriceTrendStatic = (prices) => {
+  return prices.every((price) => price === prices[0]);
 };
 
 export default function Home() {
@@ -178,6 +186,7 @@ export default function Home() {
     "CPU",
     "GPU",
     "MEMORY",
+    "MAINBOARD",
     "STORAGE",
     "COOLER",
     "POWER",
@@ -267,72 +276,71 @@ export default function Home() {
                 </tr>
               ) : (
                 components.map((type) =>
-                  data[type].map((item, index) => (
-                    <tr
-                      key={index}
-                      className="hover:bg-gray-700 transition-colors duration-200"
-                    >
-                      <td className="px-4 py-2 text-center">{getIcon(type)}</td>
-                      <td className="px-4 py-2">{item.Model}</td>
-                      <td className="px-4 py-2">{item.LowestShop}</td>
-                      <td
-                        className="px-4 py-2"
-                        style={{
-                          color: getLineColor(
-                            JSON.parse(sanitizeJSON(item.Price))
-                          ),
-                        }}
+                  data[type].map((item, index) => {
+                    const prices = JSON.parse(sanitizeJSON(item.Price));
+                    return (
+                      <tr
+                        key={index}
+                        className="hover:bg-gray-700 transition-colors duration-200"
                       >
-                        {parseFloat(item.LowestPrice) === 0
-                          ? "재입고 예정"
-                          : `${parseFloat(item.LowestPrice).toLocaleString()}원`}
-                      </td>
-                      <td className="w-[50px] h-[30px]">
-                        <Line
-                          data={{
-                            labels: JSON.parse(sanitizeJSON(item.Date)),
-                            datasets: [
-                              {
-                                data: JSON.parse(sanitizeJSON(item.Price)),
-                                borderColor: getLineColor(
-                                  JSON.parse(sanitizeJSON(item.Price))
-                                ),
-                                borderWidth: 2,
-                                fill: false,
-                              },
-                            ],
+                        <td className="px-4 py-2 text-center">
+                          {getIcon(type)}
+                        </td>
+                        <td className="px-4 py-2">{item.Model}</td>
+                        <td className="px-4 py-2">{item.LowestShop}</td>
+                        <td
+                          className="px-4 py-2"
+                          style={{
+                            color: getLineColor(prices),
                           }}
-                          options={{
-                            maintainAspectRatio: false,
-                            responsive: true,
-                            plugins: {
-                              legend: { display: false },
-                            },
-                            scales: {
-                              x: { display: false },
-                              y: {
-                                display: false,
-                                min:
-                                  Math.min(
-                                    ...JSON.parse(sanitizeJSON(item.Price))
-                                  ) - 1000,
-                                max:
-                                  Math.max(
-                                    ...JSON.parse(sanitizeJSON(item.Price))
-                                  ) + 1000,
-                              },
-                            },
-                            elements: {
-                              line: { tension: 0.4 },
-                              point: { radius: 0 },
-                            },
-                          }}
-                          height={50}
-                          width={100}
-                        />
-                      </td>
-                    </tr>
-                  ))
+                        >
+                          {parseFloat(item.LowestPrice) === 0
+                            ? "재입고 예정"
+                            : `${parseFloat(item.LowestPrice).toLocaleString()}원`}
+                        </td>
+                        <td className="w-[50px] h-[30px]">
+                          {isPriceTrendStatic(prices) ? (
+                            <span className="text-sm">변동 없음</span>
+                          ) : (
+                            <Line
+                              data={{
+                                labels: JSON.parse(sanitizeJSON(item.Date)),
+                                datasets: [
+                                  {
+                                    data: prices,
+                                    borderColor: getLineColor(prices),
+                                    borderWidth: 2,
+                                    fill: false,
+                                  },
+                                ],
+                              }}
+                              options={{
+                                maintainAspectRatio: false,
+                                responsive: true,
+                                plugins: {
+                                  legend: { display: false },
+                                },
+                                scales: {
+                                  x: { display: false },
+                                  y: {
+                                    display: false,
+                                    min: Math.min(...prices) - 1000,
+                                    max: Math.max(...prices) + 1000,
+                                  },
+                                },
+                                elements: {
+                                  line: { tension: 0.4 },
+                                  point: { radius: 0 },
+                                },
+                              }}
+                              height={50}
+                              width={100}
+                            />
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })
                 )
               )}
             </tbody>
@@ -389,7 +397,7 @@ export default function Home() {
             <h2 className="text-2xl md:text-3xl font-bold">호환성 검사</h2>
             <br></br>
             <p className="max-w-2xl text-center md:text-left text-lg md:text-xl">
-              내 견적에 대해서, AI가 부품 간 호한성을 검사한 후 결과 레포트를
+              내 견적에 대해서, AI가 부품 간 호환성을 검사한 후 결과 레포트를
               제공합니다.
             </p>
           </div>

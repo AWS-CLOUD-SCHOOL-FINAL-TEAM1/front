@@ -20,8 +20,8 @@ const LineChart = ({ data }) => {
           {
             label: "Price",
             data: data.map((entry) => entry.price),
-            borderColor: "rgba(75, 192, 192, 1)",
-            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            borderColor: "rgba(8, 3, 5, 1)",
+            backgroundColor: "rgba(8, 3, 5, 0.5)",
             borderWidth: 2,
             fill: true,
           },
