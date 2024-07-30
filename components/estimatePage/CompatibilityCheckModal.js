@@ -141,6 +141,12 @@ const CompatibilityCheckModal = ({
                   </React.Fragment>
                 );
               })}
+            <br></br>
+
+            <p className="px-4 py-2  text-blue-500 font-semibold">
+              * 상기 레포트는 AI 분석 결과이므로, 참고용으로만 사용하기
+              바랍니다.
+            </p>
           </div>
         </div>
       )}
